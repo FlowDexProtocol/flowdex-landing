@@ -44,16 +44,36 @@ export default function WhitepaperPage() {
             <Pill tone="neutral" className="mb-5">
               Living document — updated as the protocol evolves
             </Pill>
-            <h1 className="text-3xl font-bold text-ink sm:text-5xl">
-              FlowDex Protocol <span className="text-primary">Whitepaper</span>
-            </h1>
+            <h1 className="text-3xl font-bold text-ink sm:text-5xl">FlowDex Protocol Whitepaper v7.0</h1>
             <p className="mx-auto mt-4 max-w-2xl text-base text-ink-dim sm:text-lg">
-              A summary of the protocol, the $FDP token, and how the presale works. A full downloadable PDF is coming
-              soon.
+              The full protocol whitepaper — the $FDP token, presale mechanics, tokenomics, and the FlowDex roadmap.
             </p>
+            <div className="mt-8 flex justify-center">
+              <a
+                href="/whitepaper.pdf"
+                download
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#0090B0] px-6 py-3.5 text-sm font-semibold text-[#03131a] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,180,216,0.35)]"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+                </svg>
+                Download Whitepaper
+              </a>
+            </div>
           </Reveal>
         </Container>
       </section>
+
+      <Section>
+        <Reveal>
+          <div className="overflow-hidden rounded-xl border border-border bg-card">
+            <iframe src="/whitepaper.pdf" title="FlowDex Protocol Whitepaper" className="w-full" style={{ height: '80vh' }} />
+          </div>
+          <p className="mt-4 text-center text-sm text-ink-faint">
+            Unable to display PDF? Click the download button above.
+          </p>
+        </Reveal>
+      </Section>
 
       <Section>
         <div className="mx-auto max-w-3xl space-y-10">
