@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: '/#ecosystem', label: 'About' },
   { href: '/tokenomics', label: 'Tokenomics' },
   { href: '/roadmap', label: 'Roadmap' },
+  { href: '/whitepaper', label: 'Whitepaper' },
   { href: '/faq', label: 'FAQ' },
   { href: '/blogs', label: 'Blog' },
 ];
