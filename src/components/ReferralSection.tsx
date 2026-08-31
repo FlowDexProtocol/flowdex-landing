@@ -1,0 +1,78 @@
+import { BuyButton, Section, SectionHeading } from './ui';
+import Reveal from './motion/Reveal';
+import { slideLeft, slideRight } from '@/lib/motion';
+
+const STEPS = [
+  'Connect your wallet on the buy page to get your unique referral link',
+  'Share your link on social media, DMs, or anywhere',
+  'When someone buys using your link, you both earn bonuses',
+  'You earn 30% bonus — split 70% Terminal Credits + 30% $FDP tokens',
+  'Your friend earns 15% bonus on their purchase',
+];
+
+export default function ReferralSection() {
+  return (
+    <Section>
+      <SectionHeading title="Earn 30% When You Refer" subtitle="Your friends earn 15% too. Everyone wins." />
+
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+        <Reveal variants={slideLeft}>
+          <div>
+            <ol className="space-y-5">
+              {STEPS.map((step, i) => (
+                <li key={i} className="flex items-start gap-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-[#03131a]">
+                    {i + 1}
+                  </span>
+                  <p className="pt-1 text-sm text-ink-dim sm:text-base">{step}</p>
+                </li>
+              ))}
+            </ol>
+            <BuyButton className="mt-8">Start Earning</BuyButton>
+          </div>
+        </Reveal>
+
+        <Reveal variants={slideRight} delay={0.1}>
+          <div className="flex h-full flex-col justify-center rounded-2xl border border-border bg-card p-8">
+            <div className="flex items-center justify-center gap-3 text-center text-sm">
+              <div className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-primary text-xs font-bold text-ink">
+                You
+              </div>
+              <div className="flex flex-col items-center gap-1 text-[10px] text-ink-faint">
+                <span>Share Link</span>
+                <svg width="40" height="10" viewBox="0 0 40 10" fill="none">
+                  <path d="M0 5h34M30 1l5 4-5 4" stroke="var(--color-primary)" strokeWidth="1.5" strokeDasharray="3 3" />
+                </svg>
+              </div>
+              <div className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-primary text-xs font-bold text-ink">
+                Friend
+              </div>
+            </div>
+
+            <div className="mx-auto mt-3 flex flex-col items-center gap-1 text-[10px] text-ink-faint">
+              <span>Friend Buys</span>
+              <svg width="10" height="28" viewBox="0 0 10 28" fill="none">
+                <path d="M5 0v22M1 18l4 5 4-5" stroke="var(--color-primary)" strokeWidth="1.5" strokeDasharray="3 3" />
+              </svg>
+            </div>
+
+            <div className="mt-3 grid grid-cols-2 divide-x divide-border overflow-hidden rounded-xl border border-border">
+              <div className="p-4 text-center">
+                <div className="text-[10px] uppercase tracking-widest text-ink-faint">You</div>
+                <div className="mt-1 text-lg font-bold text-green">30% Bonus</div>
+              </div>
+              <div className="p-4 text-center">
+                <div className="text-[10px] uppercase tracking-widest text-ink-faint">Friend</div>
+                <div className="mt-1 text-lg font-bold text-primary">15% Bonus</div>
+              </div>
+            </div>
+
+            <p className="mt-4 text-center text-xs text-ink-faint">
+              Terminal Credits redeemable when the Intelligence Terminal launches.
+            </p>
+          </div>
+        </Reveal>
+      </div>
+    </Section>
+  );
+}
