@@ -41,7 +41,7 @@ export default function TokenUtilitySection() {
       <SectionHeading title={<>$FDP Powers Everything</>} subtitle="Five utilities. One token. Real value from day one." />
 
       {/* Featured card 01 */}
-      <Reveal variants={scaleIn} className="relative mb-5 overflow-hidden rounded-xl border border-border border-l-[3px] border-l-primary bg-card p-6 shadow-[0_0_40px_rgba(0,180,216,0.08)] sm:p-10">
+      <Reveal variants={scaleIn} className="relative mb-5 overflow-hidden rounded-xl border border-border border-l-[3px] border-l-primary bg-card p-6 shadow-[0_0_40px_rgba(98,126,234,0.08)] sm:p-10">
         <span className="pointer-events-none absolute right-4 top-0 select-none text-[80px] font-black leading-none text-primary/[0.08] sm:right-8">
           01
         </span>

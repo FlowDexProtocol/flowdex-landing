@@ -52,7 +52,7 @@ export default function WhitepaperPage() {
               <a
                 href="/whitepaper.pdf"
                 download
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#0090B0] px-6 py-3.5 text-sm font-semibold text-[#03131a] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,180,216,0.35)]"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-6 py-3.5 text-sm font-semibold text-[#03131a] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(98,126,234,0.35)]"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />

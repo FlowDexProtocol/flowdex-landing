@@ -67,7 +67,7 @@ export function BuyButton({ className = '', children = 'Buy $FDP', ...rest }: An
       href="https://purchase.flowdexprotocol.com"
       target="_blank"
       rel="noreferrer"
-      className={`${buttonBase} bg-gradient-to-br from-primary to-[#0090B0] text-[#03131a] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,180,216,0.35)] ${className}`}
+      className={`${buttonBase} bg-gradient-to-br from-primary to-[#4E65BB] text-[#03131a] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(98,126,234,0.35)] ${className}`}
       {...rest}
     >
       {children}

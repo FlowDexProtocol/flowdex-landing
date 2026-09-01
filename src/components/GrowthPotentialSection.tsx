@@ -10,8 +10,8 @@ const ESCALATION = [
   { text: 'text-lg', border: 'border-border', glow: '', elevate: '' },
   { text: 'text-xl', border: 'border-border', glow: '', elevate: '' },
   { text: 'text-2xl', border: 'border-primary/40', glow: '', elevate: '' },
-  { text: 'text-3xl', border: 'border-primary', glow: 'shadow-[0_0_30px_rgba(0,180,216,0.15)]', elevate: '' },
-  { text: 'text-4xl', border: 'border-green', glow: 'shadow-[0_0_40px_rgba(34,197,94,0.2)]', elevate: '-translate-y-2' },
+  { text: 'text-3xl', border: 'border-primary', glow: 'shadow-[0_0_30px_rgba(98,126,234,0.15)]', elevate: '' },
+  { text: 'text-4xl', border: 'border-green', glow: 'shadow-[0_0_40px_rgba(0,255,136,0.2)]', elevate: '-translate-y-2' },
 ];
 
 export default async function GrowthPotentialSection() {

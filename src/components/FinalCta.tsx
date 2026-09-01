@@ -38,7 +38,7 @@ export default function FinalCta() {
                 />
                 <button
                   type="submit"
-                  className="rounded-xl bg-gradient-to-br from-primary to-[#0090B0] px-5 py-2.5 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5"
+                  className="rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-5 py-2.5 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5"
                 >
                   Get Updates
                 </button>

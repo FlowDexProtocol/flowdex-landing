@@ -19,7 +19,7 @@ function BannerCta({ banner }: { banner: CmsBanner }) {
         href={PURCHASE_URL}
         target="_blank"
         rel="noreferrer"
-        className="inline-flex w-fit items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#0090B0] px-6 py-3 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5"
+        className="inline-flex w-fit items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-6 py-3 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5"
       >
         {banner.cta_text}
       </a>
@@ -68,7 +68,7 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
         className="absolute inset-0"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(0,180,216,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,216,0.05) 1px, transparent 1px)',
+            'linear-gradient(rgba(98,126,234,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(98,126,234,0.05) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
         }}
       />

@@ -10,7 +10,7 @@ const ALLOCATION = [
   { label: 'Community', pct: 30, color: '#3D5A80' },
   { label: 'Presale', pct: 22.5, color: '#0891B2' },
   { label: 'Staking Rewards', pct: 12.5, color: '#0D9488' },
-  { label: 'Team', pct: 12, color: '#00B4D8' },
+  { label: 'Team', pct: 12, color: '#627EEA' },
   { label: 'Airdrop', pct: 10, color: '#67E8F9' },
   { label: 'Treasury', pct: 8, color: '#0B1F3A' },
   { label: 'Liquidity', pct: 5, color: '#99F6E4' },

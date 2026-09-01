@@ -55,7 +55,7 @@ export default async function Hero() {
 
           {/* RIGHT — 40% — Live Presale Card */}
           <Reveal variants={slideRight} delay={0.1}>
-            <GlassCard className="p-6 shadow-[0_0_50px_rgba(0,180,216,0.08)] sm:p-8">
+            <GlassCard className="p-6 shadow-[0_0_50px_rgba(98,126,234,0.08)] sm:p-8">
               {presaleLive ? (
                 <>
                   <div className="text-xs font-semibold uppercase tracking-widest text-ink-faint">Stage: {tier.name}</div>
