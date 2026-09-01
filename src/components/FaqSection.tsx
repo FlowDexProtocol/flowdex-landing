@@ -22,7 +22,7 @@ const FAQS = [
   { q: 'Is there a minimum purchase?', a: 'No minimum. Buy any amount.' },
   {
     q: 'Is there a referral program?',
-    a: 'Yes. Earn 30% bonus when you refer. Your friend earns 15%. Both bonuses split 70% Terminal Credits and 30% $FDP tokens.',
+    a: 'Yes. Earn 15% of what your friend spends when you refer them. Your friend earns a 30% bonus on their purchase. Both bonuses split 70% Terminal Credits and 30% $FDP tokens.',
   },
   {
     q: 'What chains are supported?',

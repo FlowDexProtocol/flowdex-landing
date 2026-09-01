@@ -6,14 +6,14 @@ const STEPS = [
   'Connect your wallet on the buy page to get your unique referral link',
   'Share your link on social media, DMs, or anywhere',
   'When someone buys using your link, you both earn bonuses',
-  'You earn 30% bonus — split 70% Terminal Credits + 30% $FDP tokens',
-  'Your friend earns 15% bonus on their purchase',
+  'You earn 15% of what your friend spends — split 70% Terminal Credits + 30% $FDP',
+  'Your friend earns 30% bonus on their purchase',
 ];
 
 export default function ReferralSection() {
   return (
     <Section>
-      <SectionHeading title="Earn 30% When You Refer" subtitle="Your friends earn 15% too. Everyone wins." />
+      <SectionHeading title="Earn 15% When You Refer" subtitle="Your friends earn 30% bonus on their purchase." />
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal variants={slideLeft}>
@@ -59,11 +59,11 @@ export default function ReferralSection() {
             <div className="mt-3 grid grid-cols-2 divide-x divide-border overflow-hidden rounded-xl border border-border">
               <div className="p-4 text-center">
                 <div className="text-[10px] uppercase tracking-widest text-ink-faint">You</div>
-                <div className="mt-1 text-lg font-bold text-green">30% Bonus</div>
+                <div className="mt-1 text-lg font-bold text-green">15% Bonus</div>
               </div>
               <div className="p-4 text-center">
                 <div className="text-[10px] uppercase tracking-widest text-ink-faint">Friend</div>
-                <div className="mt-1 text-lg font-bold text-primary">15% Bonus</div>
+                <div className="mt-1 text-lg font-bold text-primary">30% Bonus</div>
               </div>
             </div>
 

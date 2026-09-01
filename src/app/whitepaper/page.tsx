@@ -23,7 +23,7 @@ const SECTIONS = [
   },
   {
     title: '5. Referral Program',
-    body: 'Every wallet that connects receives a unique referral code. Referrers earn a 30% bonus on purchases made through their link, split between $FDP tokens and Terminal Credits; the referred buyer earns a 15% bonus on their own purchase.',
+    body: 'Every wallet that connects receives a unique referral code. Referrers earn 15% of what their friend spends through their link, split between $FDP tokens and Terminal Credits; the referred buyer earns a 30% bonus on their own purchase.',
   },
   {
     title: '6. Roadmap',
