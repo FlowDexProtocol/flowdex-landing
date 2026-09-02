@@ -9,7 +9,25 @@ import Reveal from '@/components/motion/Reveal';
 export async function generateMetadata(props: PageProps<'/blogs/[slug]'>): Promise<Metadata> {
   const { slug } = await props.params;
   const post = await getCmsBlogPost(slug).catch(() => null);
-  return { title: post?.title ?? 'Blog Post' };
+  if (!post) return { title: 'Blog Post' };
+
+  const description = post.excerpt || `${post.title} — FlowDex Protocol blog.`;
+  return {
+    title: post.title,
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      type: 'article',
+      images: post.cover_image_url ? [post.cover_image_url] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description,
+      images: post.cover_image_url ? [post.cover_image_url] : undefined,
+    },
+  };
 }
 
 export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {

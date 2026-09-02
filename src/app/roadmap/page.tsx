@@ -3,7 +3,15 @@ import { Container, Pill, Section } from '@/components/ui';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
 import Reveal from '@/components/motion/Reveal';
 
-export const metadata: Metadata = { title: 'Roadmap' };
+const ROADMAP_DESCRIPTION =
+  'See the FlowDex Protocol roadmap — from presale and Universal Exchange launch to the AI Intelligence Terminal and FlowChain Layer 1.';
+
+export const metadata: Metadata = {
+  title: 'Roadmap',
+  description: ROADMAP_DESCRIPTION,
+  openGraph: { title: 'Roadmap — FlowDex Protocol', description: ROADMAP_DESCRIPTION },
+  twitter: { title: 'Roadmap — FlowDex Protocol', description: ROADMAP_DESCRIPTION },
+};
 
 const PHASES = [
   {

@@ -20,6 +20,20 @@ async function request<T>(path: string): Promise<T> {
   return (await res.json()) as T;
 }
 
+async function postJson<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const data = (await res.json().catch(() => null)) as (T & { error?: string }) | null;
+  if (!res.ok) throw new Error(data?.error || `Request failed (${res.status}): ${path}`);
+  return data as T;
+}
+
+export const subscribeEmail = (email: string) =>
+  postJson<{ success: boolean; message?: string; error?: string }>('/api/subscribe', { email });
+
 export const getTierCurrent = () => request<TierCurrent>('/api/tiers/current');
 export const getTiers = () => request<Tier[]>('/api/tiers');
 export const getPublicStats = () => request<PublicStats>('/api/public/stats');

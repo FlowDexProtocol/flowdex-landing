@@ -62,7 +62,7 @@ export default function Footer() {
                   key={s}
                   href={COMMUNITY_LINKS[s === 'x' ? 0 : s === 'telegram' ? 1 : 2].href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="text-ink-faint transition-colors hover:text-ink"
                   aria-label={s}
                 >
@@ -103,7 +103,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {COMMUNITY_LINKS.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} target="_blank" rel="noreferrer" className="text-sm text-ink-faint transition-colors hover:text-ink">
+                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-sm text-ink-faint transition-colors hover:text-ink">
                     {l.label}
                   </a>
                 </li>
@@ -117,6 +117,12 @@ export default function Footer() {
           <span className="text-[11px] text-ink-faint">
             This is not financial advice. $FDP is a utility token. Cryptocurrency purchases carry risk, including total loss of funds.
           </span>
+        </div>
+
+        <div className="mt-3 text-center sm:text-left">
+          <a href="mailto:support@flowdexprotocol.com" className="text-[11px] text-ink-faint transition-colors hover:text-ink">
+            Support: support@flowdexprotocol.com
+          </a>
         </div>
       </Container>
     </footer>

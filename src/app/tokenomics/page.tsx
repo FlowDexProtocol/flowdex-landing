@@ -4,7 +4,15 @@ import { formatPct, formatPrice, formatTokens, formatUsd, toNum } from '@/lib/fo
 import { BuyButton, Container, Pill, Section, SectionHeading } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 
-export const metadata: Metadata = { title: 'Tokenomics' };
+const TOKENOMICS_DESCRIPTION =
+  'Explore $FDP tokenomics: supply allocation, presale tiers, staking rewards, and fee-sharing mechanics for the FlowDex Protocol ecosystem.';
+
+export const metadata: Metadata = {
+  title: 'Tokenomics',
+  description: TOKENOMICS_DESCRIPTION,
+  openGraph: { title: 'Tokenomics — FlowDex Protocol', description: TOKENOMICS_DESCRIPTION },
+  twitter: { title: 'Tokenomics — FlowDex Protocol', description: TOKENOMICS_DESCRIPTION },
+};
 
 const ALLOCATION = [
   { label: 'Community', pct: 30, color: '#3D5A80' },

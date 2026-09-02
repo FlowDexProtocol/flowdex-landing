@@ -4,7 +4,14 @@ import { BuyButton, Container, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import FaqAccordionGroup from '@/components/FaqAccordionGroup';
 
-export const metadata: Metadata = { title: 'FAQ' };
+const FAQ_DESCRIPTION = 'Frequently asked questions about $FDP, the FlowDex Protocol presale, tiers, staking, and the Universal Exchange.';
+
+export const metadata: Metadata = {
+  title: 'FAQ',
+  description: FAQ_DESCRIPTION,
+  openGraph: { title: 'FAQ — FlowDex Protocol', description: FAQ_DESCRIPTION },
+  twitter: { title: 'FAQ — FlowDex Protocol', description: FAQ_DESCRIPTION },
+};
 
 export default async function FaqPage() {
   const faqs = await getCmsFaqs().catch(() => []);

@@ -18,7 +18,7 @@ function BannerCta({ banner }: { banner: CmsBanner }) {
       <a
         href={PURCHASE_URL}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         className="inline-flex w-fit items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-6 py-3 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5"
       >
         {banner.cta_text}
@@ -33,7 +33,7 @@ function BannerCta({ banner }: { banner: CmsBanner }) {
       <a
         href={href}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         className="inline-flex w-fit items-center gap-2 rounded-xl border-[1.5px] border-primary/50 px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary-dim"
       >
         {banner.cta_text}

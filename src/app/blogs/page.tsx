@@ -6,7 +6,14 @@ import { Container, EmptyState, Pill, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
 
-export const metadata: Metadata = { title: 'Blog' };
+const BLOG_DESCRIPTION = 'News, updates, and insights from the FlowDex Protocol team on $FDP, the presale, and the Universal Exchange.';
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: BLOG_DESCRIPTION,
+  openGraph: { title: 'Blog — FlowDex Protocol', description: BLOG_DESCRIPTION },
+  twitter: { title: 'Blog — FlowDex Protocol', description: BLOG_DESCRIPTION },
+};
 
 export default async function BlogsPage() {
   const data = await getCmsBlog(1, 12).catch(() => null);

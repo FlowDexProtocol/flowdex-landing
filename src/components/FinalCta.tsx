@@ -4,14 +4,27 @@ import { useState, type FormEvent } from 'react';
 import { BuyButton, Container, Input } from './ui';
 import Reveal from './motion/Reveal';
 import { scaleIn } from '@/lib/motion';
+import { subscribeEmail } from '@/lib/api';
 
 export default function FinalCta() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  function handleSubscribe(e: FormEvent) {
+  async function handleSubscribe(e: FormEvent) {
     e.preventDefault();
-    if (email.includes('@')) setSubscribed(true);
+    if (!email.includes('@') || submitting) return;
+    setSubmitting(true);
+    setError('');
+    try {
+      await subscribeEmail(email);
+      setSubscribed(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -27,25 +40,29 @@ export default function FinalCta() {
             </div>
 
             {!subscribed ? (
-              <form onSubmit={handleSubscribe} className="mx-auto mt-6 flex max-w-sm flex-col gap-2 sm:flex-row">
-                <Input
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="flex-1"
-                />
-                <button
-                  type="submit"
-                  className="rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-5 py-2.5 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5"
-                >
-                  Get Updates
-                </button>
-              </form>
+              <>
+                <form onSubmit={handleSubscribe} className="mx-auto mt-6 flex max-w-sm flex-col gap-2 sm:flex-row">
+                  <Input
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="flex-1"
+                  />
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-5 py-2.5 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+                  >
+                    {submitting ? 'Submitting…' : 'Get Updates'}
+                  </button>
+                </form>
+                {error && <p className="mx-auto mt-2 max-w-sm text-xs text-red">{error}</p>}
+              </>
             ) : (
               <div className="mx-auto mt-6 max-w-sm rounded-lg border border-primary-border bg-primary-dim px-4 py-3">
-                <span className="text-sm font-semibold text-primary">Subscribed!</span>
+                <span className="text-sm font-semibold text-primary">You&rsquo;re subscribed!</span>
               </div>
             )}
 
@@ -56,7 +73,7 @@ export default function FinalCta() {
                   key={s}
                   href={s === 'X' ? 'https://x.com/flowdexprotocol' : s === 'Telegram' ? 'https://t.me/flowdexprotocol' : 'https://discord.gg/flowdexprotocol'}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="text-xs font-medium text-ink-faint transition-colors hover:text-ink"
                 >
                   {s}

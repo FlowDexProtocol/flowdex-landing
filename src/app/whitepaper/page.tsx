@@ -2,7 +2,15 @@ import type { Metadata } from 'next';
 import { BuyButton, Container, Pill, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 
-export const metadata: Metadata = { title: 'Whitepaper' };
+const WHITEPAPER_DESCRIPTION =
+  'Read the FlowDex Protocol whitepaper — the technical and economic design behind the Universal Exchange, Intelligence Terminal, and $FDP token.';
+
+export const metadata: Metadata = {
+  title: 'Whitepaper',
+  description: WHITEPAPER_DESCRIPTION,
+  openGraph: { title: 'Whitepaper — FlowDex Protocol', description: WHITEPAPER_DESCRIPTION },
+  twitter: { title: 'Whitepaper — FlowDex Protocol', description: WHITEPAPER_DESCRIPTION },
+};
 
 const SECTIONS = [
   {
