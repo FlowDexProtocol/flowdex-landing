@@ -73,6 +73,25 @@ export default function ReferralSection() {
           </div>
         </Reveal>
       </div>
+
+      <Reveal className="mx-auto mt-16 max-w-3xl rounded-2xl border border-border bg-card p-6 text-center sm:p-10">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">Deflationary by Design</p>
+        <h3 className="mt-2 text-xl font-bold text-ink sm:text-2xl">Every referral purchase burns tokens permanently 🔥</h3>
+        <p className="mx-auto mt-3 max-w-xl text-sm text-ink-dim sm:text-base">
+          When your friend buys using your code, bonus tokens are created for both of you — and an equal amount is
+          burned from the supply at full tier price.
+        </p>
+        <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-2 text-xs font-semibold text-ink-dim sm:text-sm">
+          <span className="rounded-full border border-border bg-bg-soft px-3 py-1.5">Purchase</span>
+          <span className="text-ink-faint">→</span>
+          <span className="rounded-full border border-primary/30 bg-primary-dim px-3 py-1.5 text-primary">Bonus Created</span>
+          <span className="text-ink-faint">→</span>
+          <span className="rounded-full border border-red/25 bg-red-dim px-3 py-1.5 text-red">Equal Amount Burned</span>
+          <span className="text-ink-faint">→</span>
+          <span className="rounded-full border border-green/25 bg-green-dim px-3 py-1.5 text-green">Supply Decreases</span>
+        </div>
+        <p className="mt-5 text-sm font-semibold text-ink">More referrals = more burns = less supply = more value for holders.</p>
+      </Reveal>
     </Section>
   );
 }

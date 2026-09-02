@@ -24,6 +24,12 @@ const UTILITIES = [
     title: 'Intelligence Access',
     description: 'Unlock the full Intelligence Terminal with AI analytics, whale alerts, predictive signals, and on-chain data tools.',
   },
+  {
+    num: '06',
+    title: 'Deflationary Supply 🔥',
+    description:
+      'Every referral purchase permanently burns $FDP from the supply. The more the community grows, the scarcer $FDP becomes.',
+  },
 ];
 
 function UtilityIcon() {
@@ -38,7 +44,7 @@ function UtilityIcon() {
 export default function TokenUtilitySection() {
   return (
     <Section>
-      <SectionHeading title={<>$FDP Powers Everything</>} subtitle="Five utilities. One token. Real value from day one." />
+      <SectionHeading title={<>$FDP Powers Everything</>} subtitle="Six utilities. One token. Real value from day one." />
 
       {/* Featured card 01 */}
       <Reveal variants={scaleIn} className="relative mb-5 overflow-hidden rounded-xl border border-border border-l-[3px] border-l-primary bg-card p-6 shadow-[0_0_40px_rgba(98,126,234,0.08)] sm:p-10">

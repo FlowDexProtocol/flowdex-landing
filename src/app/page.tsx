@@ -1,6 +1,7 @@
 import { getCmsBanners } from '@/lib/api';
 import BannerSlider from '@/components/BannerSlider';
 import Hero from '@/components/Hero';
+import PresaleVestingSection from '@/components/PresaleVestingSection';
 import MetricsBar from '@/components/MetricsBar';
 import EcosystemSection from '@/components/EcosystemSection';
 import TokenUtilitySection from '@/components/TokenUtilitySection';
@@ -16,6 +17,7 @@ export default async function HomePage() {
     <>
       <BannerSlider banners={banners} />
       <Hero />
+      <PresaleVestingSection />
       <MetricsBar />
       <EcosystemSection />
       <TokenUtilitySection />

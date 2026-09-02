@@ -110,6 +110,50 @@ export function ProgressBar({ pct, className = '', shimmer = false }: { pct: num
   );
 }
 
+// Four-step vesting visual: TGE -> cliff -> vesting -> full unlock.
+export function VestingTimeline({
+  tgePct,
+  cliffMonths,
+  vestMonths,
+  className = '',
+}: {
+  tgePct: number;
+  cliffMonths: number;
+  vestMonths: number;
+  className?: string;
+}) {
+  const totalMonths = Math.max(cliffMonths + vestMonths, 1);
+  const cliffWidthPct = (cliffMonths / totalMonths) * 100;
+  const vestWidthPct = (vestMonths / totalMonths) * 100;
+
+  return (
+    <div className={className}>
+      <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/5">
+        <div className="absolute inset-y-0 left-0 bg-primary/20" style={{ width: `${cliffWidthPct}%` }} />
+        <div className="absolute inset-y-0 bg-primary/40" style={{ left: `${cliffWidthPct}%`, width: `${vestWidthPct}%` }} />
+      </div>
+      <div className="mt-2 grid grid-cols-4 gap-1 text-center text-xs leading-tight text-ink-faint">
+        <div>
+          <span className="block font-semibold text-primary">TGE {tgePct}%</span>
+          Instant
+        </div>
+        <div>
+          <span className="block font-semibold text-ink-dim">{cliffMonths}mo</span>
+          Cliff
+        </div>
+        <div>
+          <span className="block font-semibold text-ink-dim">{vestMonths}mo</span>
+          Vesting
+        </div>
+        <div>
+          <span className="block font-semibold text-green">Full Unlock</span>
+          {totalMonths}mo total
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function EmptyState({ children }: { children: ReactNode }) {
   return <div className="rounded-xl border border-dashed border-border p-10 text-center text-sm text-ink-faint">{children}</div>;
 }

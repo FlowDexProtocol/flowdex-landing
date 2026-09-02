@@ -79,6 +79,7 @@ export default async function TokenomicsPage() {
                 <th className="px-5 py-3 font-medium sm:px-6">TGE %</th>
                 <th className="px-5 py-3 font-medium sm:px-6">Cliff</th>
                 <th className="px-5 py-3 font-medium sm:px-6">Vesting</th>
+                <th className="px-5 py-3 font-medium sm:px-6">Full Unlock</th>
                 <th className="px-5 py-3 font-medium sm:px-6">Status</th>
               </tr>
             </thead>
@@ -89,8 +90,11 @@ export default async function TokenomicsPage() {
                   <td className="px-5 py-3 font-mono sm:px-6">{formatPrice(t.price)}</td>
                   <td className="px-5 py-3 font-mono text-ink-faint sm:px-6">{formatUsd(t.hard_cap_usd)}</td>
                   <td className="px-5 py-3 font-mono text-ink-faint sm:px-6">{formatPct(toNum(t.tge_percentage), 0)}</td>
-                  <td className="px-5 py-3 text-ink-faint sm:px-6">{t.cliff_months}mo</td>
-                  <td className="px-5 py-3 text-ink-faint sm:px-6">{t.vest_months}mo</td>
+                  <td className="px-5 py-3 text-ink-faint sm:px-6">{t.cliff_months > 0 ? `${t.cliff_months}mo` : '0'}</td>
+                  <td className="px-5 py-3 text-ink-faint sm:px-6">{t.vest_months > 0 ? `${t.vest_months}mo` : '0'}</td>
+                  <td className="px-5 py-3 font-semibold text-ink sm:px-6">
+                    {t.cliff_months + t.vest_months > 0 ? `${t.cliff_months + t.vest_months}mo` : 'Immediate'}
+                  </td>
                   <td className="px-5 py-3 sm:px-6">
                     {t.is_active ? <Pill tone="green">Active</Pill> : t.closed_at ? <Pill tone="neutral">Closed</Pill> : <Pill tone="neutral">Upcoming</Pill>}
                   </td>
@@ -99,6 +103,10 @@ export default async function TokenomicsPage() {
             </tbody>
           </table>
         </div>
+        <p className="mt-4 text-center text-xs text-ink-faint">
+          Earlier tiers get the lowest price but the longest vesting. Later tiers cost more but unlock faster —
+          Tier 8 unlocks 100% instantly.
+        </p>
       </Section>
 
       {staking && (

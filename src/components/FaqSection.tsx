@@ -25,6 +25,22 @@ const FAQS = [
     a: 'Yes. Earn 15% of what your friend spends when you refer them. Your friend earns a 30% bonus on their purchase. Both bonuses split 70% Terminal Credits and 30% $FDP tokens.',
   },
   {
+    q: 'What is the vesting schedule?',
+    a: 'Each presale tier has its own TGE unlock percentage, cliff period, and vesting length. Tier 1 gets 5% at TGE with a 12-month cliff and 24-month vest. Tier 8 gets 100% immediately. Earlier tiers get better prices but longer vesting.',
+  },
+  {
+    q: 'When can I claim my tokens?',
+    a: 'Claims activate when a tier closes and reaches TGE. Your TGE percentage unlocks immediately, with the remainder on its vesting schedule.',
+  },
+  {
+    q: 'How does the token burn work?',
+    a: 'Every referral purchase creates bonus tokens for both the referrer and buyer. An equal amount of $FDP is permanently burned from the total supply at full tier price. This makes $FDP deflationary.',
+  },
+  {
+    q: 'What are Terminal Credits?',
+    a: 'Terminal Credits are earned through the referral program (70% of your bonus). They’re redeemable for premium features when the Blockchain Intelligence Terminal launches. Credits expire 6 months after Terminal launch.',
+  },
+  {
     q: 'What chains are supported?',
     a: 'Ethereum, BSC, Solana, Bitcoin, Tron, Arbitrum, Polygon, and Base.',
   },
