@@ -54,8 +54,7 @@ export default function Header() {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <BuyButton className="hidden sm:inline-flex !px-5 !py-2.5 !text-[13px]" />
-            <BuyButton className="!min-h-11 sm:hidden !px-3 !py-2 !text-xs" />
+            <BuyButton className="!min-h-11 !px-3 !py-2 !text-xs sm:!px-5 sm:!py-2.5 sm:!text-[13px]" />
             <button
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-border text-ink-dim lg:hidden"
               onClick={() => setMenuOpen((v) => !v)}
