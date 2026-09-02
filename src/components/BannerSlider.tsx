@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type TouchEvent } from 'react';
 import Link from 'next/link';
 import type { CmsBanner } from '@/lib/types';
 import { PURCHASE_URL } from '@/lib/api';
@@ -52,6 +52,7 @@ function BannerCta({ banner }: { banner: CmsBanner }) {
 
 export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
   const [index, setIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     if (banners.length < 2) return;
@@ -61,8 +62,28 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
 
   if (banners.length === 0) return null;
 
+  function handleTouchStart(e: TouchEvent) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e: TouchEvent) {
+    if (touchStartX.current === null || banners.length < 2) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const SWIPE_THRESHOLD = 40;
+    if (deltaX > SWIPE_THRESHOLD) {
+      setIndex((i) => (i - 1 + banners.length) % banners.length);
+    } else if (deltaX < -SWIPE_THRESHOLD) {
+      setIndex((i) => (i + 1) % banners.length);
+    }
+    touchStartX.current = null;
+  }
+
   return (
-    <div className="relative h-[180px] w-full overflow-hidden border-b border-border bg-bg-soft sm:h-[280px]">
+    <div
+      className="relative h-[180px] w-full overflow-hidden border-b border-border bg-bg-soft sm:h-[280px]"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="absolute inset-0 bg-radial-glow" />
       <div
         className="absolute inset-0"

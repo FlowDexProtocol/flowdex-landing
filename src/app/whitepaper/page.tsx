@@ -75,7 +75,7 @@ export default function WhitepaperPage() {
       <Section>
         <Reveal>
           <div className="overflow-hidden rounded-xl border border-border bg-card">
-            <iframe src="/whitepaper.pdf" title="FlowDex Protocol Whitepaper" className="w-full" style={{ height: '80vh' }} />
+            <iframe src="/whitepaper.pdf" title="FlowDex Protocol Whitepaper" className="h-[50vh] w-full sm:h-[80vh]" />
           </div>
           <p className="mt-4 text-center text-sm text-ink-faint">
             Unable to display PDF? Click the download button above.
