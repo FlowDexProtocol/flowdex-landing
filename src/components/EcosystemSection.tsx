@@ -91,7 +91,7 @@ export default function EcosystemSection() {
                 <p className="mt-2 text-sm leading-relaxed text-ink-faint">{card.description}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {card.tags.map((tag) => (
-                    <span key={tag} className="rounded-full border border-border px-2.5 py-1 text-[11px] text-ink-faint">
+                    <span key={tag} className="rounded-full border border-border px-2.5 py-1 text-xs text-ink-faint">
                       {tag}
                     </span>
                   ))}

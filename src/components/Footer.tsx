@@ -56,14 +56,14 @@ export default function Footer() {
               <span className="ml-1 text-base font-bold text-ink">Protocol</span>
             </Link>
             <p className="mt-3 max-w-[240px] text-sm text-ink-faint">Trade Everything. Know Everything.</p>
-            <div className="mt-4 flex items-center gap-4">
+            <div className="mt-4 flex items-center gap-2">
               {(['x', 'telegram', 'discord'] as const).map((s) => (
                 <a
                   key={s}
                   href={COMMUNITY_LINKS[s === 'x' ? 0 : s === 'telegram' ? 1 : 2].href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-ink-faint transition-colors hover:text-ink"
+                  className="flex h-11 w-11 items-center justify-center text-ink-faint transition-colors hover:text-ink"
                   aria-label={s}
                 >
                   <SocialIcon type={s} />
@@ -74,10 +74,10 @@ export default function Footer() {
 
           <div>
             <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-faint">Research</div>
-            <ul className="space-y-2.5">
+            <ul>
               {RESEARCH_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-sm text-ink-faint transition-colors hover:text-ink">
+                  <Link href={l.href} className="flex min-h-11 items-center text-sm text-ink-faint transition-colors hover:text-ink">
                     {l.label}
                   </Link>
                 </li>
@@ -87,10 +87,10 @@ export default function Footer() {
 
           <div>
             <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-faint">Legal</div>
-            <ul className="space-y-2.5">
+            <ul>
               {LEGAL_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-sm text-ink-faint transition-colors hover:text-ink">
+                  <Link href={l.href} className="flex min-h-11 items-center text-sm text-ink-faint transition-colors hover:text-ink">
                     {l.label}
                   </Link>
                 </li>
@@ -100,10 +100,15 @@ export default function Footer() {
 
           <div>
             <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-faint">Community</div>
-            <ul className="space-y-2.5">
+            <ul>
               {COMMUNITY_LINKS.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-sm text-ink-faint transition-colors hover:text-ink">
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-11 items-center text-sm text-ink-faint transition-colors hover:text-ink"
+                  >
                     {l.label}
                   </a>
                 </li>
@@ -114,13 +119,16 @@ export default function Footer() {
 
         <div className="mt-12 flex flex-col-reverse items-center justify-between gap-3 border-t border-border pt-5 text-center sm:flex-row sm:text-left">
           <span className="text-xs text-ink-faint">© {new Date().getFullYear()} FlowDex Protocol. All rights reserved.</span>
-          <span className="text-[11px] text-ink-faint">
+          <span className="text-xs text-ink-faint">
             This is not financial advice. $FDP is a utility token. Cryptocurrency purchases carry risk, including total loss of funds.
           </span>
         </div>
 
-        <div className="mt-3 text-center sm:text-left">
-          <a href="mailto:support@flowdexprotocol.com" className="text-[11px] text-ink-faint transition-colors hover:text-ink">
+        <div className="mt-1 flex justify-center sm:justify-start">
+          <a
+            href="mailto:support@flowdexprotocol.com"
+            className="flex min-h-11 items-center text-xs text-ink-faint transition-colors hover:text-ink"
+          >
             Support: support@flowdexprotocol.com
           </a>
         </div>

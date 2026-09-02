@@ -74,7 +74,7 @@ export default function RoadmapPage() {
                 }`}
               >
                 {p.active && <span className="absolute right-3 top-3 h-1.5 w-1.5 rounded-full bg-primary pulse-dot" />}
-                <div className={`text-[10px] font-bold uppercase tracking-widest ${p.active ? 'text-primary' : 'text-ink-faint'}`}>
+                <div className={`text-xs font-bold uppercase tracking-widest ${p.active ? 'text-primary' : 'text-ink-faint'}`}>
                   {p.phase}
                 </div>
                 <div className="mt-0.5 text-xs text-ink-faint">{p.time}</div>

@@ -28,7 +28,7 @@ export default async function MetricsBar() {
         <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-4 sm:divide-x sm:divide-border">
           {metrics.map((m) => (
             <div key={m.label} className="text-center">
-              <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-ink-faint">{m.label}</div>
+              <div className="mb-1.5 text-xs font-semibold uppercase tracking-widest text-ink-faint">{m.label}</div>
               {m.value}
             </div>
           ))}

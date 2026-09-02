@@ -38,7 +38,7 @@ export default function ReferralSection() {
               <div className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-primary text-xs font-bold text-ink">
                 You
               </div>
-              <div className="flex flex-col items-center gap-1 text-[10px] text-ink-faint">
+              <div className="flex flex-col items-center gap-1 text-xs text-ink-faint">
                 <span>Share Link</span>
                 <svg width="40" height="10" viewBox="0 0 40 10" fill="none">
                   <path d="M0 5h34M30 1l5 4-5 4" stroke="var(--color-primary)" strokeWidth="1.5" strokeDasharray="3 3" />
@@ -49,7 +49,7 @@ export default function ReferralSection() {
               </div>
             </div>
 
-            <div className="mx-auto mt-3 flex flex-col items-center gap-1 text-[10px] text-ink-faint">
+            <div className="mx-auto mt-3 flex flex-col items-center gap-1 text-xs text-ink-faint">
               <span>Friend Buys</span>
               <svg width="10" height="28" viewBox="0 0 10 28" fill="none">
                 <path d="M5 0v22M1 18l4 5 4-5" stroke="var(--color-primary)" strokeWidth="1.5" strokeDasharray="3 3" />
@@ -58,11 +58,11 @@ export default function ReferralSection() {
 
             <div className="mt-3 grid grid-cols-2 divide-x divide-border overflow-hidden rounded-xl border border-border">
               <div className="p-4 text-center">
-                <div className="text-[10px] uppercase tracking-widest text-ink-faint">You</div>
+                <div className="text-xs uppercase tracking-widest text-ink-faint">You</div>
                 <div className="mt-1 text-lg font-bold text-green">15% Bonus</div>
               </div>
               <div className="p-4 text-center">
-                <div className="text-[10px] uppercase tracking-widest text-ink-faint">Friend</div>
+                <div className="text-xs uppercase tracking-widest text-ink-faint">Friend</div>
                 <div className="mt-1 text-lg font-bold text-primary">30% Bonus</div>
               </div>
             </div>

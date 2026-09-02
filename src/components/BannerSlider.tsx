@@ -80,8 +80,10 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
           style={{ opacity: i === index ? 1 : 0, pointerEvents: i === index ? 'auto' : 'none' }}
         >
           <div className="mx-auto flex w-full max-w-6xl flex-col justify-center gap-2 px-4 sm:gap-4 sm:px-6 lg:px-8">
-            <h2 className="max-w-xl text-xl font-bold leading-tight text-ink sm:text-3xl">{banner.title}</h2>
-            {banner.subtitle && <p className="max-w-lg text-xs text-ink-dim sm:text-base">{banner.subtitle}</p>}
+            <h2 className="line-clamp-2 max-w-xl text-xl font-bold leading-tight text-ink sm:text-3xl">{banner.title}</h2>
+            {banner.subtitle && (
+              <p className="line-clamp-2 max-w-lg text-xs text-ink-dim sm:text-base">{banner.subtitle}</p>
+            )}
             <div className="mt-1 sm:mt-2">
               <BannerCta banner={banner} />
             </div>
@@ -96,9 +98,13 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
               key={b.id}
               onClick={() => setIndex(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className="h-1.5 rounded-full transition-all duration-300"
-              style={{ width: i === index ? 20 : 6, background: i === index ? 'var(--color-primary)' : 'var(--color-border)' }}
-            />
+              className="flex h-6 w-6 items-center justify-center"
+            >
+              <span
+                className="h-1.5 rounded-full transition-all duration-300"
+                style={{ width: i === index ? 20 : 6, background: i === index ? 'var(--color-primary)' : 'var(--color-border)' }}
+              />
+            </button>
           ))}
         </div>
       )}

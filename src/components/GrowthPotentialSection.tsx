@@ -48,7 +48,7 @@ export default async function GrowthPotentialSection() {
                   {s.label}
                 </Pill>
                 <div className={`font-mono font-extrabold text-green ${style.text}`}>{formatCompactUsd(value)}</div>
-                <div className="mt-2 space-y-0.5 text-[11px] text-ink-faint">
+                <div className="mt-2 space-y-0.5 text-xs text-ink-faint">
                   <div>$FDP price: ${s.price.toFixed(2)}</div>
                   <div>Market cap: {formatCompactUsd(s.mcap)}</div>
                 </div>

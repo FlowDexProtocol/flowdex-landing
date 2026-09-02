@@ -79,7 +79,7 @@ export default async function Hero() {
                   <div className="my-5 border-t border-border" />
 
                   <BuyButton className="w-full" />
-                  <p className="mt-3 text-center text-[11px] text-ink-faint">{ACCEPTED_CURRENCIES.join(' · ')}</p>
+                  <p className="mt-3 text-center text-xs text-ink-faint">{ACCEPTED_CURRENCIES.join(' · ')}</p>
                 </>
               ) : (
                 <div className="py-6 text-center">

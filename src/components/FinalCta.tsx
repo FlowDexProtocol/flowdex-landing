@@ -53,7 +53,7 @@ export default function FinalCta() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-5 py-2.5 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+                    className="min-h-11 rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-5 py-2.5 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5 disabled:opacity-60"
                   >
                     {submitting ? 'Submitting…' : 'Get Updates'}
                   </button>
@@ -74,7 +74,7 @@ export default function FinalCta() {
                   href={s === 'X' ? 'https://x.com/flowdexprotocol' : s === 'Telegram' ? 'https://t.me/flowdexprotocol' : 'https://discord.gg/flowdexprotocol'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-medium text-ink-faint transition-colors hover:text-ink"
+                  className="flex min-h-11 items-center text-xs font-medium text-ink-faint transition-colors hover:text-ink"
                 >
                   {s}
                 </a>

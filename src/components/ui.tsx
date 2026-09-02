@@ -117,12 +117,12 @@ export function EmptyState({ children }: { children: ReactNode }) {
 export function Input({ className = '', ...rest }: InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
-      className={`rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-ink placeholder:text-ink-faint outline-none focus:border-primary ${className}`}
+      className={`min-h-11 rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-ink placeholder:text-ink-faint outline-none focus:border-primary ${className}`}
       {...rest}
     />
   );
 }
 
 export function EyebrowLabel({ children }: { children: ReactNode }) {
-  return <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-primary">{children}</div>;
+  return <div className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">{children}</div>;
 }
