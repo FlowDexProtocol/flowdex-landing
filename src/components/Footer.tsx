@@ -66,7 +66,6 @@ export default async function Footer() {
                 <>
                   <span className="text-base font-bold text-ink">{logoMain}</span>
                   <span className="text-base font-bold text-primary">{logoAccent}</span>
-                  <span className="ml-1 text-base font-bold text-ink">Protocol</span>
                 </>
               )}
             </Link>
@@ -135,9 +134,7 @@ export default async function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col-reverse items-center justify-between gap-3 border-t border-border pt-5 text-center sm:flex-row sm:text-left">
-          <span className="text-xs text-ink-faint">
-            {cms(cmsGlobal, 'footer', 'copyright', `© ${new Date().getFullYear()} FlowDex Protocol. All rights reserved.`)}
-          </span>
+          <span className="text-xs text-ink-faint">© {new Date().getFullYear()} FlowDex Protocol. All rights reserved.</span>
           <span className="text-xs text-ink-faint">
             {cms(
               cmsGlobal,

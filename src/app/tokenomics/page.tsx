@@ -15,18 +15,16 @@ export const metadata: Metadata = {
   twitter: { title: 'Tokenomics — FlowDex Protocol', description: TOKENOMICS_DESCRIPTION },
 };
 
-// Labels remapped to match Batch 1's seeded tokenomics.distribution.* field
-// names (presale/liquidity/team/ecosystem/marketing/staking/reserve) so the
-// breakdown is actually CMS-editable — the original 7 categories
-// (Community/Presale/Staking Rewards/Team/Airdrop/Treasury/Liquidity) don't
-// map 1:1 onto what was seeded, so this changes the visible category names.
+// Whitepaper allocation — labels match the CMS's seeded
+// tokenomics.distribution.* field names (presale/liquidity/team/ecosystem/
+// marketing/staking/reserve) so the breakdown is CMS-editable.
 const ALLOCATION = [
   { label: 'Presale', field: 'presale', pct: 22.5, color: '#0891B2' },
   { label: 'Liquidity', field: 'liquidity', pct: 20, color: '#99F6E4' },
-  { label: 'Team', field: 'team', pct: 15, color: '#627EEA' },
-  { label: 'Ecosystem', field: 'ecosystem', pct: 15, color: '#3D5A80' },
+  { label: 'Team & Advisors', field: 'team', pct: 15, color: '#627EEA' },
+  { label: 'Ecosystem Fund', field: 'ecosystem', pct: 15, color: '#3D5A80' },
   { label: 'Marketing', field: 'marketing', pct: 10, color: '#67E8F9' },
-  { label: 'Staking', field: 'staking', pct: 10, color: '#0D9488' },
+  { label: 'Staking Rewards', field: 'staking', pct: 10, color: '#0D9488' },
   { label: 'Reserve', field: 'reserve', pct: 7.5, color: '#0B1F3A' },
 ];
 
