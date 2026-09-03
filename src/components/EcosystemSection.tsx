@@ -1,8 +1,10 @@
+import { cms, fetchPageContent } from '@/lib/cms';
 import { Section, SectionHeading } from './ui';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
 
 const CARDS = [
   {
+    key: 'ecosystem_1',
     title: 'Universal Exchange',
     description:
       'Trade crypto, stocks, forex, and commodities from one interface. Cross-chain routing scans every DEX and liquidity source to find the best price. One platform for every market.',
@@ -12,6 +14,7 @@ const CARDS = [
     ),
   },
   {
+    key: 'ecosystem_2',
     title: 'Blockchain Intelligence Terminal',
     description:
       'AI-powered market intelligence. Real-time whale tracking, pattern detection, predictive analytics, and smart alerts — all derived from live on-chain data.',
@@ -24,6 +27,7 @@ const CARDS = [
     ),
   },
   {
+    key: 'ecosystem_3',
     title: 'FlowChain — Layer 1 Blockchain',
     description:
       'Our own Layer 1 blockchain launching in Phase 3. Purpose-built for high-frequency trading and cross-chain settlement. $FDP holders become validators.',
@@ -38,6 +42,7 @@ const CARDS = [
     ),
   },
   {
+    key: 'ecosystem_4',
     title: 'Staking & 40% Fee Sharing',
     description:
       'Stake $FDP to earn 40% of all protocol trading fees. Every trade across every market generates revenue that flows to stakers. Governance voting included.',
@@ -50,6 +55,7 @@ const CARDS = [
     ),
   },
   {
+    key: 'ecosystem_5',
     title: 'Smart Order Routing',
     description:
       'Our routing engine compares prices across 100+ DEXs and liquidity pools in real-time. Every trade gets the best execution with the lowest slippage and fees.',
@@ -59,6 +65,7 @@ const CARDS = [
     ),
   },
   {
+    key: 'ecosystem_6',
     title: 'Unified Portfolio',
     description:
       'Track all your holdings across every chain in one dashboard. Real-time P&L, historical performance, and automated alerts on your positions.',
@@ -72,34 +79,55 @@ const CARDS = [
   },
 ];
 
-export default function EcosystemSection() {
+export default async function EcosystemSection() {
+  const cmsData = await fetchPageContent('home');
+
   return (
     <Section id="ecosystem">
-      <SectionHeading title="The FlowDex Ecosystem" subtitle="A complete DeFi infrastructure for the next generation of finance." />
+      <SectionHeading
+        title={cms(cmsData, 'ecosystem', 'title', 'The FlowDex Ecosystem')}
+        subtitle={cms(cmsData, 'ecosystem', 'subtitle', 'A complete DeFi infrastructure for the next generation of finance.')}
+      />
 
       <StaggerGroup className="grid grid-cols-1 gap-5 md:grid-cols-2" staggerDelay={0.1}>
-        {CARDS.map((card) => (
-          <StaggerItem key={card.title}>
-            <div className="group h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)]">
-              <div className="flex aspect-video items-center justify-center bg-card-hover">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" opacity="0.3">
-                  {card.icon}
-                </svg>
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-ink sm:text-xl">{card.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-faint">{card.description}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {card.tags.map((tag) => (
-                    <span key={tag} className="rounded-full border border-border px-2.5 py-1 text-xs text-ink-faint">
-                      {tag}
-                    </span>
-                  ))}
+        {CARDS.map((card) => {
+          const title = cms(cmsData, card.key, 'title', card.title);
+          const description = cms(cmsData, card.key, 'description', card.description);
+          const tagsRaw = cms(cmsData, card.key, 'tags', card.tags.join(','));
+          const tags = tagsRaw
+            .split(',')
+            .map((t) => t.trim())
+            .filter(Boolean);
+          const imageUrl = cms(cmsData, card.key, 'image_url', '');
+
+          return (
+            <StaggerItem key={card.key}>
+              <div className="group h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)]">
+                <div className="flex aspect-video items-center justify-center overflow-hidden bg-card-hover">
+                  {imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={imageUrl} alt={title} className="h-full w-full object-cover" />
+                  ) : (
+                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" opacity="0.3">
+                      {card.icon}
+                    </svg>
+                  )}
+                </div>
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-ink sm:text-xl">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-faint">{description}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <span key={tag} className="rounded-full border border-border px-2.5 py-1 text-xs text-ink-faint">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </StaggerItem>
-        ))}
+            </StaggerItem>
+          );
+        })}
       </StaggerGroup>
     </Section>
   );

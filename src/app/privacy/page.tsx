@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
+import { fetchPageContent } from '@/lib/cms';
 import LegalPage from '@/components/LegalPage';
 
 export const metadata: Metadata = { title: 'Privacy Policy' };
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const cmsData = await fetchPageContent('privacy');
+
   return (
     <LegalPage
       title="Privacy Policy"
+      body={cmsData['content.body']}
       sections={[
         {
           heading: '1. Information We Collect',

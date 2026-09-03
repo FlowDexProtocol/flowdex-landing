@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BuyButton } from './ui';
+import { cms, type CmsPageData } from '@/lib/cms';
 
-const NAV_LINKS = [
+const DEFAULT_NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/#ecosystem', label: 'About' },
   { href: '/tokenomics', label: 'Tokenomics' },
@@ -14,9 +15,20 @@ const NAV_LINKS = [
   { href: '/blogs', label: 'Blog' },
 ];
 
-export default function Header() {
+export default function Header({ cmsGlobal = {}, cmsNav = {} }: { cmsGlobal?: CmsPageData; cmsNav?: CmsPageData }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const navLinks = DEFAULT_NAV_LINKS.map((link, i) => ({
+    href: cms(cmsNav, 'header', `link_${i + 1}_url`, link.href),
+    label: cms(cmsNav, 'header', `link_${i + 1}_text`, link.label),
+  }));
+  const buyButtonText = cms(cmsNav, 'header', 'buy_button_text', 'Buy $FDP');
+  const buyButtonUrl = cms(cmsNav, 'header', 'buy_button_url', 'https://purchase.flowdexprotocol.com');
+  const logoType = cms(cmsGlobal, 'logo', 'type', 'text');
+  const logoImageUrl = cms(cmsGlobal, 'logo', 'image_url', '');
+  const logoMain = cms(cmsGlobal, 'logo', 'text_main', 'Flow');
+  const logoAccent = cms(cmsGlobal, 'logo', 'text_accent', 'Dex');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -41,12 +53,19 @@ export default function Header() {
       >
         <div className="mx-auto flex h-[70px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-0.5 shrink-0">
-            <span className="text-lg font-bold text-ink">Flow</span>
-            <span className="text-lg font-bold text-primary">Dex</span>
+            {logoType === 'image' && logoImageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logoImageUrl} alt={`${logoMain}${logoAccent}`} className="h-8 w-auto object-contain" />
+            ) : (
+              <>
+                <span className="text-lg font-bold text-ink">{logoMain}</span>
+                <span className="text-lg font-bold text-primary">{logoAccent}</span>
+              </>
+            )}
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className="text-sm font-medium text-ink-dim transition-colors hover:text-ink">
                 {link.label}
               </Link>
@@ -55,7 +74,9 @@ export default function Header() {
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             {!menuOpen && (
-              <BuyButton className="!min-h-11 !px-3 !py-2 !text-xs sm:!px-5 sm:!py-2.5 sm:!text-[13px]" />
+              <BuyButton href={buyButtonUrl} className="!min-h-11 !px-3 !py-2 !text-xs sm:!px-5 sm:!py-2.5 sm:!text-[13px]">
+                {buyButtonText}
+              </BuyButton>
             )}
             <button
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-border text-ink-dim lg:hidden"
@@ -80,7 +101,7 @@ export default function Header() {
       {menuOpen && (
         <div className="fixed inset-0 top-[70px] z-40 bg-bg/98 backdrop-blur-xl lg:hidden">
           <nav className="flex flex-col gap-1 p-6">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -90,7 +111,9 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <BuyButton className="mt-6 w-full" />
+            <BuyButton href={buyButtonUrl} className="mt-6 w-full">
+              {buyButtonText}
+            </BuyButton>
           </nav>
         </div>
       )}

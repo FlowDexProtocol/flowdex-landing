@@ -1,5 +1,6 @@
 import { getPublicScenarios, getTierCurrent } from '@/lib/api';
 import { formatCompactUsd, formatPrice, toNum } from '@/lib/format';
+import { cms, fetchPageContent } from '@/lib/cms';
 import { BuyButton, Container, GlassCard, OutlineLink, Pill, ProgressBar } from './ui';
 import Reveal from './motion/Reveal';
 import { fadeUp, slideRight } from '@/lib/motion';
@@ -7,9 +8,10 @@ import { fadeUp, slideRight } from '@/lib/motion';
 const ACCEPTED_CURRENCIES = ['ETH', 'USDT', 'USDC', 'BNB', 'SOL', 'BTC', 'TRX'];
 
 export default async function Hero() {
-  const [tier, scenarios] = await Promise.all([
+  const [tier, scenarios, cmsData] = await Promise.all([
     getTierCurrent().catch(() => null),
     getPublicScenarios().catch(() => null),
+    fetchPageContent('home'),
   ]);
 
   const listingPrice = scenarios?.listing_price ?? 0.05;
@@ -26,29 +28,52 @@ export default async function Hero() {
             <Reveal variants={fadeUp}>
               <Pill tone="green" className="mb-5">
                 <span className="h-1.5 w-1.5 rounded-full bg-green pulse-dot" />
-                Presale Live
+                {cms(cmsData, 'hero', 'badge_text', 'Presale Live')}
               </Pill>
             </Reveal>
 
             <Reveal variants={fadeUp} delay={0.05}>
               <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
-                Trade Everything.
+                {cms(cmsData, 'hero', 'headline_1', 'Trade Everything.')}
                 <br />
-                <span className="text-primary">Know Everything.</span>
+                <span className="text-primary">{cms(cmsData, 'hero', 'headline_2', 'Know Everything.')}</span>
               </h1>
             </Reveal>
 
             <Reveal variants={fadeUp} delay={0.1}>
               <p className="mt-5 max-w-xl text-base text-ink-dim sm:text-lg">
-                FlowDex Protocol unifies crypto, stocks, forex, and commodities into a single intelligent trading
-                layer. $FDP powers fee sharing, governance, and AI-driven market intelligence.
+                {cms(
+                  cmsData,
+                  'hero',
+                  'subtitle',
+                  'FlowDex Protocol unifies crypto, stocks, forex, and commodities into a single intelligent trading layer. $FDP powers fee sharing, governance, and AI-driven market intelligence.'
+                )}
               </p>
             </Reveal>
 
             <Reveal variants={fadeUp} delay={0.15}>
               <div className="mt-8 flex flex-wrap gap-3">
-                <BuyButton />
-                <OutlineLink href="/whitepaper">Read Whitepaper</OutlineLink>
+                <BuyButton href={cms(cmsData, 'hero', 'cta_primary_link', 'https://purchase.flowdexprotocol.com')}>
+                  {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
+                </BuyButton>
+                <OutlineLink href={cms(cmsData, 'hero', 'cta_secondary_link', '/whitepaper')}>
+                  {cms(cmsData, 'hero', 'cta_secondary_text', 'Read Whitepaper')}
+                </OutlineLink>
+              </div>
+            </Reveal>
+
+            <Reveal variants={fadeUp} delay={0.2}>
+              <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs text-ink-faint">
+                {[
+                  cms(cmsData, 'hero', 'trust_1', 'Audit in Progress'),
+                  cms(cmsData, 'hero', 'trust_2', 'Community Growing'),
+                  cms(cmsData, 'hero', 'trust_3', '6 Chains'),
+                ].map((t) => (
+                  <span key={t} className="flex items-center gap-1.5">
+                    <span className="h-1 w-1 rounded-full bg-ink-faint" />
+                    {t}
+                  </span>
+                ))}
               </div>
             </Reveal>
           </div>
@@ -58,7 +83,9 @@ export default async function Hero() {
             <GlassCard className="p-6 shadow-[0_0_50px_rgba(98,126,234,0.08)] sm:p-8">
               {presaleLive ? (
                 <>
-                  <div className="text-xs font-semibold uppercase tracking-widest text-ink-faint">Stage: {tier.name}</div>
+                  <div className="text-xs font-semibold uppercase tracking-widest text-ink-faint">
+                    {cms(cmsData, 'presale_card', 'label', `Stage: ${tier.name}`)}
+                  </div>
                   <div className="mt-2 font-mono text-4xl font-extrabold text-primary sm:text-[42px]">{formatPrice(tier.price)}</div>
 
                   <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
@@ -78,8 +105,12 @@ export default async function Hero() {
 
                   <div className="my-5 border-t border-border" />
 
-                  <BuyButton className="w-full" />
-                  <p className="mt-3 text-center text-xs text-ink-faint">{ACCEPTED_CURRENCIES.join(' · ')}</p>
+                  <BuyButton className="w-full" href={cms(cmsData, 'hero', 'cta_primary_link', 'https://purchase.flowdexprotocol.com')}>
+                    {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
+                  </BuyButton>
+                  <p className="mt-3 text-center text-xs text-ink-faint">
+                    {cms(cmsData, 'presale_card', 'tokens_accepted', ACCEPTED_CURRENCIES.join(' · '))}
+                  </p>
                 </>
               ) : (
                 <div className="py-6 text-center">

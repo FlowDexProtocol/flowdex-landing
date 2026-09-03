@@ -1,3 +1,4 @@
+import { cms, fetchPageContent } from '@/lib/cms';
 import { Section, SectionHeading } from './ui';
 import Reveal from './motion/Reveal';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
@@ -6,26 +7,31 @@ import { scaleIn } from '@/lib/motion';
 const UTILITIES = [
   {
     num: '02',
+    key: 'utility_2',
     title: 'Governance Voting',
     description: 'Vote on protocol upgrades, fee structures, new asset listings, and treasury allocation. Your tokens, your voice.',
   },
   {
     num: '03',
+    key: 'utility_3',
     title: 'Routing Priority',
     description: '$FDP holders get priority order routing and reduced slippage on every trade. Better execution, every time.',
   },
   {
     num: '04',
+    key: 'utility_4',
     title: 'Validator Staking',
     description: 'In Phase 3, stake $FDP to become a FlowChain validator. Secure the network and earn additional rewards.',
   },
   {
     num: '05',
+    key: 'utility_5',
     title: 'Intelligence Access',
     description: 'Unlock the full Intelligence Terminal with AI analytics, whale alerts, predictive signals, and on-chain data tools.',
   },
   {
     num: '06',
+    key: 'utility_6',
     title: 'Deflationary Supply 🔥',
     description:
       'Every referral purchase permanently burns $FDP from the supply. The more the community grows, the scarcer $FDP becomes.',
@@ -41,10 +47,22 @@ function UtilityIcon() {
   );
 }
 
-export default function TokenUtilitySection() {
+export default async function TokenUtilitySection() {
+  const cmsData = await fetchPageContent('home');
+  const featuredTitle = cms(cmsData, 'utility_1', 'title', '40% Fee Sharing');
+  const featuredDescription = cms(
+    cmsData,
+    'utility_1',
+    'description',
+    'Stake $FDP to earn 40% of all trading fees. Every trade across crypto, stocks, forex, and commodities generates revenue for stakers.'
+  );
+
   return (
     <Section>
-      <SectionHeading title={<>$FDP Powers Everything</>} subtitle="Six utilities. One token. Real value from day one." />
+      <SectionHeading
+        title={cms(cmsData, 'utility', 'title', '$FDP Powers Everything')}
+        subtitle={cms(cmsData, 'utility', 'subtitle', 'Six utilities. One token. Real value from day one.')}
+      />
 
       {/* Featured card 01 */}
       <Reveal variants={scaleIn} className="relative mb-5 overflow-hidden rounded-xl border border-border border-l-[3px] border-l-primary bg-card p-6 shadow-[0_0_40px_rgba(98,126,234,0.08)] sm:p-10">
@@ -54,11 +72,8 @@ export default function TokenUtilitySection() {
         <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-primary-dim">
           <UtilityIcon />
         </div>
-        <h3 className="relative mt-4 text-xl font-bold text-ink sm:text-2xl">40% Fee Sharing</h3>
-        <p className="relative mt-2 max-w-xl text-sm text-ink-faint sm:text-base">
-          Stake $FDP to earn 40% of all trading fees. Every trade across crypto, stocks, forex, and commodities generates
-          revenue for stakers.
-        </p>
+        <h3 className="relative mt-4 text-xl font-bold text-ink sm:text-2xl">{featuredTitle}</h3>
+        <p className="relative mt-2 max-w-xl text-sm text-ink-faint sm:text-base">{featuredDescription}</p>
       </Reveal>
 
       <StaggerGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2" staggerDelay={0.08}>
@@ -71,8 +86,8 @@ export default function TokenUtilitySection() {
               <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-primary-dim">
                 <UtilityIcon />
               </div>
-              <h3 className="relative mt-4 text-lg font-bold text-ink">{u.title}</h3>
-              <p className="relative mt-2 text-sm text-ink-faint">{u.description}</p>
+              <h3 className="relative mt-4 text-lg font-bold text-ink">{cms(cmsData, u.key, 'title', u.title)}</h3>
+              <p className="relative mt-2 text-sm text-ink-faint">{cms(cmsData, u.key, 'description', u.description)}</p>
             </div>
           </StaggerItem>
         ))}

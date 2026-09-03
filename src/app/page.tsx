@@ -1,4 +1,5 @@
 import { getCmsBanners } from '@/lib/api';
+import { fetchPageContent } from '@/lib/cms';
 import BannerSlider from '@/components/BannerSlider';
 import Hero from '@/components/Hero';
 import PresaleVestingSection from '@/components/PresaleVestingSection';
@@ -11,7 +12,7 @@ import FaqSection from '@/components/FaqSection';
 import FinalCta from '@/components/FinalCta';
 
 export default async function HomePage() {
-  const banners = await getCmsBanners().catch(() => []);
+  const [banners, cmsHome] = await Promise.all([getCmsBanners().catch(() => []), fetchPageContent('home')]);
 
   return (
     <>
@@ -24,7 +25,7 @@ export default async function HomePage() {
       <GrowthPotentialSection />
       <ReferralSection />
       <FaqSection />
-      <FinalCta />
+      <FinalCta cmsHome={cmsHome} />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cms, fetchPageContent } from '@/lib/cms';
 import { Container, Pill, Section } from '@/components/ui';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
 import Reveal from '@/components/motion/Reveal';
@@ -13,42 +14,73 @@ export const metadata: Metadata = {
   twitter: { title: 'Roadmap — FlowDex Protocol', description: ROADMAP_DESCRIPTION },
 };
 
-const PHASES = [
+// Batch 1 seeded 4 CMS phases (roadmap.phase_1..phase_4) — these drive the
+// first 4 cards below, with this array's values as the per-phase fallback.
+// The 5th card ("Full Ecosystem") wasn't seeded, so it stays purely
+// hardcoded, appended after the CMS-driven ones.
+const CMS_PHASES = [
   {
-    phase: 'Phase 0',
-    time: 'Foundation',
-    title: 'Foundation',
-    active: true,
-    items: ['Whitepaper', 'Per-tier TGE design', 'Security audit', 'Community building'],
-  },
-  {
+    key: 'phase_1',
     phase: 'Phase 1',
-    time: 'Presale',
-    title: 'Presale',
-    active: true,
-    items: ['8-tier presale', '$FDP token launch', 'Staking teaser', 'Referral program'],
+    title: 'Foundation',
+    time: 'Q3-Q4 2026',
+    status: 'active',
+    items: ['Presale launch', 'Smart contract audit', 'Community building', 'Exchange listing preparation'],
   },
   {
+    key: 'phase_2',
     phase: 'Phase 2',
-    time: 'Expansion',
-    title: 'Multi-Asset Trading',
-    items: ['Universal Exchange launch', 'Cross-chain routing', 'Intelligence Terminal beta', 'Mobile app'],
+    title: 'Exchange Launch',
+    time: 'Q1-Q2 2027',
+    status: 'upcoming',
+    items: ['Universal Exchange beta', 'Cross-chain routing', 'DEX aggregation live', 'Token Generation Event'],
   },
   {
+    key: 'phase_3',
     phase: 'Phase 3',
-    time: 'FlowChain',
-    title: 'FlowChain',
-    items: ['Layer 1 appchain launch', 'Validator staking', '40% fee sharing live', 'Governance DAO'],
+    title: 'Intelligence',
+    time: 'Q3-Q4 2027',
+    status: 'planned',
+    items: ['Intelligence Terminal launch', 'AI analytics engine', 'Whale tracking', 'Staking launch'],
   },
   {
+    key: 'phase_4',
     phase: 'Phase 4',
-    time: 'Maturity',
-    title: 'Full Ecosystem',
-    items: ['500+ tradable assets', 'Structured products', 'Full decentralized governance', 'Global expansion'],
+    title: 'FlowChain',
+    time: '2028+',
+    status: 'future',
+    items: ['FlowChain L1 launch', 'Validator network', 'Full ecosystem deployment'],
   },
 ];
 
-export default function RoadmapPage() {
+const TRAILING_PHASE = {
+  phase: 'Phase 5',
+  title: 'Full Ecosystem',
+  time: 'Maturity',
+  active: false,
+  items: ['500+ tradable assets', 'Structured products', 'Full decentralized governance', 'Global expansion'],
+};
+
+export default async function RoadmapPage() {
+  const cmsData = await fetchPageContent('roadmap');
+
+  const phases = [
+    ...CMS_PHASES.map((p) => {
+      const itemsRaw = cms(cmsData, p.key, 'items', p.items.join(','));
+      return {
+        phase: p.phase,
+        title: cms(cmsData, p.key, 'title', p.title),
+        time: cms(cmsData, p.key, 'timeline', p.time),
+        active: cms(cmsData, p.key, 'status', p.status) === 'active',
+        items: itemsRaw
+          .split(',')
+          .map((i) => i.trim())
+          .filter(Boolean),
+      };
+    }),
+    TRAILING_PHASE,
+  ];
+
   return (
     <>
       <section className="bg-radial-glow py-14 sm:py-20">
@@ -66,7 +98,7 @@ export default function RoadmapPage() {
 
       <Section>
         <StaggerGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5" staggerDelay={0.08}>
-          {PHASES.map((p) => (
+          {phases.map((p) => (
             <StaggerItem key={p.phase}>
               <div
                 className={`relative h-full rounded-xl border p-5 ${

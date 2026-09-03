@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import MobileStickyBar from '@/components/MobileStickyBar';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CookieConsent from '@/components/CookieConsent';
+import { fetchPageContent } from '@/lib/cms';
 import './globals.css';
 
 const SITE_URL = 'https://flowdexprotocol.com';
@@ -52,12 +53,14 @@ export const viewport: Viewport = {
   themeColor: '#060d18',
 };
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+export default async function RootLayout({ children }: LayoutProps<'/'>) {
+  const [cmsGlobal, cmsNav] = await Promise.all([fetchPageContent('global'), fetchPageContent('nav')]);
+
   return (
     <html lang="en" className={`${dmSans.variable} ${jetbrainsMono.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-bg text-ink antialiased">
         <GoogleAnalytics />
-        <Header />
+        <Header cmsGlobal={cmsGlobal} cmsNav={cmsNav} />
         <main className="flex-1 pb-16 sm:pb-0">{children}</main>
         <Footer />
         <MobileStickyBar />

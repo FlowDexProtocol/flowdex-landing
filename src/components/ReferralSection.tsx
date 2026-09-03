@@ -1,3 +1,4 @@
+import { cms, fetchPageContent } from '@/lib/cms';
 import { BuyButton, Section, SectionHeading } from './ui';
 import Reveal from './motion/Reveal';
 import { slideLeft, slideRight } from '@/lib/motion';
@@ -10,16 +11,22 @@ const STEPS = [
   'Your friend earns 30% bonus on their purchase',
 ];
 
-export default function ReferralSection() {
+export default async function ReferralSection() {
+  const cmsData = await fetchPageContent('home');
+  const steps = STEPS.map((fallback, i) => cms(cmsData, 'referral', `step_${i + 1}`, fallback));
+
   return (
     <Section>
-      <SectionHeading title="Earn 15% When You Refer" subtitle="Your friends earn 30% bonus on their purchase." />
+      <SectionHeading
+        title={cms(cmsData, 'referral', 'title', 'Earn 15% When You Refer')}
+        subtitle={cms(cmsData, 'referral', 'subtitle', 'Your friends earn 30% bonus on their purchase.')}
+      />
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal variants={slideLeft}>
           <div>
             <ol className="space-y-5">
-              {STEPS.map((step, i) => (
+              {steps.map((step, i) => (
                 <li key={i} className="flex items-start gap-4">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-[#03131a]">
                     {i + 1}
@@ -75,11 +82,17 @@ export default function ReferralSection() {
       </div>
 
       <Reveal className="mx-auto mt-16 max-w-3xl rounded-2xl border border-border bg-card p-6 text-center sm:p-10">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary">Deflationary by Design</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+          {cms(cmsData, 'referral', 'burn_title', 'Deflationary by Design')}
+        </p>
         <h3 className="mt-2 text-xl font-bold text-ink sm:text-2xl">Every referral purchase burns tokens permanently 🔥</h3>
         <p className="mx-auto mt-3 max-w-xl text-sm text-ink-dim sm:text-base">
-          When your friend buys using your code, bonus tokens are created for both of you — and an equal amount is
-          burned from the supply at full tier price.
+          {cms(
+            cmsData,
+            'referral',
+            'burn_description',
+            'Every referral purchase burns tokens permanently 🔥. When your friend buys using your code, bonus tokens are created for both of you — and an equal amount is burned from the supply at full tier price. More referrals = more burns = less supply = more value for holders.'
+          )}
         </p>
         <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-2 text-xs font-semibold text-ink-dim sm:text-sm">
           <span className="rounded-full border border-border bg-bg-soft px-3 py-1.5">Purchase</span>

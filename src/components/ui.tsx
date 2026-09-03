@@ -61,10 +61,15 @@ export function Pill({ children, tone = 'primary', className = '' }: { children:
 const buttonBase =
   'inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all duration-300 whitespace-nowrap';
 
-export function BuyButton({ className = '', children = 'Buy $FDP', ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> & { children?: ReactNode }) {
+export function BuyButton({
+  className = '',
+  children = 'Buy $FDP',
+  href = 'https://purchase.flowdexprotocol.com',
+  ...rest
+}: AnchorHTMLAttributes<HTMLAnchorElement> & { children?: ReactNode }) {
   return (
     <a
-      href="https://purchase.flowdexprotocol.com"
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       className={`${buttonBase} bg-gradient-to-br from-primary to-[#4E65BB] text-[#03131a] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(98,126,234,0.35)] ${className}`}

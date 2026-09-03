@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { cms, fetchPageContent } from '@/lib/cms';
 import { Container } from './ui';
 
 const RESEARCH_LINKS = [
@@ -13,12 +14,6 @@ const LEGAL_LINKS = [
   { label: 'Terms', href: '/terms' },
   { label: 'Privacy', href: '/privacy' },
   { label: 'Legal Notice', href: '/legal' },
-];
-
-const COMMUNITY_LINKS = [
-  { label: 'X / Twitter', href: 'https://x.com/flowdexprotocol' },
-  { label: 'Telegram', href: 'https://t.me/flowdexprotocol' },
-  { label: 'Discord', href: 'https://discord.gg/flowdexprotocol' },
 ];
 
 function SocialIcon({ type }: { type: 'x' | 'telegram' | 'discord' }) {
@@ -44,29 +39,51 @@ function SocialIcon({ type }: { type: 'x' | 'telegram' | 'discord' }) {
   );
 }
 
-export default function Footer() {
+export default async function Footer() {
+  const cmsGlobal = await fetchPageContent('global');
+  const logoType = cms(cmsGlobal, 'logo', 'type', 'text');
+  const logoImageUrl = cms(cmsGlobal, 'logo', 'image_url', '');
+  const logoMain = cms(cmsGlobal, 'logo', 'text_main', 'Flow');
+  const logoAccent = cms(cmsGlobal, 'logo', 'text_accent', 'Dex');
+  const supportEmail = cms(cmsGlobal, 'site', 'support_email', 'support@flowdexprotocol.com');
+
+  const communityLinks = [
+    { key: 'x' as const, label: 'X / Twitter', href: cms(cmsGlobal, 'social', 'twitter', 'https://x.com/flowdexprotocol') },
+    { key: 'telegram' as const, label: 'Telegram', href: cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol') },
+    { key: 'discord' as const, label: 'Discord', href: cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol') },
+  ];
+
   return (
     <footer className="border-t border-border bg-footer-bg">
       <Container className="py-14 sm:py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-0.5">
-              <span className="text-base font-bold text-ink">Flow</span>
-              <span className="text-base font-bold text-primary">Dex</span>
-              <span className="ml-1 text-base font-bold text-ink">Protocol</span>
+              {logoType === 'image' && logoImageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logoImageUrl} alt={`${logoMain}${logoAccent}`} className="h-6 w-auto object-contain" />
+              ) : (
+                <>
+                  <span className="text-base font-bold text-ink">{logoMain}</span>
+                  <span className="text-base font-bold text-primary">{logoAccent}</span>
+                  <span className="ml-1 text-base font-bold text-ink">Protocol</span>
+                </>
+              )}
             </Link>
-            <p className="mt-3 max-w-[240px] text-sm text-ink-faint">Trade Everything. Know Everything.</p>
+            <p className="mt-3 max-w-[240px] text-sm text-ink-faint">
+              {cms(cmsGlobal, 'site', 'tagline', 'Trade Everything. Know Everything.')}
+            </p>
             <div className="mt-4 flex items-center gap-2">
-              {(['x', 'telegram', 'discord'] as const).map((s) => (
+              {communityLinks.map((l) => (
                 <a
-                  key={s}
-                  href={COMMUNITY_LINKS[s === 'x' ? 0 : s === 'telegram' ? 1 : 2].href}
+                  key={l.key}
+                  href={l.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-11 w-11 items-center justify-center text-ink-faint transition-colors hover:text-ink"
-                  aria-label={s}
+                  aria-label={l.key}
                 >
-                  <SocialIcon type={s} />
+                  <SocialIcon type={l.key} />
                 </a>
               ))}
             </div>
@@ -101,7 +118,7 @@ export default function Footer() {
           <div>
             <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-faint">Community</div>
             <ul>
-              {COMMUNITY_LINKS.map((l) => (
+              {communityLinks.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
@@ -118,18 +135,25 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col-reverse items-center justify-between gap-3 border-t border-border pt-5 text-center sm:flex-row sm:text-left">
-          <span className="text-xs text-ink-faint">© {new Date().getFullYear()} FlowDex Protocol. All rights reserved.</span>
           <span className="text-xs text-ink-faint">
-            This is not financial advice. $FDP is a utility token. Cryptocurrency purchases carry risk, including total loss of funds.
+            {cms(cmsGlobal, 'footer', 'copyright', `© ${new Date().getFullYear()} FlowDex Protocol. All rights reserved.`)}
+          </span>
+          <span className="text-xs text-ink-faint">
+            {cms(
+              cmsGlobal,
+              'footer',
+              'disclaimer',
+              'This is not financial advice. $FDP is a utility token. Cryptocurrency purchases carry risk, including total loss of funds.'
+            )}
           </span>
         </div>
 
         <div className="mt-1 flex justify-center sm:justify-start">
           <a
-            href="mailto:support@flowdexprotocol.com"
+            href={`mailto:${supportEmail}`}
             className="flex min-h-11 items-center text-xs text-ink-faint transition-colors hover:text-ink"
           >
-            Support: support@flowdexprotocol.com
+            Support: {supportEmail}
           </a>
         </div>
       </Container>

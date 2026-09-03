@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getPublicScenarios, getPublicStaking, getTiers } from '@/lib/api';
 import { formatPct, formatPrice, formatTokens, formatUsd, toNum } from '@/lib/format';
+import { cms, fetchPageContent } from '@/lib/cms';
 import { BuyButton, Container, Pill, Section, SectionHeading } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 
@@ -14,22 +15,34 @@ export const metadata: Metadata = {
   twitter: { title: 'Tokenomics — FlowDex Protocol', description: TOKENOMICS_DESCRIPTION },
 };
 
+// Labels remapped to match Batch 1's seeded tokenomics.distribution.* field
+// names (presale/liquidity/team/ecosystem/marketing/staking/reserve) so the
+// breakdown is actually CMS-editable — the original 7 categories
+// (Community/Presale/Staking Rewards/Team/Airdrop/Treasury/Liquidity) don't
+// map 1:1 onto what was seeded, so this changes the visible category names.
 const ALLOCATION = [
-  { label: 'Community', pct: 30, color: '#3D5A80' },
-  { label: 'Presale', pct: 22.5, color: '#0891B2' },
-  { label: 'Staking Rewards', pct: 12.5, color: '#0D9488' },
-  { label: 'Team', pct: 12, color: '#627EEA' },
-  { label: 'Airdrop', pct: 10, color: '#67E8F9' },
-  { label: 'Treasury', pct: 8, color: '#0B1F3A' },
-  { label: 'Liquidity', pct: 5, color: '#99F6E4' },
+  { label: 'Presale', field: 'presale', pct: 22.5, color: '#0891B2' },
+  { label: 'Liquidity', field: 'liquidity', pct: 20, color: '#99F6E4' },
+  { label: 'Team', field: 'team', pct: 15, color: '#627EEA' },
+  { label: 'Ecosystem', field: 'ecosystem', pct: 15, color: '#3D5A80' },
+  { label: 'Marketing', field: 'marketing', pct: 10, color: '#67E8F9' },
+  { label: 'Staking', field: 'staking', pct: 10, color: '#0D9488' },
+  { label: 'Reserve', field: 'reserve', pct: 7.5, color: '#0B1F3A' },
 ];
 
 export default async function TokenomicsPage() {
-  const [tiers, scenarios, staking] = await Promise.all([
+  const [tiers, scenarios, staking, cmsData] = await Promise.all([
     getTiers().catch(() => []),
     getPublicScenarios().catch(() => null),
     getPublicStaking().catch(() => null),
+    fetchPageContent('tokenomics'),
   ]);
+
+  const allocation = ALLOCATION.map((a) => {
+    const raw = cmsData[`distribution.${a.field}`];
+    const parsed = raw !== undefined ? parseFloat(raw) : NaN;
+    return { ...a, pct: Number.isFinite(parsed) ? parsed : a.pct };
+  });
 
   return (
     <>
@@ -37,11 +50,23 @@ export default async function TokenomicsPage() {
         <Container className="text-center">
           <Reveal>
             <h1 className="text-3xl font-bold text-ink sm:text-5xl">
-              $FDP <span className="text-primary">Tokenomics</span>
+              {cmsData['hero.title'] ? (
+                cmsData['hero.title']
+              ) : (
+                <>
+                  $FDP <span className="text-primary">Tokenomics</span>
+                </>
+              )}
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-base text-ink-dim sm:text-lg">
-              {scenarios ? `${formatTokens(scenarios.total_supply, 0)} total supply` : '10,000,000,000 total supply'} — listing at{' '}
-              {scenarios ? formatPrice(scenarios.listing_price, 2) : '$0.05'}.
+              {cms(
+                cmsData,
+                'hero',
+                'subtitle',
+                `${scenarios ? `${formatTokens(scenarios.total_supply, 0)} total supply` : '10,000,000,000 total supply'} — listing at ${
+                  scenarios ? formatPrice(scenarios.listing_price, 2) : '$0.05'
+                }.`
+              )}
             </p>
             <div className="mt-8 flex justify-center">
               <BuyButton />
@@ -53,7 +78,7 @@ export default async function TokenomicsPage() {
       <Section>
         <SectionHeading title="Token Allocation" subtitle="10 billion $FDP, distributed for long-term sustainability — no VC allocation." />
         <div className="mx-auto max-w-2xl space-y-4">
-          {ALLOCATION.map((a) => (
+          {allocation.map((a) => (
             <div key={a.label}>
               <div className="mb-1.5 flex justify-between text-sm">
                 <span className="text-ink">{a.label}</span>

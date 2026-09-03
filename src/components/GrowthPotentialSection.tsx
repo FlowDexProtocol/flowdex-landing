@@ -1,5 +1,6 @@
 import { getPublicScenarios, getTierCurrent } from '@/lib/api';
 import { formatCompactUsd, toNum } from '@/lib/format';
+import { cms, fetchPageContent } from '@/lib/cms';
 import { BuyButton, Container, Pill, SectionHeading } from './ui';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
 import { scaleIn } from '@/lib/motion';
@@ -15,9 +16,10 @@ const ESCALATION = [
 ];
 
 export default async function GrowthPotentialSection() {
-  const [tier, scenarios] = await Promise.all([
+  const [tier, scenarios, cmsData] = await Promise.all([
     getTierCurrent().catch(() => null),
     getPublicScenarios().catch(() => null),
+    fetchPageContent('home'),
   ]);
 
   if (!scenarios || scenarios.scenarios.length === 0) return null;
@@ -25,12 +27,13 @@ export default async function GrowthPotentialSection() {
   const presaleLive = !!tier && !tier.message;
   const tierPrice = presaleLive ? toNum(tier.price) : scenarios.listing_price;
   const tokens = tierPrice > 0 ? SAMPLE_INVESTMENT / tierPrice : 0;
+  const dynamicSubtitle = `Based on a $${SAMPLE_INVESTMENT} investment at ${presaleLive ? tier.name : 'the current'} price. For illustration only.`;
 
   return (
     <Container className="py-14 sm:py-20">
       <SectionHeading
-        title="What Could Your $FDP Be Worth?"
-        subtitle={`Based on a $${SAMPLE_INVESTMENT} investment at ${presaleLive ? tier.name : 'the current'} price. For illustration only.`}
+        title={cms(cmsData, 'scenarios', 'title', 'What Could Your $FDP Be Worth?')}
+        subtitle={cmsData['scenarios.subtitle'] || dynamicSubtitle}
       />
 
       <StaggerGroup
@@ -63,7 +66,12 @@ export default async function GrowthPotentialSection() {
       </StaggerGroup>
 
       <p className="mt-6 text-center text-xs text-ink-faint">
-        These projections are illustrative only and are not a guarantee of future performance.
+        {cms(
+          cmsData,
+          'scenarios',
+          'disclaimer',
+          'These projections are illustrative only and are not a guarantee of future performance.'
+        )}
       </p>
       <div className="mt-5 flex justify-center">
         <BuyButton />

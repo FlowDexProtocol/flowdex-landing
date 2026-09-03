@@ -5,8 +5,9 @@ import { BuyButton, Container, Input } from './ui';
 import Reveal from './motion/Reveal';
 import { scaleIn } from '@/lib/motion';
 import { subscribeEmail } from '@/lib/api';
+import { cms, type CmsPageData } from '@/lib/cms';
 
-export default function FinalCta() {
+export default function FinalCta({ cmsHome = {} }: { cmsHome?: CmsPageData }) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -32,11 +33,13 @@ export default function FinalCta() {
       <Container>
         <Reveal variants={scaleIn}>
           <div className="mx-auto max-w-lg">
-            <h2 className="text-3xl font-bold text-ink sm:text-4xl">Don&rsquo;t Miss the Lowest Price</h2>
-            <p className="mt-3 text-base text-ink-dim sm:text-lg">Tier 1 won&rsquo;t last forever. Every tier costs more.</p>
+            <h2 className="text-3xl font-bold text-ink sm:text-4xl">{cms(cmsHome, 'cta', 'title', 'Don’t Miss the Lowest Price')}</h2>
+            <p className="mt-3 text-base text-ink-dim sm:text-lg">
+              {cms(cmsHome, 'cta', 'subtitle', 'Tier 1 won’t last forever. Every tier costs more.')}
+            </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <BuyButton>Buy $FDP Now</BuyButton>
+              <BuyButton>{cms(cmsHome, 'cta', 'button_text', 'Buy $FDP Now')}</BuyButton>
             </div>
 
             {!subscribed ? (
@@ -44,7 +47,7 @@ export default function FinalCta() {
                 <form onSubmit={handleSubscribe} className="mx-auto mt-6 flex max-w-sm flex-col gap-2 sm:flex-row">
                   <Input
                     type="email"
-                    placeholder="your@email.com"
+                    placeholder={cms(cmsHome, 'cta', 'subscribe_placeholder', 'your@email.com')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required

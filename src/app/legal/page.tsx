@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
+import { fetchPageContent } from '@/lib/cms';
 import LegalPage from '@/components/LegalPage';
 
 export const metadata: Metadata = { title: 'Legal Notice' };
 
-export default function LegalNoticePage() {
+export default async function LegalNoticePage() {
+  const cmsData = await fetchPageContent('legal');
+
   return (
     <LegalPage
       title="Legal Notice"
+      body={cmsData['content.body']}
       sections={[
         {
           heading: 'Not Financial Advice',
