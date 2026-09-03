@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BuyButton } from './ui';
 import { cms, type CmsPageData } from '@/lib/cms';
+import CmsImage from './CmsImage';
 
 const DEFAULT_NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -53,9 +54,18 @@ export default function Header({ cmsGlobal = {}, cmsNav = {} }: { cmsGlobal?: Cm
       >
         <div className="mx-auto flex h-[70px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-0.5 shrink-0">
-            {logoType === 'image' && logoImageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoImageUrl} alt={`${logoMain}${logoAccent}`} className="h-8 w-auto object-contain" />
+            {logoType === 'image' ? (
+              <CmsImage
+                src={logoImageUrl}
+                alt={`${logoMain}${logoAccent}`}
+                className="h-8 w-auto object-contain"
+                fallback={
+                  <>
+                    <span className="text-lg font-bold text-ink">{logoMain}</span>
+                    <span className="text-lg font-bold text-primary">{logoAccent}</span>
+                  </>
+                }
+              />
             ) : (
               <>
                 <span className="text-lg font-bold text-ink">{logoMain}</span>

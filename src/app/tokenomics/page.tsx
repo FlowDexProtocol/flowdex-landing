@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { getPublicScenarios, getPublicStaking, getTiers } from '@/lib/api';
-import { formatPct, formatPrice, formatTokens, formatUsd, toNum } from '@/lib/format';
+import { formatCompactUSD, formatTokenAmount, formatTokenPrice, toNum } from '@/lib/format';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { BuyButton, Container, Pill, Section, SectionHeading } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
+import TokenomicsDonut from '@/components/TokenomicsDonut';
 
 const TOKENOMICS_DESCRIPTION =
   'Explore $FDP tokenomics: supply allocation, presale tiers, staking rewards, and fee-sharing mechanics for the FlowDex Protocol ecosystem.';
@@ -19,13 +20,13 @@ export const metadata: Metadata = {
 // tokenomics.distribution.* field names (presale/liquidity/team/ecosystem/
 // marketing/staking/reserve) so the breakdown is CMS-editable.
 const ALLOCATION = [
-  { label: 'Presale', field: 'presale', pct: 22.5, color: '#0891B2' },
-  { label: 'Liquidity', field: 'liquidity', pct: 20, color: '#99F6E4' },
-  { label: 'Team & Advisors', field: 'team', pct: 15, color: '#627EEA' },
-  { label: 'Ecosystem Fund', field: 'ecosystem', pct: 15, color: '#3D5A80' },
-  { label: 'Marketing', field: 'marketing', pct: 10, color: '#67E8F9' },
-  { label: 'Staking Rewards', field: 'staking', pct: 10, color: '#0D9488' },
-  { label: 'Reserve', field: 'reserve', pct: 7.5, color: '#0B1F3A' },
+  { label: 'Presale', field: 'presale', pct: 22.5, color: '#627EEA' },
+  { label: 'Liquidity', field: 'liquidity', pct: 20, color: '#00FF88' },
+  { label: 'Team & Advisors', field: 'team', pct: 15, color: '#9945FF' },
+  { label: 'Ecosystem Fund', field: 'ecosystem', pct: 15, color: '#3B82F6' },
+  { label: 'Marketing', field: 'marketing', pct: 10, color: '#F59E0B' },
+  { label: 'Staking Rewards', field: 'staking', pct: 10, color: '#10B981' },
+  { label: 'Reserve', field: 'reserve', pct: 7.5, color: '#6B7280' },
 ];
 
 export default async function TokenomicsPage() {
@@ -61,8 +62,8 @@ export default async function TokenomicsPage() {
                 cmsData,
                 'hero',
                 'subtitle',
-                `${scenarios ? `${formatTokens(scenarios.total_supply, 0)} total supply` : '10,000,000,000 total supply'} — listing at ${
-                  scenarios ? formatPrice(scenarios.listing_price, 2) : '$0.05'
+                `${scenarios ? `${formatTokenAmount(scenarios.total_supply)} total supply` : '10,000,000,000 total supply'} — listing at ${
+                  scenarios ? formatTokenPrice(scenarios.listing_price) : '$0.05'
                 }.`
               )}
             </p>
@@ -75,19 +76,7 @@ export default async function TokenomicsPage() {
 
       <Section>
         <SectionHeading title="Token Allocation" subtitle="10 billion $FDP, distributed for long-term sustainability — no VC allocation." />
-        <div className="mx-auto max-w-2xl space-y-4">
-          {allocation.map((a) => (
-            <div key={a.label}>
-              <div className="mb-1.5 flex justify-between text-sm">
-                <span className="text-ink">{a.label}</span>
-                <span className="font-mono text-ink-faint">{a.pct}%</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-card">
-                <div className="h-full rounded-full" style={{ width: `${a.pct * 3.33}%`, background: a.color }} />
-              </div>
-            </div>
-          ))}
-        </div>
+        <TokenomicsDonut allocation={allocation} />
       </Section>
 
       <Section>
@@ -110,9 +99,9 @@ export default async function TokenomicsPage() {
               {tiers.map((t) => (
                 <tr key={t.id} className={t.is_active ? 'bg-primary-dim' : undefined}>
                   <td className="px-5 py-3 font-semibold text-ink sm:px-6">{t.name}</td>
-                  <td className="px-5 py-3 font-mono sm:px-6">{formatPrice(t.price)}</td>
-                  <td className="px-5 py-3 font-mono text-ink-faint sm:px-6">{formatUsd(t.hard_cap_usd)}</td>
-                  <td className="px-5 py-3 font-mono text-ink-faint sm:px-6">{formatPct(toNum(t.tge_percentage), 0)}</td>
+                  <td className="px-5 py-3 font-mono sm:px-6">{formatTokenPrice(t.price)}</td>
+                  <td className="px-5 py-3 font-mono text-ink-faint sm:px-6">{formatCompactUSD(t.hard_cap_usd)}</td>
+                  <td className="px-5 py-3 font-mono text-ink-faint sm:px-6">{toNum(t.tge_percentage)}%</td>
                   <td className="px-5 py-3 text-ink-faint sm:px-6">{t.cliff_months > 0 ? `${t.cliff_months}mo` : '0'}</td>
                   <td className="px-5 py-3 text-ink-faint sm:px-6">{t.vest_months > 0 ? `${t.vest_months}mo` : '0'}</td>
                   <td className="px-5 py-3 font-semibold text-ink sm:px-6">

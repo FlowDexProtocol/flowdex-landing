@@ -8,6 +8,7 @@ export default function CountUp({
   prefix = '',
   suffix = '',
   decimals = 0,
+  compact = false,
   durationMs = 900,
   className = '',
 }: {
@@ -15,6 +16,8 @@ export default function CountUp({
   prefix?: string;
   suffix?: string;
   decimals?: number;
+  /** Formats each frame as "1.2M"/"500K" instead of a full comma-grouped number. */
+  compact?: boolean;
   durationMs?: number;
   className?: string;
 }) {
@@ -36,7 +39,11 @@ export default function CountUp({
     return () => cancelAnimationFrame(raf);
   }, [inView, value, durationMs]);
 
-  const formatted = decimals > 0 ? display.toFixed(decimals) : Math.floor(display).toLocaleString();
+  const formatted = compact
+    ? new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(display)
+    : decimals > 0
+      ? display.toFixed(decimals)
+      : Math.floor(display).toLocaleString();
 
   return (
     <span ref={ref} className={className}>

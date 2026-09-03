@@ -1,5 +1,5 @@
 import { getPublicScenarios, getTierCurrent } from '@/lib/api';
-import { formatCompactUsd, formatPrice, toNum } from '@/lib/format';
+import { formatCompactUSD, formatTokenPrice, toNum } from '@/lib/format';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { BuyButton, Container, GlassCard, OutlineLink, Pill, ProgressBar } from './ui';
 import Reveal from './motion/Reveal';
@@ -86,11 +86,11 @@ export default async function Hero() {
                   <div className="text-xs font-semibold uppercase tracking-widest text-ink-faint">
                     {cms(cmsData, 'presale_card', 'label', `Stage: ${tier.name}`)}
                   </div>
-                  <div className="mt-2 font-mono text-4xl font-extrabold text-primary sm:text-[42px]">{formatPrice(tier.price)}</div>
+                  <div className="mt-2 font-mono text-4xl font-extrabold text-primary sm:text-[42px]">{formatTokenPrice(tier.price)}</div>
 
                   <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
                     <span className="text-ink-faint">
-                      Listing: <span className="line-through">${listingPrice.toFixed(2)}</span>
+                      Listing: <span className="line-through">{formatTokenPrice(listingPrice)}</span>
                     </span>
                     {discountPct > 0 && <Pill tone="green">{discountPct.toFixed(0)}% below listing</Pill>}
                   </div>
@@ -98,8 +98,8 @@ export default async function Hero() {
                   <div className="mt-5">
                     <ProgressBar pct={progressPct} shimmer />
                     <div className="mt-2 flex justify-between text-xs text-ink-faint">
-                      <span className="font-mono text-ink-dim">{formatCompactUsd(tier.total_raised_usd)} raised</span>
-                      <span className="font-mono">{formatCompactUsd(tier.hard_cap_usd)} goal</span>
+                      <span className="font-mono text-ink-dim">{formatCompactUSD(tier.total_raised_usd)} raised</span>
+                      <span className="font-mono">{formatCompactUSD(tier.hard_cap_usd)} goal</span>
                     </div>
                   </div>
 

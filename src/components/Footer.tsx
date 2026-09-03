@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { Container } from './ui';
+import CmsImage from './CmsImage';
 
 const RESEARCH_LINKS = [
   { label: 'Blog', href: '/blogs' },
@@ -8,6 +9,7 @@ const RESEARCH_LINKS = [
   { label: 'Tokenomics', href: '/tokenomics' },
   { label: 'Roadmap', href: '/roadmap' },
   { label: 'FAQ', href: '/faq' },
+  { label: 'How to Buy', href: '/how-to-buy' },
 ];
 
 const LEGAL_LINKS = [
@@ -59,9 +61,18 @@ export default async function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-0.5">
-              {logoType === 'image' && logoImageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={logoImageUrl} alt={`${logoMain}${logoAccent}`} className="h-6 w-auto object-contain" />
+              {logoType === 'image' ? (
+                <CmsImage
+                  src={logoImageUrl}
+                  alt={`${logoMain}${logoAccent}`}
+                  className="h-6 w-auto object-contain"
+                  fallback={
+                    <>
+                      <span className="text-base font-bold text-ink">{logoMain}</span>
+                      <span className="text-base font-bold text-primary">{logoAccent}</span>
+                    </>
+                  }
+                />
               ) : (
                 <>
                   <span className="text-base font-bold text-ink">{logoMain}</span>

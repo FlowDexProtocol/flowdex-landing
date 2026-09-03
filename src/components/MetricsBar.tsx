@@ -1,5 +1,5 @@
 import { getPublicScenarios, getTierCurrent } from '@/lib/api';
-import { toNum } from '@/lib/format';
+import { formatTokenPrice, toNum } from '@/lib/format';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { Container } from './ui';
 import CountUp from './motion/CountUp';
@@ -20,19 +20,26 @@ export default async function MetricsBar() {
   const metrics = [
     {
       label: cms(cmsData, 'metrics', 'label_1', 'Total Raised'),
-      value: <CountUp value={raised} prefix="$" className="font-mono text-2xl font-extrabold text-green sm:text-3xl" />,
+      value: <CountUp value={raised} prefix="$" compact className="font-mono text-2xl font-extrabold text-green sm:text-3xl" />,
     },
     {
       label: cms(cmsData, 'metrics', 'label_2', 'Current Price'),
-      value: <span className="font-mono text-2xl font-extrabold text-primary sm:text-3xl">${price.toFixed(price < 1 ? 4 : 2)}</span>,
+      value: <span className="font-mono text-2xl font-extrabold text-primary sm:text-3xl">{formatTokenPrice(price)}</span>,
     },
     {
       label: cms(cmsData, 'metrics', 'label_3', 'Listing Price'),
-      value: <span className="font-mono text-2xl font-extrabold text-ink sm:text-3xl">${listingPrice.toFixed(2)}</span>,
+      value: <span className="font-mono text-2xl font-extrabold text-ink sm:text-3xl">{formatTokenPrice(listingPrice)}</span>,
     },
     {
       label: cms(cmsData, 'metrics', 'label_4', 'ROI at Listing'),
-      value: <CountUp value={roi} prefix="+" suffix="%" className="font-mono text-2xl font-extrabold text-green sm:text-3xl" />,
+      value: (
+        <CountUp
+          value={roi}
+          prefix={roi >= 0 ? '+' : ''}
+          suffix="%"
+          className="font-mono text-2xl font-extrabold text-green sm:text-3xl"
+        />
+      ),
     },
   ];
 

@@ -3,7 +3,7 @@ import { getCmsBlog } from '@/lib/api';
 
 const SITE_URL = 'https://flowdexprotocol.com';
 
-const STATIC_ROUTES = ['', '/tokenomics', '/roadmap', '/faq', '/whitepaper', '/blogs', '/terms', '/privacy', '/legal'];
+const STATIC_ROUTES = ['', '/tokenomics', '/roadmap', '/faq', '/whitepaper', '/blogs', '/terms', '/privacy', '/legal', '/how-to-buy'];
 
 async function getAllBlogSlugs(): Promise<string[]> {
   const slugs: string[] = [];

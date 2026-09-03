@@ -1,6 +1,7 @@
 import { cms, fetchPageContent } from '@/lib/cms';
 import { Section, SectionHeading } from './ui';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
+import CmsImage from './CmsImage';
 
 const CARDS = [
   {
@@ -103,15 +104,17 @@ export default async function EcosystemSection() {
           return (
             <StaggerItem key={card.key}>
               <div className="group h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)]">
-                <div className="flex aspect-video items-center justify-center overflow-hidden bg-card-hover">
-                  {imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={imageUrl} alt={title} className="h-full w-full object-cover" />
-                  ) : (
-                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" opacity="0.3">
-                      {card.icon}
-                    </svg>
-                  )}
+                <div className="flex aspect-video items-center justify-center overflow-hidden" style={{ background: '#11253F' }}>
+                  <CmsImage
+                    src={imageUrl}
+                    alt={title}
+                    className="h-full w-full object-cover"
+                    fallback={
+                      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" opacity="0.3">
+                        {card.icon}
+                      </svg>
+                    }
+                  />
                 </div>
                 <div className="p-6">
                   <h3 className="text-lg font-bold text-ink sm:text-xl">{title}</h3>

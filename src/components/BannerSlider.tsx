@@ -82,6 +82,7 @@ function BannerCta({ banner }: { banner: CmsBanner }) {
 
 export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
   const [index, setIndex] = useState(0);
+  const [brokenImages, setBrokenImages] = useState<Set<number>>(new Set());
   const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
@@ -89,6 +90,25 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
     const id = setInterval(() => setIndex((i) => (i + 1) % banners.length), AUTO_ROTATE_MS);
     return () => clearInterval(id);
   }, [banners.length]);
+
+  // Background-image CSS has no native onError, so preload each banner's
+  // image and fall back to the gradient if it 404s or fails to decode.
+  useEffect(() => {
+    let cancelled = false;
+    setBrokenImages(new Set());
+    for (const banner of banners) {
+      const url = banner.image_url_mobile || banner.image_url_desktop;
+      if (!url) continue;
+      const img = new Image();
+      img.onerror = () => {
+        if (!cancelled) setBrokenImages((prev) => new Set(prev).add(banner.id));
+      };
+      img.src = url;
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [banners]);
 
   if (banners.length === 0) return null;
 
@@ -115,7 +135,7 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
       onTouchEnd={handleTouchEnd}
     >
       {banners.map((banner, i) => {
-        const hasImage = !!banner.image_url_desktop;
+        const hasImage = !!banner.image_url_desktop && !brokenImages.has(banner.id);
         const hasColor = !!banner.bg_color;
         return (
           <div

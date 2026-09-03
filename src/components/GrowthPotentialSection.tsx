@@ -1,5 +1,5 @@
 import { getPublicScenarios, getTierCurrent } from '@/lib/api';
-import { formatCompactUsd, toNum } from '@/lib/format';
+import { formatCompactUSD, formatPercentage, formatTokenPrice, toNum } from '@/lib/format';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { BuyButton, Container, Pill, SectionHeading } from './ui';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
@@ -50,14 +50,13 @@ export default async function GrowthPotentialSection() {
                 <Pill tone="neutral" className="mb-3">
                   {s.label}
                 </Pill>
-                <div className={`font-mono font-extrabold text-green ${style.text}`}>{formatCompactUsd(value)}</div>
+                <div className={`font-mono font-extrabold text-green ${style.text}`}>{formatCompactUSD(value)}</div>
                 <div className="mt-2 space-y-0.5 text-xs text-ink-faint">
-                  <div>$FDP price: ${s.price.toFixed(2)}</div>
-                  <div>Market cap: {formatCompactUsd(s.mcap)}</div>
+                  <div>$FDP price: {formatTokenPrice(s.price)}</div>
+                  <div>Market cap: {formatCompactUSD(s.mcap)}</div>
                 </div>
                 <Pill tone="green" className="mt-3">
-                  {roi >= 0 ? '+' : ''}
-                  {roi.toFixed(0)}%
+                  {formatPercentage(roi)}
                 </Pill>
               </div>
             </StaggerItem>
