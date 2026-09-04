@@ -107,7 +107,7 @@ export default async function HowToBuyPage() {
         <StaggerGroup className="mx-auto max-w-3xl space-y-6" staggerDelay={0.08}>
           {STEPS.map((step, i) => (
             <StaggerItem key={step.title}>
-              <div className="rounded-2xl border border-border bg-card p-6 sm:p-8">
+              <div className="rounded-xl border border-border bg-card p-6 sm:p-8">
                 <div className="flex items-start gap-4">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-dim">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)">

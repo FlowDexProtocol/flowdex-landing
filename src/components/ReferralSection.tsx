@@ -40,7 +40,7 @@ export default async function ReferralSection() {
         </Reveal>
 
         <Reveal variants={slideRight} delay={0.1}>
-          <div className="flex h-full flex-col justify-center rounded-2xl border border-border bg-card p-8">
+          <div className="flex h-full flex-col justify-center rounded-xl border border-border bg-card p-8">
             <div className="flex items-center justify-center gap-3 text-center text-sm">
               <div className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-primary text-xs font-bold text-ink">
                 You
@@ -81,7 +81,7 @@ export default async function ReferralSection() {
         </Reveal>
       </div>
 
-      <Reveal className="mx-auto mt-16 max-w-3xl rounded-2xl border border-border bg-card p-6 text-center sm:p-10">
+      <Reveal className="mx-auto mt-16 max-w-3xl rounded-xl border border-border bg-card p-6 text-center sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
           {cms(cmsData, 'referral', 'burn_title', 'Deflationary by Design')}
         </p>

@@ -81,7 +81,7 @@ export default async function TokenomicsPage() {
 
       <Section>
         <SectionHeading title="All Presale Tiers" subtitle="Live pricing, hard caps, and vesting terms for every tier." />
-        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+        <div className="overflow-x-auto rounded-xl border border-border bg-card">
           <table className="w-full min-w-[720px] text-left text-sm">
             <thead>
               <tr className="border-b border-border text-xs uppercase tracking-wider text-ink-faint">
@@ -123,7 +123,7 @@ export default async function TokenomicsPage() {
 
       {staking && (
         <Section>
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 sm:p-10">
+          <div className="relative overflow-hidden rounded-xl border border-border bg-card p-8 sm:p-10">
             <div className="flex flex-wrap items-center gap-3">
               <Pill tone="purple">{staking.status.replace('_', ' ')}</Pill>
               <Pill tone="primary">Phase {staking.phase}</Pill>

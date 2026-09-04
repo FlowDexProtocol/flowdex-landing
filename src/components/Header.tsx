@@ -66,15 +66,15 @@ export default function Header({ cmsGlobal = {}, cmsNav = {} }: { cmsGlobal?: Cm
                 className="h-8 w-auto object-contain"
                 fallback={
                   <>
-                    <span className="text-lg font-bold text-ink">{logoMain}</span>
-                    <span className="text-lg font-bold text-primary">{logoAccent}</span>
+                    <span className="text-xl font-bold text-ink sm:text-2xl">{logoMain}</span>
+                    <span className="text-xl font-bold text-primary sm:text-2xl">{logoAccent}</span>
                   </>
                 }
               />
             ) : (
               <>
-                <span className="text-lg font-bold text-ink">{logoMain}</span>
-                <span className="text-lg font-bold text-primary">{logoAccent}</span>
+                <span className="text-xl font-bold text-ink sm:text-2xl">{logoMain}</span>
+                <span className="text-xl font-bold text-primary sm:text-2xl">{logoAccent}</span>
               </>
             )}
           </Link>
@@ -89,7 +89,7 @@ export default function Header({ cmsGlobal = {}, cmsNav = {} }: { cmsGlobal?: Cm
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             {!menuOpen && (
-              <BuyButton href={buyButtonUrl} className="!min-h-11 !px-3 !py-2 !text-xs sm:!px-5 sm:!py-2.5 sm:!text-[13px]">
+              <BuyButton href={buyButtonUrl} className="!min-h-11 !px-3 !py-2 !text-xs sm:!px-5 sm:!py-2.5 sm:!text-sm">
                 {buyButtonText}
               </BuyButton>
             )}

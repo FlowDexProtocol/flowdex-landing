@@ -3,13 +3,22 @@
 :root {
   --color-bg: #060d18;
   --color-bg-soft: #050a14;
-  --color-card: #0b1f3a;
-  --color-card-hover: #0e274a;
-  --color-border: rgba(61, 90, 128, 0.2);
+  --color-card: #0b1a2e;
+  --color-card-hover: #11253f;
+  /* Solid, matching spec exactly — also matches flowdex-purchase-page's
+     resolution of this same value, for cross-project consistency. */
+  --color-border: #1a2a3f;
   --color-border-soft: rgba(61, 90, 128, 0.12);
   --color-ink: #e8ecf1;
-  --color-ink-dim: #c9d6e3;
-  --color-ink-faint: #5c7a99;
+  /* Both muted tiers converge on the spec's single secondary/caption color
+     (#8899AA) — this codebase previously had two different grays here
+     (#c9d6e3 and #5c7a99), which is exactly the "different shades of gray"
+     inconsistency called out in the audit. Keeping both CSS variables
+     (rather than collapsing every text-ink-dim/text-ink-faint class name
+     across the codebase into one) means every existing usage now resolves
+     to the correct, identical color with a two-line change. */
+  --color-ink-dim: #8899aa;
+  --color-ink-faint: #8899aa;
   --color-primary: #627eea;
   --color-primary-dim: rgba(98, 126, 234, 0.06);
   --color-primary-border: rgba(98, 126, 234, 0.2);

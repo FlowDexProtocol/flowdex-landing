@@ -62,7 +62,7 @@ export default function FaqSection() {
               <StaggerItem key={item.q}>
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className={`mb-1 block w-full rounded-lg border px-5 py-4 text-left transition-colors ${
+                  className={`mb-1 block w-full rounded-xl border px-5 py-4 text-left transition-colors ${
                     isOpen ? 'border-primary/25 bg-primary-dim' : 'border-border bg-card'
                   }`}
                 >

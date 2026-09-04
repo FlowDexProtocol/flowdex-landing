@@ -46,7 +46,7 @@ export default async function GrowthPotentialSection() {
           const roi = ((value - SAMPLE_INVESTMENT) / SAMPLE_INVESTMENT) * 100;
           return (
             <StaggerItem key={s.label} variants={scaleIn} className={`w-[70vw] shrink-0 snap-center sm:w-auto ${style.elevate}`}>
-              <div className={`h-full rounded-xl border bg-card p-5 text-center ${style.border} ${style.glow}`}>
+              <div className={`h-full rounded-xl border bg-card p-6 text-center ${style.border} ${style.glow}`}>
                 <Pill tone="neutral" className="mb-3">
                   {s.label}
                 </Pill>

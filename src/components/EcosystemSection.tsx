@@ -104,7 +104,7 @@ export default async function EcosystemSection() {
           return (
             <StaggerItem key={card.key}>
               <div className="group h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)]">
-                <div className="flex aspect-video items-center justify-center overflow-hidden" style={{ background: '#11253F' }}>
+                <div className="flex aspect-video items-center justify-center overflow-hidden bg-card-hover">
                   <CmsImage
                     src={imageUrl}
                     alt={title}

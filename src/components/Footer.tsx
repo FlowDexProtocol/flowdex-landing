@@ -65,18 +65,18 @@ export default async function Footer() {
                 <CmsImage
                   src={logoImageUrl}
                   alt={`${logoMain}${logoAccent}`}
-                  className="h-6 w-auto object-contain"
+                  className="h-8 w-auto object-contain"
                   fallback={
                     <>
-                      <span className="text-base font-bold text-ink">{logoMain}</span>
-                      <span className="text-base font-bold text-primary">{logoAccent}</span>
+                      <span className="text-xl font-bold text-ink sm:text-2xl">{logoMain}</span>
+                      <span className="text-xl font-bold text-primary sm:text-2xl">{logoAccent}</span>
                     </>
                   }
                 />
               ) : (
                 <>
-                  <span className="text-base font-bold text-ink">{logoMain}</span>
-                  <span className="text-base font-bold text-primary">{logoAccent}</span>
+                  <span className="text-xl font-bold text-ink sm:text-2xl">{logoMain}</span>
+                  <span className="text-xl font-bold text-primary sm:text-2xl">{logoAccent}</span>
                 </>
               )}
             </Link>

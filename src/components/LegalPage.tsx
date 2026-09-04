@@ -66,7 +66,7 @@ export default function LegalPage({
 
       <Section>
         <div className="mx-auto max-w-3xl">
-          <div className="mb-10 rounded-lg border border-border bg-card px-5 py-4 text-xs leading-relaxed text-ink-faint">
+          <div className="mb-10 rounded-xl border border-border bg-card px-5 py-4 text-xs leading-relaxed text-ink-faint">
             This page is a general template provided for informational purposes and does not constitute legal
             advice. It has not been reviewed by a lawyer and should not be relied on as a complete or
             jurisdiction-specific legal document. Consult qualified legal counsel before relying on it.

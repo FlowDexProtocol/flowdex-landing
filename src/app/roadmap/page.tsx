@@ -101,7 +101,7 @@ export default async function RoadmapPage() {
           {phases.map((p) => (
             <StaggerItem key={p.phase}>
               <div
-                className={`relative h-full rounded-xl border p-5 ${
+                className={`relative h-full rounded-xl border p-6 ${
                   p.active ? 'border-primary/40 bg-primary-dim' : 'border-border bg-card'
                 }`}
               >
