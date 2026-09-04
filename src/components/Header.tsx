@@ -20,10 +20,15 @@ export default function Header({ cmsGlobal = {}, cmsNav = {} }: { cmsGlobal?: Cm
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // "How to Buy" has no CMS field (added after the nav.header.link_1..7
+  // seed) — spliced in after the positional CMS mapping below rather than
+  // added to DEFAULT_NAV_LINKS itself, so it can't shift FAQ/Blog off their
+  // existing link_6/link_7 CMS keys and get silently overwritten by them.
   const navLinks = DEFAULT_NAV_LINKS.map((link, i) => ({
     href: cms(cmsNav, 'header', `link_${i + 1}_url`, link.href),
     label: cms(cmsNav, 'header', `link_${i + 1}_text`, link.label),
   }));
+  navLinks.splice(6, 0, { href: '/how-to-buy', label: 'How to Buy' });
   const buyButtonText = cms(cmsNav, 'header', 'buy_button_text', 'Buy $FDP');
   const buyButtonUrl = cms(cmsNav, 'header', 'buy_button_url', 'https://purchase.flowdexprotocol.com');
   const logoType = cms(cmsGlobal, 'logo', 'type', 'text');
