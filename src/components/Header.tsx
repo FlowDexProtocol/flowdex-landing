@@ -8,7 +8,7 @@ import CmsImage from './CmsImage';
 
 const DEFAULT_NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/#ecosystem', label: 'About' },
+  { href: '/about', label: 'About' },
   { href: '/tokenomics', label: 'Tokenomics' },
   { href: '/roadmap', label: 'Roadmap' },
   { href: '/whitepaper', label: 'Whitepaper' },

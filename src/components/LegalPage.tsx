@@ -6,36 +6,81 @@ export interface LegalSection {
   body: string[];
 }
 
-// Minimal markdown: blank-line-separated paragraphs, "#"/"##" headings,
-// "-"/"*" bullet runs become a <ul>. Good enough for the plain-text CMS
-// body an admin would paste in — not a full markdown parser.
+// Minimal markdown for the plain-text CMS body an admin would paste in —
+// not a full markdown parser:
+//   - Blank-line-separated blocks become paragraphs/sections.
+//   - A block whose first line is "#"/"##" text, "N. TITLE" (the numbering
+//     style seed-cms.js uses for Terms/Privacy), or an ALL-CAPS line (the
+//     style it uses for the Legal Notice) renders that line as a bold
+//     section heading, with the rest of the block as its body underneath.
+//   - "-"/"*" bullet runs become a <ul>.
+const NUMBERED_HEADING_RE = /^\d+\.\s+.+/;
+const MARKDOWN_HEADING_RE = /^#{1,2}\s+(.*)/;
+// All-caps candidate: starts with a letter/digit, only uppercase letters/
+// digits/basic punctuation, contains at least one letter, not absurdly long
+// (guards against flagging a shouted sentence rather than a short heading).
+const ALL_CAPS_HEADING_RE = /^[A-Z0-9][A-Z0-9 ,.:&'"’“”-]*$/;
+
+function isAllCapsHeading(line: string): boolean {
+  return line.length <= 100 && ALL_CAPS_HEADING_RE.test(line) && /[A-Z]/.test(line);
+}
+
 function renderMarkdownLite(body: string) {
   const blocks = body.split(/\n{2,}/).filter((b) => b.trim());
-  return blocks.map((block, i) => {
-    const lines = block.split('\n').map((l) => l.trim());
-    const heading = lines[0].match(/^#{1,2}\s+(.*)/);
-    if (heading) {
+
+  return blocks
+    .map((block, i) => {
+      const lines = block.split('\n').map((l) => l.trim()).filter(Boolean);
+      if (lines.length === 0) return null;
+
+      if (lines.every((l) => /^[-*]\s+/.test(l))) {
+        return (
+          <ul key={i} className="list-disc space-y-1.5 pl-5 text-sm leading-[1.7] text-ink-dim">
+            {lines.map((l, j) => (
+              <li key={j}>{l.replace(/^[-*]\s+/, '')}</li>
+            ))}
+          </ul>
+        );
+      }
+
+      const [first, ...rest] = lines;
+
+      // The very first line of the whole document is the page's own
+      // "TITLE — Last Updated: ..." line (mixed case, so it wouldn't match
+      // the ALL-CAPS heading check below anyway) — already shown in the
+      // hero above, so drop this block entirely instead of rendering it
+      // a second time.
+      if (i === 0 && rest.length === 0 && /last updated/i.test(first)) {
+        return null;
+      }
+
+      const mdHeading = first.match(MARKDOWN_HEADING_RE);
+      let heading: string | null = null;
+      let bodyLines = lines;
+
+      if (mdHeading) {
+        heading = mdHeading[1];
+        bodyLines = rest;
+      } else if (NUMBERED_HEADING_RE.test(first)) {
+        heading = first;
+        bodyLines = rest;
+      } else if (isAllCapsHeading(first)) {
+        heading = first;
+        bodyLines = rest;
+      }
+
+      const paragraph = bodyLines.length > 0 ? bodyLines.join(' ') : null;
+
       return (
-        <h2 key={i} className="text-lg font-bold text-ink sm:text-xl">
-          {heading[1]}
-        </h2>
+        <div key={i} className={heading ? 'space-y-2' : undefined}>
+          {heading && (
+            <h2 className="text-lg font-bold text-ink sm:text-xl">{heading}</h2>
+          )}
+          {paragraph && <p className="text-sm leading-[1.7] text-ink-dim">{paragraph}</p>}
+        </div>
       );
-    }
-    if (lines.every((l) => /^[-*]\s+/.test(l))) {
-      return (
-        <ul key={i} className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-ink-dim">
-          {lines.map((l, j) => (
-            <li key={j}>{l.replace(/^[-*]\s+/, '')}</li>
-          ))}
-        </ul>
-      );
-    }
-    return (
-      <p key={i} className="text-sm leading-relaxed text-ink-dim">
-        {block}
-      </p>
-    );
-  });
+    })
+    .filter(Boolean);
 }
 
 export default function LegalPage({
@@ -65,7 +110,7 @@ export default function LegalPage({
       </section>
 
       <Section>
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-[800px]">
           <div className="mb-10 rounded-xl border border-border bg-card px-5 py-4 text-xs leading-relaxed text-ink-faint">
             This page is a general template provided for informational purposes and does not constitute legal
             advice. It has not been reviewed by a lawyer and should not be relied on as a complete or
@@ -73,7 +118,7 @@ export default function LegalPage({
           </div>
 
           {hasRealBody ? (
-            <div className="space-y-4">{renderMarkdownLite(body!)}</div>
+            <div className="space-y-6">{renderMarkdownLite(body!)}</div>
           ) : (
             <div className="space-y-9">
               {sections.map((s) => (

@@ -18,7 +18,7 @@ const LEGAL_LINKS = [
   { label: 'Legal Notice', href: '/legal' },
 ];
 
-function SocialIcon({ type }: { type: 'x' | 'telegram' | 'discord' }) {
+export function SocialIcon({ type }: { type: 'x' | 'telegram' | 'discord' }) {
   const common = { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'currentColor' } as const;
   if (type === 'x') {
     return (

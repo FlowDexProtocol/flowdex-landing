@@ -34,3 +34,26 @@ export function cms(data: CmsPageData, section: string, field: string, fallback:
   const value = data[`${section}.${field}`];
   return value || fallback;
 }
+
+export interface TeamMember {
+  id: number;
+  name: string;
+  role: string;
+  bio: string | null;
+  photo_url: string | null;
+  linkedin_url: string | null;
+}
+
+// GET /api/cms/team — active team members only, in sort_order. Same
+// never-throws contract as fetchPageContent: a down API or empty table
+// just means the "coming soon" fallback shows on the About page.
+export const fetchTeam = cache(async (): Promise<TeamMember[]> => {
+  try {
+    const res = await fetch(`${API_BASE}/api/cms/team`, { next: { revalidate: 30 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? (data as TeamMember[]) : [];
+  } catch {
+    return [];
+  }
+});

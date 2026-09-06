@@ -1,14 +1,15 @@
-import { getPublicScenarios, getTierCurrent } from '@/lib/api';
+import { getPublicScenarios, getPublicStats, getTierCurrent } from '@/lib/api';
 import { formatTokenPrice, toNum } from '@/lib/format';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { Container } from './ui';
 import CountUp from './motion/CountUp';
 
 export default async function MetricsBar() {
-  const [tier, scenarios, cmsData] = await Promise.all([
+  const [tier, scenarios, cmsData, stats] = await Promise.all([
     getTierCurrent().catch(() => null),
     getPublicScenarios().catch(() => null),
     fetchPageContent('home'),
+    getPublicStats().catch(() => null),
   ]);
 
   const presaleLive = !!tier && !tier.message;
@@ -41,12 +42,21 @@ export default async function MetricsBar() {
         />
       ),
     },
+    {
+      label: 'Wallets Connected',
+      value:
+        stats && stats.total_buyers > 0 ? (
+          <CountUp value={stats.total_buyers} className="font-mono text-2xl font-extrabold text-primary sm:text-3xl" />
+        ) : (
+          <span className="text-sm font-semibold text-ink-dim sm:text-base">Be among the first</span>
+        ),
+    },
   ];
 
   return (
     <div className="border-y border-border bg-bg-soft py-8">
       <Container>
-        <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-4 sm:divide-x sm:divide-border">
+        <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-5 sm:divide-x sm:divide-border">
           {metrics.map((m) => (
             <div key={m.label} className="text-center">
               <div className="mb-1.5 text-xs font-semibold uppercase tracking-widest text-ink-faint">{m.label}</div>
