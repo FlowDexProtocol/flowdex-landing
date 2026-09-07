@@ -6,6 +6,7 @@ import CmsImage from '@/components/CmsImage';
 import { Container, Section, SectionHeading } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
+import { isSafeLinkUrl } from '@/lib/url-safety';
 
 const ABOUT_DESCRIPTION =
   'FlowDex Protocol unifies every financial market into one intelligent trading layer. Learn our mission, what we\'re building, and the team behind $FDP.';
@@ -21,10 +22,26 @@ export default async function AboutPage() {
   const [cmsGlobal, team] = await Promise.all([fetchPageContent('global'), fetchTeam()]);
   const supportEmail = cms(cmsGlobal, 'site', 'support_email', 'support@flowdexprotocol.com');
 
+  const safeSocialUrl = (raw: string, fallback: string) => (isSafeLinkUrl(raw) ? raw : fallback);
   const socialLinks = [
-    { key: 'x' as const, label: 'X / Twitter', href: cms(cmsGlobal, 'social', 'twitter', 'https://x.com/flowdexprotocol') },
-    { key: 'telegram' as const, label: 'Telegram', href: cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol') },
-    { key: 'discord' as const, label: 'Discord', href: cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol') },
+    {
+      key: 'x' as const,
+      label: 'X / Twitter',
+      href: safeSocialUrl(cms(cmsGlobal, 'social', 'twitter', 'https://x.com/flowdexprotocol'), 'https://x.com/flowdexprotocol'),
+    },
+    {
+      key: 'telegram' as const,
+      label: 'Telegram',
+      href: safeSocialUrl(cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol'), 'https://t.me/flowdexprotocol'),
+    },
+    {
+      key: 'discord' as const,
+      label: 'Discord',
+      href: safeSocialUrl(
+        cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol'),
+        'https://discord.gg/flowdexprotocol'
+      ),
+    },
   ];
 
   return (
@@ -108,7 +125,7 @@ export default async function AboutPage() {
                       <p className="mt-3 text-base font-bold text-ink">{member.name}</p>
                       <p className="text-xs font-semibold uppercase tracking-widest text-primary">{member.role}</p>
                       {member.bio && <p className="mt-2 text-xs leading-relaxed text-ink-faint">{member.bio}</p>}
-                      {member.linkedin_url && (
+                      {member.linkedin_url && isSafeLinkUrl(member.linkedin_url) && (
                         <a
                           href={member.linkedin_url}
                           target="_blank"

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { Container } from './ui';
 import CmsImage from './CmsImage';
+import { isSafeLinkUrl } from '@/lib/url-safety';
 
 const RESEARCH_LINKS = [
   { label: 'Blog', href: '/blogs' },
@@ -49,10 +50,26 @@ export default async function Footer() {
   const logoAccent = cms(cmsGlobal, 'logo', 'text_accent', 'Dex');
   const supportEmail = cms(cmsGlobal, 'site', 'support_email', 'support@flowdexprotocol.com');
 
+  const safeSocialUrl = (raw: string, fallback: string) => (isSafeLinkUrl(raw) ? raw : fallback);
   const communityLinks = [
-    { key: 'x' as const, label: 'X / Twitter', href: cms(cmsGlobal, 'social', 'twitter', 'https://x.com/flowdexprotocol') },
-    { key: 'telegram' as const, label: 'Telegram', href: cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol') },
-    { key: 'discord' as const, label: 'Discord', href: cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol') },
+    {
+      key: 'x' as const,
+      label: 'X / Twitter',
+      href: safeSocialUrl(cms(cmsGlobal, 'social', 'twitter', 'https://x.com/flowdexprotocol'), 'https://x.com/flowdexprotocol'),
+    },
+    {
+      key: 'telegram' as const,
+      label: 'Telegram',
+      href: safeSocialUrl(cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol'), 'https://t.me/flowdexprotocol'),
+    },
+    {
+      key: 'discord' as const,
+      label: 'Discord',
+      href: safeSocialUrl(
+        cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol'),
+        'https://discord.gg/flowdexprotocol'
+      ),
+    },
   ];
 
   return (

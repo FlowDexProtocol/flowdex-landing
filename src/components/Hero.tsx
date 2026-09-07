@@ -4,6 +4,7 @@ import { cms, fetchPageContent } from '@/lib/cms';
 import { BuyButton, Container, GlassCard, OutlineLink, Pill, ProgressBar } from './ui';
 import Reveal from './motion/Reveal';
 import { fadeUp, slideRight } from '@/lib/motion';
+import { isSafeLinkUrl } from '@/lib/url-safety';
 
 const ACCEPTED_CURRENCIES = ['ETH', 'USDT', 'USDC', 'BNB', 'SOL', 'BTC', 'TRX'];
 
@@ -18,6 +19,11 @@ export default async function Hero() {
   const presaleLive = !!tier && !tier.message;
   const progressPct = presaleLive ? parseFloat(tier.progress_pct) : 0;
   const discountPct = presaleLive && listingPrice > 0 ? ((listingPrice - toNum(tier.price)) / listingPrice) * 100 : 0;
+
+  const ctaPrimaryLinkRaw = cms(cmsData, 'hero', 'cta_primary_link', 'https://purchase.flowdexprotocol.com');
+  const ctaPrimaryLink = isSafeLinkUrl(ctaPrimaryLinkRaw) ? ctaPrimaryLinkRaw : 'https://purchase.flowdexprotocol.com';
+  const ctaSecondaryLinkRaw = cms(cmsData, 'hero', 'cta_secondary_link', '/whitepaper');
+  const ctaSecondaryLink = isSafeLinkUrl(ctaSecondaryLinkRaw) ? ctaSecondaryLinkRaw : '/whitepaper';
 
   return (
     <section className="relative overflow-hidden bg-radial-glow py-14 sm:py-20">
@@ -53,10 +59,10 @@ export default async function Hero() {
 
             <Reveal variants={fadeUp} delay={0.15}>
               <div className="mt-8 flex flex-wrap gap-3">
-                <BuyButton href={cms(cmsData, 'hero', 'cta_primary_link', 'https://purchase.flowdexprotocol.com')}>
+                <BuyButton href={ctaPrimaryLink}>
                   {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
                 </BuyButton>
-                <OutlineLink href={cms(cmsData, 'hero', 'cta_secondary_link', '/whitepaper')}>
+                <OutlineLink href={ctaSecondaryLink}>
                   {cms(cmsData, 'hero', 'cta_secondary_text', 'Read Whitepaper')}
                 </OutlineLink>
               </div>
@@ -105,7 +111,7 @@ export default async function Hero() {
 
                   <div className="my-5 border-t border-border" />
 
-                  <BuyButton className="w-full" href={cms(cmsData, 'hero', 'cta_primary_link', 'https://purchase.flowdexprotocol.com')}>
+                  <BuyButton className="w-full" href={ctaPrimaryLink}>
                     {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
                   </BuyButton>
                   <p className="mt-3 text-center text-xs text-ink-faint">

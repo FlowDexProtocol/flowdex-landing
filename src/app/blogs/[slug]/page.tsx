@@ -5,8 +5,21 @@ import { getCmsBlogPost } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { Container, Pill, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
+import { sanitizeImageUrl } from '@/lib/url-safety';
 
 const SITE_URL = 'https://flowdexprotocol.com';
+
+// JSON.stringify() does not escape "<", so a CMS field (title, excerpt,
+// author) containing the literal text "</script>" would prematurely close
+// the JSON-LD <script> tag below and let the rest of its value execute as
+// real markup/script — a well-known JSON-in-<script> injection vector.
+// DOMPurify doesn't apply here (this isn't HTML, it's a JSON blob); the
+// correct fix is escaping "<" to its JSON/Unicode-escape equivalent, which
+// round-trips correctly for both JSON.parse and search-engine JSON-LD
+// parsers.
+function safeJsonLd(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, '\\u003c');
+}
 
 // First 160 chars of the post body, broken at a word boundary — used only
 // when the post has no excerpt.
@@ -25,6 +38,7 @@ export async function generateMetadata(props: PageProps<'/blogs/[slug]'>): Promi
 
   const description = post.excerpt || excerptFromContent(post.content);
   const url = `${SITE_URL}/blogs/${post.slug}`;
+  const safeCoverImage = sanitizeImageUrl(post.cover_image_url);
   return {
     title: post.title,
     description,
@@ -36,13 +50,13 @@ export async function generateMetadata(props: PageProps<'/blogs/[slug]'>): Promi
       type: 'article',
       publishedTime: post.published_at || undefined,
       authors: [post.author],
-      images: post.cover_image_url ? [post.cover_image_url] : undefined,
+      images: safeCoverImage ? [safeCoverImage] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description,
-      images: post.cover_image_url ? [post.cover_image_url] : undefined,
+      images: safeCoverImage ? [safeCoverImage] : undefined,
     },
   };
 }
@@ -62,13 +76,13 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
     datePublished: post.published_at || post.created_at,
     dateModified: post.published_at || post.created_at,
     author: { '@type': 'Person', name: post.author },
-    image: post.cover_image_url || `${SITE_URL}/opengraph-image`,
+    image: sanitizeImageUrl(post.cover_image_url) || `${SITE_URL}/opengraph-image`,
     url: `${SITE_URL}/blogs/${post.slug}`,
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <section className="border-b border-border bg-radial-glow py-14 sm:py-16">
         <Container>
           <Reveal>

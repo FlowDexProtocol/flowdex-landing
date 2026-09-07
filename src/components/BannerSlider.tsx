@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type TouchEvent } from 'react';
 import Link from 'next/link';
 import type { CmsBanner } from '@/lib/types';
 import { PURCHASE_URL } from '@/lib/api';
+import { isSafeLinkUrl, sanitizeImageUrl } from '@/lib/url-safety';
 
 const AUTO_ROTATE_MS = 5000;
 
@@ -56,8 +57,9 @@ function BannerCta({ banner }: { banner: CmsBanner }) {
     );
   }
 
-  const href = banner.cta_link || '#';
-  const isExternal = /^https?:\/\//.test(href);
+  const rawHref = banner.cta_link || '#';
+  const href = isSafeLinkUrl(rawHref) ? rawHref : '#';
+  const isExternal = /^https:\/\//i.test(href);
   if (isExternal) {
     return (
       <a
@@ -135,7 +137,9 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
       onTouchEnd={handleTouchEnd}
     >
       {banners.map((banner, i) => {
-        const hasImage = !!banner.image_url_desktop && !brokenImages.has(banner.id);
+        const safeDesktopUrl = sanitizeImageUrl(banner.image_url_desktop);
+        const safeMobileUrl = sanitizeImageUrl(banner.image_url_mobile);
+        const hasImage = !!safeDesktopUrl && !brokenImages.has(banner.id);
         const hasColor = !!banner.bg_color;
         return (
           <div
@@ -150,13 +154,13 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
             {hasImage && (
               <>
                 <div
-                  className={`absolute inset-0 bg-cover bg-center ${banner.image_url_mobile ? 'sm:hidden' : ''}`}
-                  style={{ backgroundImage: `url(${banner.image_url_mobile || banner.image_url_desktop})` }}
+                  className={`absolute inset-0 bg-cover bg-center ${safeMobileUrl ? 'sm:hidden' : ''}`}
+                  style={{ backgroundImage: `url(${safeMobileUrl || safeDesktopUrl})` }}
                 />
-                {banner.image_url_mobile && (
+                {safeMobileUrl && (
                   <div
                     className="absolute inset-0 hidden bg-cover bg-center sm:block"
-                    style={{ backgroundImage: `url(${banner.image_url_desktop})` }}
+                    style={{ backgroundImage: `url(${safeDesktopUrl})` }}
                   />
                 )}
                 <div className="absolute inset-0 bg-bg/40" />

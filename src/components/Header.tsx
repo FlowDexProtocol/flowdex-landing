@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BuyButton } from './ui';
 import { cms, type CmsPageData } from '@/lib/cms';
 import CmsImage from './CmsImage';
+import { isSafeLinkUrl } from '@/lib/url-safety';
 
 const DEFAULT_NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -24,13 +25,17 @@ export default function Header({ cmsGlobal = {}, cmsNav = {} }: { cmsGlobal?: Cm
   // seed) — spliced in after the positional CMS mapping below rather than
   // added to DEFAULT_NAV_LINKS itself, so it can't shift FAQ/Blog off their
   // existing link_6/link_7 CMS keys and get silently overwritten by them.
-  const navLinks = DEFAULT_NAV_LINKS.map((link, i) => ({
-    href: cms(cmsNav, 'header', `link_${i + 1}_url`, link.href),
-    label: cms(cmsNav, 'header', `link_${i + 1}_text`, link.label),
-  }));
+  const navLinks = DEFAULT_NAV_LINKS.map((link, i) => {
+    const cmsHref = cms(cmsNav, 'header', `link_${i + 1}_url`, link.href);
+    return {
+      href: isSafeLinkUrl(cmsHref) ? cmsHref : link.href,
+      label: cms(cmsNav, 'header', `link_${i + 1}_text`, link.label),
+    };
+  });
   navLinks.splice(6, 0, { href: '/how-to-buy', label: 'How to Buy' });
   const buyButtonText = cms(cmsNav, 'header', 'buy_button_text', 'Buy $FDP');
-  const buyButtonUrl = cms(cmsNav, 'header', 'buy_button_url', 'https://purchase.flowdexprotocol.com');
+  const buyButtonUrlRaw = cms(cmsNav, 'header', 'buy_button_url', 'https://purchase.flowdexprotocol.com');
+  const buyButtonUrl = isSafeLinkUrl(buyButtonUrlRaw) ? buyButtonUrlRaw : 'https://purchase.flowdexprotocol.com';
   const logoType = cms(cmsGlobal, 'logo', 'type', 'text');
   const logoImageUrl = cms(cmsGlobal, 'logo', 'image_url', '');
   const logoMain = cms(cmsGlobal, 'logo', 'text_main', 'Flow');
