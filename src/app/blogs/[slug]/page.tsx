@@ -10,6 +10,15 @@ import { sanitizeImageUrl } from '@/lib/url-safety';
 
 const SITE_URL = 'https://flowdexprotocol.com';
 
+// No generateStaticParams here, so Next.js already renders this route
+// per-request rather than prerendering it at build time (confirmed: it
+// builds as "ƒ" dynamic, and getCmsBlogPost's own .catch(() => null) below
+// means a build-time-unreachable API can't fail the build even if some
+// tooling did try to touch it). Declared explicitly anyway — costs
+// nothing and removes any ambiguity for Next.js's own static/dynamic
+// inference on this route.
+export const dynamic = 'force-dynamic';
+
 // JSON.stringify() does not escape "<", so a CMS field (title, excerpt,
 // author) containing the literal text "</script>" would prematurely close
 // the JSON-LD <script> tag below and let the rest of its value execute as
