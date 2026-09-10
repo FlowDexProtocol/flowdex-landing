@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import DOMPurify from 'isomorphic-dompurify';
 import { getCmsBlogPost } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { Container, Pill, Section } from '@/components/ui';
@@ -22,9 +23,17 @@ function safeJsonLd(data: unknown): string {
 }
 
 // First 160 chars of the post body, broken at a word boundary — used only
-// when the post has no excerpt.
+// when the post has no excerpt. Body is HTML (rich text editor output), so
+// tags are stripped before flattening whitespace for a meta description.
 function excerptFromContent(content: string): string {
-  const flat = content.replace(/\s+/g, ' ').trim();
+  const flat = content
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
   if (flat.length <= 160) return flat;
   const cut = flat.slice(0, 160);
   const lastSpace = cut.lastIndexOf(' ');
@@ -66,7 +75,11 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
   const post = await getCmsBlogPost(slug).catch(() => null);
   if (!post) notFound();
 
-  const paragraphs = post.content.split(/\n{2,}/).filter(Boolean);
+  // Post body is HTML from the admin dashboard's rich text editor — an
+  // editor-role admin account is a lower trust tier than whoever reviews
+  // what actually goes live, so this is sanitized same as any other
+  // untrusted-origin HTML before rendering.
+  const safeContent = DOMPurify.sanitize(post.content);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -101,13 +114,10 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
       </section>
 
       <Section>
-        <div className="mx-auto max-w-2xl space-y-5">
-          {paragraphs.map((p, i) => (
-            <p key={i} className="text-sm leading-relaxed text-ink-dim sm:text-base">
-              {p}
-            </p>
-          ))}
-        </div>
+        <div
+          className="prose-blog mx-auto max-w-2xl space-y-4 text-sm leading-relaxed text-ink-dim sm:text-base"
+          dangerouslySetInnerHTML={{ __html: safeContent }}
+        />
       </Section>
     </>
   );
