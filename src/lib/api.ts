@@ -14,8 +14,13 @@ const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'https://api.flowdexprotoco
 
 export const PURCHASE_URL = 'https://purchase.flowdexprotocol.com';
 
+// 30s of stale-while-revalidate caching meant an admin editing a CMS field
+// (banners, FAQs, page copy — all served through this same helper) could
+// reload the live site and still see the old value for up to a minute,
+// which reads as "my edit didn't save." 5s keeps real caching benefit
+// under traffic while making edits feel close to immediate.
 async function request<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, { next: { revalidate: 30 } });
+  const res = await fetch(`${API_BASE}${path}`, { next: { revalidate: 5 } });
   if (!res.ok) throw new Error(`Request failed (${res.status}): ${path}`);
   return (await res.json()) as T;
 }

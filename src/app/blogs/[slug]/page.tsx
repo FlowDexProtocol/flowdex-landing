@@ -80,6 +80,7 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
   // what actually goes live, so this is sanitized same as any other
   // untrusted-origin HTML before rendering.
   const safeContent = DOMPurify.sanitize(post.content);
+  const safeCoverImage = sanitizeImageUrl(post.cover_image_url);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -113,11 +114,25 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
         </Container>
       </section>
 
-      <Section>
-        <div
-          className="prose-blog mx-auto max-w-2xl space-y-4 text-sm leading-relaxed text-ink-dim sm:text-base"
-          dangerouslySetInnerHTML={{ __html: safeContent }}
-        />
+      <Section className="!pt-0">
+        <div className="mx-auto max-w-2xl">
+          {safeCoverImage ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={safeCoverImage}
+              alt=""
+              className="mb-8 aspect-video w-full rounded-xl border border-border object-cover"
+            />
+          ) : (
+            <div className="mb-8 flex aspect-video w-full items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/15 to-purple/15">
+              <span className="text-xs font-semibold uppercase tracking-widest text-primary/40">{post.category}</span>
+            </div>
+          )}
+          <div
+            className="prose-blog space-y-4 text-sm leading-relaxed text-ink-dim sm:text-base"
+            dangerouslySetInnerHTML={{ __html: safeContent }}
+          />
+        </div>
       </Section>
     </>
   );

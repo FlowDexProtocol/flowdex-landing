@@ -19,9 +19,12 @@ export type CmsPageData = Record<string, string>;
 // cache() memoizes per request — every component that asks for the same
 // `page` within one render pass shares a single network call, without a
 // module-level variable that would leak across concurrent requests.
+// See api.ts's request() for why this is 5s and not the 30s it used to be
+// — this is the exact fetch a "why didn't my CMS edit show up" report
+// traces back to.
 export const fetchPageContent = cache(async (page: string): Promise<CmsPageData> => {
   try {
-    const res = await fetch(`${API_BASE}/api/cms/page/${encodeURIComponent(page)}`, { next: { revalidate: 30 } });
+    const res = await fetch(`${API_BASE}/api/cms/page/${encodeURIComponent(page)}`, { next: { revalidate: 5 } });
     if (!res.ok) return {};
     const data = await res.json();
     return data && typeof data === 'object' ? (data as CmsPageData) : {};
@@ -49,7 +52,7 @@ export interface TeamMember {
 // just means the "coming soon" fallback shows on the About page.
 export const fetchTeam = cache(async (): Promise<TeamMember[]> => {
   try {
-    const res = await fetch(`${API_BASE}/api/cms/team`, { next: { revalidate: 30 } });
+    const res = await fetch(`${API_BASE}/api/cms/team`, { next: { revalidate: 5 } });
     if (!res.ok) return [];
     const data = await res.json();
     return Array.isArray(data) ? (data as TeamMember[]) : [];
