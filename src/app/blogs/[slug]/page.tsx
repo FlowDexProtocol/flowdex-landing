@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import DOMPurify from 'isomorphic-dompurify';
+import { sanitizeHtml } from '@/lib/sanitize';
 import { getCmsBlogPost } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { Container, Pill, Section } from '@/components/ui';
@@ -88,7 +88,7 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
   // editor-role admin account is a lower trust tier than whoever reviews
   // what actually goes live, so this is sanitized same as any other
   // untrusted-origin HTML before rendering.
-  const safeContent = DOMPurify.sanitize(post.content);
+  const safeContent = sanitizeHtml(post.content);
   const safeCoverImage = sanitizeImageUrl(post.cover_image_url);
 
   const jsonLd = {
