@@ -5,7 +5,7 @@ import { formatDate } from '@/lib/format';
 import { Container, EmptyState, Pill, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
-import { sanitizeImageUrl } from '@/lib/url-safety';
+import CmsImage from '@/components/CmsImage';
 
 const BLOG_DESCRIPTION = 'News, updates, and insights from the FlowDex Protocol team on $FDP, the presale, and the Universal Exchange.';
 
@@ -41,25 +41,22 @@ export default async function BlogsPage() {
         ) : (
           <StaggerGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" staggerDelay={0.06}>
             {posts.map((post) => {
-              const safeCover = sanitizeImageUrl(post.cover_image_url);
               return (
                 <StaggerItem key={post.id}>
                   <Link
                     href={`/blogs/${post.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary"
                   >
-                    {safeCover ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={safeCover}
-                        alt=""
-                        className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex aspect-video items-center justify-center bg-gradient-to-br from-primary/20 to-purple/20 text-xs font-semibold uppercase tracking-widest text-primary/40">
-                        {post.category}
-                      </div>
-                    )}
+                    <CmsImage
+                      src={post.cover_image_url}
+                      alt=""
+                      className="h-[200px] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      fallback={
+                        <div className="flex h-[200px] w-full items-center justify-center bg-gradient-to-br from-primary/20 to-purple/20 text-xs font-semibold uppercase tracking-widest text-primary/40">
+                          {post.category}
+                        </div>
+                      }
+                    />
                     <div className="flex flex-1 flex-col p-5">
                       <Pill tone="neutral" className="w-fit">
                         {post.category}

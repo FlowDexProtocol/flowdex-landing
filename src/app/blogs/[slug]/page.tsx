@@ -6,7 +6,19 @@ import { getCmsBlogPost } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { Container, Pill, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
+import CmsImage from '@/components/CmsImage';
+import { resolveApiUrl } from '@/lib/cms';
 import { sanitizeImageUrl } from '@/lib/url-safety';
+
+// cover_image_url is written by the admin's blog editor as a path relative
+// to the API's own origin (e.g. "/uploads/foo.jpg"), same convention as
+// every other CMS-uploaded asset — resolve it to an absolute URL before
+// sanitizeImageUrl's https-only check ever sees it, or every relative
+// cover image gets silently rejected. An already-absolute URL (http(s)://)
+// passes through resolveApiUrl untouched.
+function resolvedCoverImage(url: string | null | undefined): string {
+  return sanitizeImageUrl(resolveApiUrl(url));
+}
 
 const SITE_URL = 'https://flowdexprotocol.com';
 
@@ -56,7 +68,7 @@ export async function generateMetadata(props: PageProps<'/blogs/[slug]'>): Promi
 
   const description = post.excerpt || excerptFromContent(post.content);
   const url = `${SITE_URL}/blogs/${post.slug}`;
-  const safeCoverImage = sanitizeImageUrl(post.cover_image_url);
+  const safeCoverImage = resolvedCoverImage(post.cover_image_url);
   return {
     title: post.title,
     description,
@@ -89,7 +101,7 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
   // what actually goes live, so this is sanitized same as any other
   // untrusted-origin HTML before rendering.
   const safeContent = sanitizeHtml(post.content);
-  const safeCoverImage = sanitizeImageUrl(post.cover_image_url);
+  const safeCoverImage = resolvedCoverImage(post.cover_image_url);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -99,7 +111,7 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
     datePublished: post.published_at || post.created_at,
     dateModified: post.published_at || post.created_at,
     author: { '@type': 'Person', name: post.author },
-    image: sanitizeImageUrl(post.cover_image_url) || `${SITE_URL}/opengraph-image`,
+    image: safeCoverImage || `${SITE_URL}/opengraph-image`,
     url: `${SITE_URL}/blogs/${post.slug}`,
   };
 
@@ -112,7 +124,7 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
             <Link href="/blogs" className="text-xs font-semibold text-primary hover:underline">
               ← Back to Blog
             </Link>
-            <div className="mx-auto mt-6 max-w-2xl text-center">
+            <div className="mx-auto mt-6 max-w-[800px] text-left">
               <Pill tone="neutral">{post.category}</Pill>
               <h1 className="mt-4 text-2xl font-bold leading-tight text-ink sm:text-4xl">{post.title}</h1>
               <p className="mt-4 text-xs text-ink-faint">
@@ -124,21 +136,19 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
       </section>
 
       <Section className="!pt-0">
-        <div className="mx-auto max-w-2xl">
-          {safeCoverImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={safeCoverImage}
-              alt=""
-              className="mb-8 aspect-video w-full rounded-xl border border-border object-cover"
-            />
-          ) : (
-            <div className="mb-8 flex aspect-video w-full items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/15 to-purple/15">
-              <span className="text-xs font-semibold uppercase tracking-widest text-primary/40">{post.category}</span>
-            </div>
-          )}
+        <div className="mx-auto max-w-[800px] overflow-x-hidden">
+          <CmsImage
+            src={post.cover_image_url}
+            alt=""
+            className="mb-8 h-auto max-h-[400px] w-full rounded-xl border border-border object-cover"
+            fallback={
+              <div className="mb-8 flex aspect-video w-full items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/15 to-purple/15">
+                <span className="text-xs font-semibold uppercase tracking-widest text-primary/40">{post.category}</span>
+              </div>
+            }
+          />
           <div
-            className="prose-blog space-y-4 text-sm leading-relaxed text-ink-dim sm:text-base"
+            className="prose-blog max-w-full space-y-4 text-sm leading-relaxed text-ink-dim sm:text-base"
             dangerouslySetInnerHTML={{ __html: safeContent }}
           />
         </div>
