@@ -227,3 +227,53 @@ body {
   border-radius: 0.5rem;
   margin: 1rem 0;
 }
+.prose-blog sub {
+  vertical-align: sub;
+  font-size: 0.75em;
+}
+.prose-blog sup {
+  vertical-align: super;
+  font-size: 0.75em;
+}
+.prose-blog hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
+}
+/* Tables — border color/header background/cell padding as specified.
+   `display: block` on the table itself (rather than a wrapper div the
+   sanitizer would have to inject) is the standard CSS-only way to get a
+   horizontally-scrollable table without breaking its internal row/cell
+   layout — only the table's own outer box becomes a block-level
+   scroll container. */
+.prose-blog table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  max-width: 100%;
+}
+.prose-blog th,
+.prose-blog td {
+  border: 1px solid var(--color-border);
+  padding: 12px;
+  text-align: left;
+}
+.prose-blog th {
+  background: var(--color-card-hover);
+  font-weight: 700;
+}
+/* YouTube embeds — TipTap's Youtube extension hardcodes width/height as
+   HTML attributes (640x360); the CSS width/aspect-ratio below overrides
+   those presentational attributes to stay responsive at any container
+   width instead of the fixed pixel size baked into the saved HTML. */
+.prose-blog .yt-embed {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  max-width: 100%;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  border: 0;
+}
