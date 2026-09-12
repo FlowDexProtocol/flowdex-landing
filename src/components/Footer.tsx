@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { Container } from './ui';
-import CmsImage from './CmsImage';
+import CmsMedia from './CmsMedia';
 import { isSafeLinkUrl } from '@/lib/url-safety';
 
 const RESEARCH_LINKS = [
@@ -78,8 +78,8 @@ export default async function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-0.5">
-              {logoType === 'image' ? (
-                <CmsImage
+              {logoType === 'image' || logoType === 'animated' ? (
+                <CmsMedia
                   src={logoImageUrl}
                   alt={`${logoMain}${logoAccent}`}
                   className="h-8 w-auto object-contain"

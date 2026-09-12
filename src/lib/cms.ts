@@ -38,6 +38,35 @@ export function cms(data: CmsPageData, section: string, field: string, fallback:
   return value || fallback;
 }
 
+// CMS-uploaded media (ecosystem card images, the logo, the whitepaper) is
+// stored as a path relative to the API's own origin — e.g. "/uploads/foo.png"
+// or "/whitepaper.pdf" — the same convention flowdex-admin uses for its own
+// preview. url-safety's sanitizeImageUrl only ever accepts absolute
+// https:// URLs, so a relative path needs resolving to the API origin
+// first; anything already absolute, or any other scheme, passes through
+// untouched for sanitizeImageUrl/isSafeLinkUrl to accept or reject.
+export function resolveApiUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  if (trimmed.startsWith('/') && !trimmed.startsWith('//')) return `${API_BASE}${trimmed}`;
+  return trimmed;
+}
+
+// GET /api/cms/settings/whitepaper — public, never throws (same contract
+// as fetchPageContent/fetchTeam): a down API just means the /whitepaper.pdf
+// fallback baked into every call site is used instead.
+export const fetchWhitepaperUrl = cache(async (): Promise<string | null> => {
+  try {
+    const res = await fetch(`${API_BASE}/api/cms/settings/whitepaper`, { next: { revalidate: 5 } });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data && typeof data.url === 'string' ? data.url : null;
+  } catch {
+    return null;
+  }
+});
+
 export interface TeamMember {
   id: number;
   name: string;

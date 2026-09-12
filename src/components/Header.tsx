@@ -4,9 +4,13 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BuyButton } from './ui';
 import { cms, type CmsPageData } from '@/lib/cms';
-import CmsImage from './CmsImage';
+import CmsMedia from './CmsMedia';
 import { isSafeLinkUrl } from '@/lib/url-safety';
 
+// Fallback only for when the CMS is completely unreachable — the actual
+// nav is built from whatever link_N_text/link_N_url pairs exist in cmsNav
+// (see buildNavLinks below), so adding/removing/reordering a link in the
+// CMS Just Works without a code change or a fixed slot count.
 const DEFAULT_NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
@@ -15,24 +19,38 @@ const DEFAULT_NAV_LINKS = [
   { href: '/whitepaper', label: 'Whitepaper' },
   { href: '/faq', label: 'FAQ' },
   { href: '/blogs', label: 'Blog' },
+  { href: '/how-to-buy', label: 'How to Buy' },
 ];
+
+// Reads every link_N_text/link_N_url pair present in cmsNav (N unbounded —
+// not a fixed 7 or 8 slots), sorted numerically by N. Falls back to the
+// full default list only when the CMS has no nav.header fields at all
+// (API unreachable on first load); once any link_N field exists, that's
+// the source of truth and DEFAULT_NAV_LINKS is only consulted per-slot for
+// a link whose text or url came back empty for some reason.
+function buildNavLinks(cmsNav: CmsPageData): { href: string; label: string }[] {
+  const indices = new Set<number>();
+  for (const key of Object.keys(cmsNav)) {
+    const m = key.match(/^header\.link_(\d+)_(?:text|url)$/);
+    if (m) indices.add(parseInt(m[1], 10));
+  }
+  if (indices.size === 0) return DEFAULT_NAV_LINKS;
+
+  return Array.from(indices)
+    .sort((a, b) => a - b)
+    .map((i) => {
+      const fallback = DEFAULT_NAV_LINKS[i - 1];
+      const href = cms(cmsNav, 'header', `link_${i}_url`, fallback?.href ?? '/');
+      const label = cms(cmsNav, 'header', `link_${i}_text`, fallback?.label ?? `Link ${i}`);
+      return { href: isSafeLinkUrl(href) ? href : fallback?.href ?? '/', label };
+    });
+}
 
 export default function Header({ cmsGlobal = {}, cmsNav = {} }: { cmsGlobal?: CmsPageData; cmsNav?: CmsPageData }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // "How to Buy" has no CMS field (added after the nav.header.link_1..7
-  // seed) — spliced in after the positional CMS mapping below rather than
-  // added to DEFAULT_NAV_LINKS itself, so it can't shift FAQ/Blog off their
-  // existing link_6/link_7 CMS keys and get silently overwritten by them.
-  const navLinks = DEFAULT_NAV_LINKS.map((link, i) => {
-    const cmsHref = cms(cmsNav, 'header', `link_${i + 1}_url`, link.href);
-    return {
-      href: isSafeLinkUrl(cmsHref) ? cmsHref : link.href,
-      label: cms(cmsNav, 'header', `link_${i + 1}_text`, link.label),
-    };
-  });
-  navLinks.splice(6, 0, { href: '/how-to-buy', label: 'How to Buy' });
+  const navLinks = buildNavLinks(cmsNav);
   const buyButtonText = cms(cmsNav, 'header', 'buy_button_text', 'Buy $FDP');
   const buyButtonUrlRaw = cms(cmsNav, 'header', 'buy_button_url', 'https://purchase.flowdexprotocol.com');
   const buyButtonUrl = isSafeLinkUrl(buyButtonUrlRaw) ? buyButtonUrlRaw : 'https://purchase.flowdexprotocol.com';
@@ -64,8 +82,8 @@ export default function Header({ cmsGlobal = {}, cmsNav = {} }: { cmsGlobal?: Cm
       >
         <div className="mx-auto flex h-[70px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-0.5 shrink-0">
-            {logoType === 'image' ? (
-              <CmsImage
+            {logoType === 'image' || logoType === 'animated' ? (
+              <CmsMedia
                 src={logoImageUrl}
                 alt={`${logoMain}${logoAccent}`}
                 className="h-8 w-auto object-contain"

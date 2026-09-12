@@ -1,7 +1,7 @@
 import { cms, fetchPageContent } from '@/lib/cms';
 import { Section, SectionHeading } from './ui';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
-import CmsImage from './CmsImage';
+import CmsMedia from './CmsMedia';
 
 const CARDS = [
   {
@@ -105,7 +105,7 @@ export default async function EcosystemSection() {
             <StaggerItem key={card.key}>
               <div className="group h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)]">
                 <div className="flex aspect-video items-center justify-center overflow-hidden bg-card-hover">
-                  <CmsImage
+                  <CmsMedia
                     src={imageUrl}
                     alt={title}
                     className="h-full w-full object-cover"

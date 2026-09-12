@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { BuyButton, Container, Pill, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
+import { fetchWhitepaperUrl, resolveApiUrl } from '@/lib/cms';
+
+const FALLBACK_PDF_URL = '/whitepaper.pdf';
 
 const WHITEPAPER_DESCRIPTION =
   'Read the FlowDex Protocol whitepaper — the technical and economic design behind the Universal Exchange, Intelligence Terminal, and $FDP token.';
@@ -43,7 +46,13 @@ const SECTIONS = [
   },
 ];
 
-export default function WhitepaperPage() {
+export default async function WhitepaperPage() {
+  // fetchWhitepaperUrl() never throws — a down API or nothing uploaded yet
+  // both just mean the bundled /whitepaper.pdf in this site's own public
+  // folder is used, same as before this was CMS-backed.
+  const whitepaperPath = await fetchWhitepaperUrl();
+  const pdfUrl = whitepaperPath ? resolveApiUrl(whitepaperPath) || FALLBACK_PDF_URL : FALLBACK_PDF_URL;
+
   return (
     <>
       <section className="bg-radial-glow py-14 sm:py-20">
@@ -58,7 +67,7 @@ export default function WhitepaperPage() {
             </p>
             <div className="mt-8 flex justify-center">
               <a
-                href="/whitepaper.pdf"
+                href={pdfUrl}
                 download
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-6 py-3.5 text-sm font-semibold text-[#03131a] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(98,126,234,0.35)]"
               >
@@ -75,7 +84,7 @@ export default function WhitepaperPage() {
       <Section>
         <Reveal>
           <div className="overflow-hidden rounded-xl border border-border bg-card">
-            <iframe src="/whitepaper.pdf" title="FlowDex Protocol Whitepaper" className="h-[50vh] w-full sm:h-[80vh]" />
+            <iframe src={pdfUrl} title="FlowDex Protocol Whitepaper" className="h-[50vh] w-full sm:h-[80vh]" />
           </div>
           <p className="mt-4 text-center text-sm text-ink-faint">
             Unable to display PDF? Click the download button above.
