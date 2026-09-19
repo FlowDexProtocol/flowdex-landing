@@ -78,14 +78,52 @@
   animation: dotPulse 2s infinite;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* This reset MUST live inside Tailwind's own `base` layer. `@import
+   "tailwindcss"` implicitly declares the layer order
+   `theme, base, components, utilities` — ANY unlayered rule automatically
+   outranks EVERY layered rule regardless of selector specificity or
+   source order. A plain `* { margin: 0; ... }` here (as in the original
+   prototype's own vanilla-CSS <style> block, which had no layers to
+   worry about) was silently beating Tailwind's own `@layer utilities`
+   classes sitewide — `mx-auto` (`margin-inline: auto`), `p-*`, `gap-*`,
+   etc. all lost to this reset's `margin: 0` / `padding: 0`, even though
+   they're more specific and come later. Confirmed via getComputedStyle:
+   a `.mx-auto` block was computing to `margin-left/right: 0px` instead
+   of the auto-centered value. Wrapping this in `@layer base` puts it at
+   the correct (losing) precedence against `@layer utilities`. */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
+  /* Deliberately NOT setting overflow-x here. Per the CSS Overflow spec,
+     when <html> has no explicit overflow and <body> does (see body{}
+     below), body's overflow is propagated to the viewport itself rather
+     than creating a scroll/clip box on body — this is what actually
+     clips decorative full-bleed elements (hero/banner shapes, tab
+     watermark text) at the page edge today, with no separate scrollbar.
+     Adding overflow-x:hidden here too was tried as a mobile-overflow
+     "fix", but it stops that propagation: both html and body then
+     establish their OWN independent scroll containers (html gets an
+     implicit overflow-y:auto — the UA forces the other axis away from
+     `visible` once one axis is non-visible, and setting overflow-y
+     explicitly back to `visible` doesn't avoid this, since the rule
+     triggers on the visible/non-visible split regardless of which one
+     was explicit). That nested html-is-its-own-900px-tall-scrollbox
+     broke window.scrollTo()/anchor scrolling against the real page
+     content sitting in body — confirmed via
+     document.documentElement.scrollHeight collapsing to exactly one
+     viewport height while document.body.scrollHeight still reported the
+     full page. document.documentElement.scrollWidth alone isn't proof of
+     a real visible overflow bug either — an ancestor clips content via
+     `overflow:hidden` without changing that element's own scrollWidth
+     measurement, so don't reintroduce this without confirming an actual
+     horizontal scrollbar/visible cut content, not just the metric. */
 }
 body {
   background: var(--color-bg);
@@ -2402,7 +2440,12 @@ body.loading {
   font-weight: 600;
   color: #fff;
 }
-.prose-blog .yt-embed {
+/* TipTap's Youtube extension wraps its <iframe> in a
+   <div data-youtube-video> (see sanitize.ts) — style both that wrapper
+   selector AND a bare .prose-blog iframe as a fallback, since we can't
+   be certain every iframe in saved content carries that wrapper. */
+.prose-blog div[data-youtube-video],
+.prose-blog iframe {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -2411,6 +2454,10 @@ body.loading {
   margin: 1rem 0;
   border-radius: 0.5rem;
   border: 0;
+}
+.prose-blog div[data-youtube-video] iframe {
+  width: 100%;
+  height: 100%;
 }
 
 /* ── Responsive (matches prototype's single 900px breakpoint) ── */

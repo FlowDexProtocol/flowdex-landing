@@ -28,6 +28,7 @@
 // ══════════════════════════════════════════════════
 
 import sanitizeHtmlLib from 'sanitize-html';
+import { resolveApiUrl } from './cms';
 
 const ALLOWED_TAGS = [
   'h2', 'h3', 'h4', 'p', 'br', 'strong', 'em', 'u', 's', 'sub', 'sup', 'mark', 'span',
@@ -118,6 +119,13 @@ export function sanitizeHtml(html: string | null | undefined): string {
     },
     transformTags: {
       a: sanitizeHtmlLib.simpleTransform('a', { target: '_blank', rel: 'noopener noreferrer' }),
+      // The editor saves inline images the same way every other CMS media
+      // field does — a path relative to the API origin (e.g.
+      // "/uploads/foo.png"), not the frontend's. Left as-is, the browser
+      // would resolve that against this frontend's own origin and 404.
+      // resolveApiUrl is a no-op for an already-absolute URL.
+      img: (tagName, attribs) =>
+        attribs.src ? { tagName, attribs: { ...attribs, src: resolveApiUrl(attribs.src) } } : { tagName, attribs },
     },
   });
 }

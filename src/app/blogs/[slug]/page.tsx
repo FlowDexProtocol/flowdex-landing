@@ -125,10 +125,10 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
             <Link href="/blogs" className="font-sans text-xs font-semibold text-primary hover:underline">
               ← Back to Blog
             </Link>
-            <div className="mx-auto mt-6 max-w-[800px]">
+            <div className="mx-auto mt-6 max-w-[800px] text-center">
               <span className="eco-tag">{post.category}</span>
-              <h1 style={{ fontSize: '38px', marginTop: '14px', textAlign: 'left' }}>{post.title}</h1>
-              <p className="mt-4 font-sans text-xs text-ink-faint" style={{ textAlign: 'left', margin: '14px 0 0' }}>
+              <h1 style={{ fontSize: '38px', marginTop: '14px' }}>{post.title}</h1>
+              <p className="mt-4 font-sans text-xs text-ink-faint" style={{ margin: '14px 0 0' }}>
                 {post.author} · {formatDate(post.published_at)}
               </p>
             </div>

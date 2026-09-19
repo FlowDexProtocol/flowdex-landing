@@ -122,8 +122,8 @@ export default async function TokenomicsPage() {
 
       {staking && (
         <Section>
-          <div className="relative overflow-hidden rounded-xl border border-border bg-card p-8 sm:p-10">
-            <div className="flex flex-wrap items-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-faint">
+          <div className="relative overflow-hidden rounded-xl border border-border bg-card p-8 text-center sm:p-10">
+            <div className="flex flex-wrap items-center justify-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-faint">
               <span className="rounded-full border border-[rgba(168,85,247,0.25)] bg-[rgba(168,85,247,0.08)] px-3 py-1 text-[#c084fc]">
                 {staking.status.replace('_', ' ')}
               </span>
@@ -135,10 +135,13 @@ export default async function TokenomicsPage() {
             <h2 className="sec-title mt-4" style={{ fontSize: '32px' }}>
               Stake {staking.token} <em>Coming Soon</em>
             </h2>
-            <p className="mt-3 max-w-2xl font-sans text-sm text-ink-dim sm:text-base">{staking.description}</p>
-            <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <p className="mx-auto mt-3 max-w-2xl font-sans text-sm text-ink-dim sm:text-base">{staking.description}</p>
+            <ul className="mx-auto mt-6 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
               {staking.features.map((f) => (
-                <li key={f} className="flex items-center gap-2 rounded-lg border border-border bg-white/[0.02] px-4 py-3 font-sans text-sm text-ink">
+                <li
+                  key={f}
+                  className="flex items-center justify-center gap-2 rounded-lg border border-border bg-white/[0.02] px-4 py-3 font-sans text-sm text-ink"
+                >
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#a855f7]" />
                   {f}
                 </li>

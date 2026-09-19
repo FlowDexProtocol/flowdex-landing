@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type TouchEvent } from 'react';
 import Link from 'next/link';
 import type { CmsBanner } from '@/lib/types';
 import { PURCHASE_URL } from '@/lib/api';
+import { resolveApiUrl } from '@/lib/cms';
 import { isSafeLinkUrl, sanitizeImageUrl } from '@/lib/url-safety';
 
 const AUTO_ROTATE_MS = 5000;
@@ -91,7 +92,7 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
     let cancelled = false;
     setBrokenImages(new Set());
     for (const banner of banners) {
-      const url = banner.image_url_mobile || banner.image_url_desktop;
+      const url = sanitizeImageUrl(resolveApiUrl(banner.image_url_mobile || banner.image_url_desktop));
       if (!url) continue;
       const img = new Image();
       img.onerror = () => {
@@ -128,8 +129,8 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
   return (
     <div className="banner-slider" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {banners.map((banner, i) => {
-        const safeDesktopUrl = sanitizeImageUrl(banner.image_url_desktop);
-        const safeMobileUrl = sanitizeImageUrl(banner.image_url_mobile);
+        const safeDesktopUrl = sanitizeImageUrl(resolveApiUrl(banner.image_url_desktop));
+        const safeMobileUrl = sanitizeImageUrl(resolveApiUrl(banner.image_url_mobile));
         const hasImage = !!safeDesktopUrl && !brokenImages.has(banner.id);
         const hasColor = !!banner.bg_color;
         const slideStyle = SLIDE_STYLES[i % SLIDE_STYLES.length];

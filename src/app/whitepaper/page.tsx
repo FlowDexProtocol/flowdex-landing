@@ -46,12 +46,27 @@ const SECTIONS = [
   },
 ];
 
-export default async function WhitepaperPage() {
-  // fetchWhitepaperUrl() never throws — a down API or nothing uploaded yet
-  // both just mean the bundled /whitepaper.pdf in this site's own public
-  // folder is used, same as before this was CMS-backed.
+// fetchWhitepaperUrl() never throws — a down API or nothing uploaded yet
+// both just mean the bundled /whitepaper.pdf in this site's own public
+// folder is used. But even when the CMS setting IS present, it can point
+// at a path that was never actually uploaded to the API host (a stale
+// placeholder) — HEAD-checking it here means a broken CMS value quietly
+// falls back to the working bundled copy instead of shipping a dead link.
+async function resolvePdfUrl(): Promise<string> {
   const whitepaperPath = await fetchWhitepaperUrl();
-  const pdfUrl = whitepaperPath ? resolveApiUrl(whitepaperPath) || FALLBACK_PDF_URL : FALLBACK_PDF_URL;
+  if (!whitepaperPath) return FALLBACK_PDF_URL;
+  const resolved = resolveApiUrl(whitepaperPath);
+  if (!resolved) return FALLBACK_PDF_URL;
+  try {
+    const res = await fetch(resolved, { method: 'HEAD', next: { revalidate: 5 } });
+    return res.ok ? resolved : FALLBACK_PDF_URL;
+  } catch {
+    return FALLBACK_PDF_URL;
+  }
+}
+
+export default async function WhitepaperPage() {
+  const pdfUrl = await resolvePdfUrl();
 
   return (
     <>
@@ -63,22 +78,16 @@ export default async function WhitepaperPage() {
           </div>
           <h1>FlowDex Protocol Whitepaper v7.0</h1>
           <p>The full protocol whitepaper — the $FDP token, presale mechanics, tokenomics, and the FlowDex roadmap.</p>
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href={pdfUrl} download className="pill">
               Download Whitepaper
+            </a>
+            <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="pill pill-ghost">
+              View Online
             </a>
           </div>
         </Reveal>
       </div>
-
-      <Section>
-        <Reveal>
-          <div className="overflow-hidden rounded-xl border border-border">
-            <iframe src={pdfUrl} title="FlowDex Protocol Whitepaper" className="h-[50vh] w-full sm:h-[80vh]" />
-          </div>
-          <p className="mt-4 text-center font-sans text-sm text-ink-faint">Unable to display PDF? Click the download button above.</p>
-        </Reveal>
-      </Section>
 
       <Section>
         <div className="mx-auto max-w-3xl space-y-10">
