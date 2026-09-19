@@ -31,7 +31,19 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
 
   const segments = allocation.map((a, i) => {
     const startPct = startPcts[i];
-    const midAngleDeg = (startPct + a.pct / 2) * 3.6 - 90; // -90 so 0% starts at 12 o'clock
+    // No extra offset here: the whole <svg> already carries a CSS
+    // rotate(-90deg) (see the transform below) so that stroke-dasharray's
+    // default start point (3 o'clock) ends up at 12 o'clock for the arcs.
+    // Since these label coordinates are computed in that SAME pre-transform
+    // space and rotate along with everything else in the <svg>, subtracting
+    // an extra 90deg here double-applies the rotation and shifts every
+    // label a quarter-turn onto the wrong segment (confirmed by hand-
+    // tracing the rotation matrix and cross-checking against the actual
+    // rendered output — Presale's 22.5% label was landing on the Staking
+    // arc, Liquidity's 20% on the Presale arc, etc). The plain angle here
+    // already lands each label on its own arc once the <svg>'s transform
+    // is applied.
+    const midAngleDeg = (startPct + a.pct / 2) * 3.6;
     const rad = (midAngleDeg * Math.PI) / 180;
     return {
       ...a,
