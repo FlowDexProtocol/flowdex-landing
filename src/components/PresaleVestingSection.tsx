@@ -28,24 +28,22 @@ export default async function PresaleVestingSection() {
       />
 
       <Reveal variants={fadeUp}>
-        <div className="mx-auto max-w-2xl">
-          <div className="vbar">
-            <div className="vb-seg vb-tge" style={{ flex: tgeFlex }}>
-              {tier.tge_percentage}% TGE
-            </div>
-            <div className="vb-seg vb-cliff" style={{ flex: cliffFlex }}>
-              {tier.cliff_months}mo Cliff
-            </div>
-            <div className="vb-seg vb-vest" style={{ flex: vestFlex }}>
-              {tier.vest_months}mo Vest
-            </div>
+        <div className="vbar">
+          <div className="vb-seg vb-tge" style={{ flex: tgeFlex }}>
+            {tier.tge_percentage}% TGE
           </div>
-          <div className="vlabels">
-            <span>{tier.name}</span>
-            <span>
-              {tier.tge_percentage}% at TGE, remainder over {tier.cliff_months + tier.vest_months} months
-            </span>
+          <div className="vb-seg vb-cliff" style={{ flex: cliffFlex }}>
+            {tier.cliff_months}mo Cliff
           </div>
+          <div className="vb-seg vb-vest" style={{ flex: vestFlex }}>
+            {tier.vest_months}mo Vest
+          </div>
+        </div>
+        <div className="vlabels">
+          <span>{tier.name}</span>
+          <span>
+            {tier.tge_percentage}% at TGE, remainder over {tier.cliff_months + tier.vest_months} months
+          </span>
         </div>
       </Reveal>
     </Section>

@@ -48,12 +48,12 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
   });
 
   return (
-    <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-center sm:justify-center sm:gap-12">
+    <>
       <svg
         width={SIZE}
         height={SIZE}
         viewBox={`0 0 ${SIZE} ${SIZE}`}
-        className="h-[280px] w-[280px] shrink-0 overflow-visible sm:h-[400px] sm:w-[400px]"
+        className="donut-svg"
         style={{ transform: 'rotate(-90deg)' }}
       >
         <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="none" stroke="var(--color-card)" strokeWidth={STROKE} />
@@ -144,24 +144,20 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
         )}
       </svg>
 
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3 sm:w-auto">
+      <div className="donut-legend">
         {allocation.map((a, i) => (
           <div
             key={a.label}
-            className={`flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 text-[14px] transition-colors ${
-              hovered === i ? 'bg-white/5' : ''
-            }`}
+            className={`donut-item rounded-lg px-2 py-1.5 transition-colors ${hovered === i ? 'bg-white/5' : ''}`}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
           >
-            <span className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: a.color }} />
-              <span className="text-ink">{a.label}</span>
-            </span>
-            <span className="font-mono text-ink-faint">{a.pct}%</span>
+            <span className="donut-dot" style={{ background: a.color }} />
+            <span>{a.label}</span>
+            <span className="donut-pct">{a.pct}%</span>
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }

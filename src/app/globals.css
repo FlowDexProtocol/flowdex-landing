@@ -1270,13 +1270,23 @@ body.loading {
 
 /* ── How to buy steps ── */
 .htb-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+@media (max-width: 1024px) {
+  .htb-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .htb-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .htb-step {
-  flex: 1;
-  min-width: 200px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 16px;
@@ -1320,13 +1330,26 @@ body.loading {
   line-height: 1.5;
 }
 
-/* ── Tokenomics donut ── */
+/* ── Tokenomics donut ──
+   Donut and legend are direct flex children here — the component itself
+   renders no wrapping div of its own, so there is exactly one flex
+   container controlling this layout (a donut+legend each with their own
+   nested flex context was producing inconsistent sizing across viewport
+   widths). */
 .donut-wrap {
   display: flex;
-  gap: 60px;
   align-items: center;
   justify-content: center;
+  gap: 80px;
+  margin: 0 auto;
+  max-width: 1000px;
   flex-wrap: wrap;
+}
+.donut-svg {
+  width: 400px;
+  height: 400px;
+  flex-shrink: 0;
+  overflow: visible;
 }
 .donut-legend {
   display: flex;
@@ -1417,6 +1440,8 @@ body.loading {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .eco-card {
   background: rgba(255, 255, 255, 0.02);
@@ -1576,9 +1601,10 @@ body.loading {
 .vbar {
   display: flex;
   height: 52px;
+  max-width: 800px;
   border-radius: 14px;
   overflow: hidden;
-  margin-bottom: 18px;
+  margin: 0 auto 18px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 .vb-seg {
@@ -1608,11 +1634,14 @@ body.loading {
 .vlabels {
   display: flex;
   justify-content: space-between;
+  max-width: 800px;
+  margin: 0 auto;
   font-family: var(--font-sans);
   font-size: 12px;
   color: rgba(255, 255, 255, 0.28);
   flex-wrap: wrap;
   gap: 6px;
+  text-align: center;
 }
 
 /* ── Utility grid ── */
@@ -1620,6 +1649,8 @@ body.loading {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .ucard {
   background: rgba(255, 255, 255, 0.02);
@@ -1664,7 +1695,10 @@ body.loading {
   display: flex;
   gap: 60px;
   align-items: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 .ref-steps {
   flex: 1;
@@ -1803,6 +1837,8 @@ body.loading {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .blog-card {
   background: rgba(255, 255, 255, 0.02);
@@ -2487,9 +2523,6 @@ body.loading {
   .page-hero h1 {
     font-size: 34px;
   }
-  .htb-grid {
-    flex-direction: column;
-  }
   .eco-grid,
   .ugrid,
   .blog-grid {
@@ -2498,6 +2531,10 @@ body.loading {
   .donut-wrap {
     flex-direction: column;
     gap: 30px;
+  }
+  .donut-svg {
+    width: 280px;
+    height: 280px;
   }
   .ref-grid {
     flex-direction: column;
