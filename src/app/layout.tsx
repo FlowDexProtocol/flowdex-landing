@@ -1,24 +1,40 @@
 import type { Metadata, Viewport } from 'next';
-import { DM_Sans, JetBrains_Mono } from 'next/font/google';
+import { Cormorant_Garamond, Inter, JetBrains_Mono } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MobileStickyBar from '@/components/MobileStickyBar';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CookieConsent from '@/components/CookieConsent';
+import PageLoader from '@/components/PageLoader';
+import BackToTop from '@/components/BackToTop';
 import { fetchPageContent } from '@/lib/cms';
 import './globals.css';
 
 const SITE_URL = 'https://flowdexprotocol.com';
 
-const dmSans = DM_Sans({
-  variable: '--font-dm-sans',
+// Design system: Cormorant Garamond for headlines (weight 300, italic for
+// emphasis), Inter for body/nav/labels, JetBrains Mono for numbers/prices —
+// same three-family split and weights as the prototype's own Google Fonts
+// request.
+const cormorant = Cormorant_Garamond({
+  variable: '--font-cormorant',
   subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+});
+
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
   display: 'swap',
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
+  weight: ['400', '500'],
   display: 'swap',
 });
 
@@ -50,21 +66,27 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#060d18',
+  themeColor: '#161660',
 };
 
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
-  const [cmsGlobal, cmsNav] = await Promise.all([fetchPageContent('global'), fetchPageContent('nav')]);
+  const [cmsGlobal, cmsNav, cmsHome] = await Promise.all([
+    fetchPageContent('global'),
+    fetchPageContent('nav'),
+    fetchPageContent('home'),
+  ]);
 
   return (
-    <html lang="en" className={`${dmSans.variable} ${jetbrainsMono.variable} h-full`}>
-      <body className="min-h-full flex flex-col bg-bg text-ink antialiased">
+    <html lang="en" className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}>
+      <body className="flex h-full flex-col">
+        <PageLoader />
         <GoogleAnalytics />
-        <Header cmsGlobal={cmsGlobal} cmsNav={cmsNav} />
+        <Header cmsGlobal={cmsGlobal} cmsNav={cmsNav} cmsHome={cmsHome} />
         <main className="flex-1 pb-16 sm:pb-0">{children}</main>
         <Footer />
         <MobileStickyBar />
-        <CookieConsent />
+        <CookieConsent cmsGlobal={cmsGlobal} />
+        <BackToTop />
       </body>
     </html>
   );

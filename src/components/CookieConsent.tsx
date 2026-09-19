@@ -1,23 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { cms, type CmsPageData } from '@/lib/cms';
 
-const STORAGE_KEY = 'flowdex-cookie-consent';
+const STORAGE_KEY = 'fdp_cookie';
 
-export default function CookieConsent() {
+export default function CookieConsent({ cmsGlobal = {} }: { cmsGlobal?: CmsPageData }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    let alreadySet = false;
     try {
-      if (localStorage.getItem(STORAGE_KEY) !== 'accepted') setVisible(true);
+      alreadySet = localStorage.getItem(STORAGE_KEY) != null;
     } catch {
-      setVisible(true);
+      alreadySet = false;
     }
+    if (alreadySet) return;
+    const timer = setTimeout(() => setVisible(true), 3000);
+    return () => clearTimeout(timer);
   }, []);
 
-  function accept() {
+  function dismiss(value: 'accepted' | 'declined') {
     try {
-      localStorage.setItem(STORAGE_KEY, 'accepted');
+      localStorage.setItem(STORAGE_KEY, value);
     } catch {
       // localStorage unavailable — banner simply won't persist across reloads
     }
@@ -27,14 +32,21 @@ export default function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-[60px] z-50 border-t border-border bg-bg-soft/95 backdrop-blur sm:bottom-0">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 px-4 py-4 sm:flex-row sm:px-6 lg:px-8">
-        <p className="text-center text-xs text-ink-dim sm:text-left">We use cookies to improve your experience.</p>
-        <button
-          onClick={accept}
-          className="shrink-0 rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-5 py-2 text-xs font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5"
-        >
+    <div className="cookie">
+      <p>
+        {cms(
+          cmsGlobal,
+          'cookie',
+          'text',
+          'We use cookies to improve your experience and analyze site traffic. By continuing, you agree to our use of cookies.'
+        )}
+      </p>
+      <div className="cookie-btns">
+        <button type="button" className="cookie-accept" onClick={() => dismiss('accepted')}>
           Accept
+        </button>
+        <button type="button" className="cookie-accept cookie-decline" onClick={() => dismiss('declined')}>
+          Decline
         </button>
       </div>
     </div>

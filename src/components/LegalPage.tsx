@@ -1,4 +1,4 @@
-import { Container, Section } from './ui';
+import { Section } from './ui';
 import Reveal from './motion/Reveal';
 
 export interface LegalSection {
@@ -35,7 +35,7 @@ function renderMarkdownLite(body: string) {
 
       if (lines.every((l) => /^[-*]\s+/.test(l))) {
         return (
-          <ul key={i} className="list-disc space-y-1.5 pl-5 text-sm leading-[1.7] text-ink-dim">
+          <ul key={i} className="list-disc space-y-1.5 pl-5 font-sans text-sm leading-[1.7] text-ink-dim">
             {lines.map((l, j) => (
               <li key={j}>{l.replace(/^[-*]\s+/, '')}</li>
             ))}
@@ -74,9 +74,11 @@ function renderMarkdownLite(body: string) {
       return (
         <div key={i} className={heading ? 'space-y-2' : undefined}>
           {heading && (
-            <h2 className="text-lg font-bold text-ink sm:text-xl">{heading}</h2>
+            <h2 className="sec-title" style={{ fontSize: '22px', marginBottom: '4px' }}>
+              {heading}
+            </h2>
           )}
-          {paragraph && <p className="text-sm leading-[1.7] text-ink-dim">{paragraph}</p>}
+          {paragraph && <p className="doc-body">{paragraph}</p>}
         </div>
       );
     })
@@ -100,21 +102,20 @@ export default function LegalPage({
 
   return (
     <>
-      <section className="border-b border-border bg-radial-glow py-14 sm:py-16">
-        <Container className="text-center">
-          <Reveal>
-            <h1 className="text-3xl font-bold text-ink sm:text-5xl">{title}</h1>
-            <p className="mt-3 text-xs text-ink-faint">Last updated: January 2026</p>
-          </Reveal>
-        </Container>
-      </section>
+      <div className="page-hero">
+        <div className="page-hero-glow" />
+        <Reveal>
+          <h1>{title}</h1>
+          <p className="doc-updated">Last updated: January 2026</p>
+        </Reveal>
+      </div>
 
       <Section>
         <div className="mx-auto max-w-[800px]">
-          <div className="mb-10 rounded-xl border border-border bg-card px-5 py-4 text-xs leading-relaxed text-ink-faint">
-            This page is a general template provided for informational purposes and does not constitute legal
-            advice. It has not been reviewed by a lawyer and should not be relied on as a complete or
-            jurisdiction-specific legal document. Consult qualified legal counsel before relying on it.
+          <div className="mb-10 rounded-xl border border-border bg-card px-5 py-4 font-sans text-xs leading-relaxed text-ink-faint">
+            This page is a general template provided for informational purposes and does not constitute legal advice. It has not been
+            reviewed by a lawyer and should not be relied on as a complete or jurisdiction-specific legal document. Consult qualified
+            legal counsel before relying on it.
           </div>
 
           {hasRealBody ? (
@@ -123,10 +124,12 @@ export default function LegalPage({
             <div className="space-y-9">
               {sections.map((s) => (
                 <div key={s.heading}>
-                  <h2 className="text-lg font-bold text-ink sm:text-xl">{s.heading}</h2>
+                  <h2 className="sec-title" style={{ fontSize: '22px', marginBottom: '4px' }}>
+                    {s.heading}
+                  </h2>
                   <div className="mt-2 space-y-3">
                     {s.body.map((p, i) => (
-                      <p key={i} className="text-sm leading-relaxed text-ink-dim">
+                      <p key={i} className="doc-body">
                         {p}
                       </p>
                     ))}

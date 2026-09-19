@@ -1,5 +1,4 @@
 import { cms, fetchPageContent } from '@/lib/cms';
-import { Section, SectionHeading } from './ui';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
 import CmsMedia from './CmsMedia';
 
@@ -10,9 +9,7 @@ const CARDS = [
     description:
       'Trade crypto, stocks, forex, and commodities from one interface. Cross-chain routing scans every DEX and liquidity source to find the best price. One platform for every market.',
     tags: ['Cross-Chain', 'Multi-Asset', 'Best Price'],
-    icon: (
-      <path d="M4 17V7l6 5 4-8 6 12" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    ),
+    icon: <path d="M4 17V7l6 5 4-8 6 12" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />,
   },
   {
     key: 'ecosystem_2',
@@ -61,9 +58,7 @@ const CARDS = [
     description:
       'Our routing engine compares prices across 100+ DEXs and liquidity pools in real-time. Every trade gets the best execution with the lowest slippage and fees.',
     tags: ['100+ DEXs', 'Low Slippage', 'Auto-Route'],
-    icon: (
-      <path d="M4 6h10a4 4 0 0 1 0 8H8m0 0 3-3m-3 3 3 3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    ),
+    icon: <path d="M4 6h10a4 4 0 0 1 0 8H8m0 0 3-3m-3 3 3 3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />,
   },
   {
     key: 'ecosystem_6',
@@ -84,13 +79,14 @@ export default async function EcosystemSection() {
   const cmsData = await fetchPageContent('home');
 
   return (
-    <Section id="ecosystem">
-      <SectionHeading
-        title={cms(cmsData, 'ecosystem', 'title', 'The FlowDex Ecosystem')}
-        subtitle={cms(cmsData, 'ecosystem', 'subtitle', 'A complete DeFi infrastructure for the next generation of finance.')}
-      />
+    <section className="sec" id="ecosystem">
+      <div className="sec-label">Ecosystem</div>
+      <h2 className="sec-title">{cms(cmsData, 'ecosystem', 'title', 'The FlowDex Ecosystem')}</h2>
+      <p className="sec-sub">
+        {cms(cmsData, 'ecosystem', 'subtitle', 'A complete DeFi infrastructure for the next generation of finance.')}
+      </p>
 
-      <StaggerGroup className="grid grid-cols-1 gap-5 md:grid-cols-2" staggerDelay={0.1}>
+      <StaggerGroup className="eco-grid">
         {CARDS.map((card) => {
           const title = cms(cmsData, card.key, 'title', card.title);
           const description = cms(cmsData, card.key, 'description', card.description);
@@ -103,25 +99,25 @@ export default async function EcosystemSection() {
 
           return (
             <StaggerItem key={card.key}>
-              <div className="group h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)]">
-                <div className="flex aspect-video items-center justify-center overflow-hidden bg-card-hover">
+              <div className="eco-card">
+                <div className="eco-img">
                   <CmsMedia
                     src={imageUrl}
                     alt={title}
                     className="h-full w-full object-cover"
                     fallback={
-                      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" opacity="0.3">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)">
                         {card.icon}
                       </svg>
                     }
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-ink sm:text-xl">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-faint">{description}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
+                <div className="eco-body">
+                  <h4>{title}</h4>
+                  <p>{description}</p>
+                  <div className="eco-tags">
                     {tags.map((tag) => (
-                      <span key={tag} className="rounded-full border border-border px-2.5 py-1 text-xs text-ink-faint">
+                      <span key={tag} className="eco-tag">
                         {tag}
                       </span>
                     ))}
@@ -132,6 +128,6 @@ export default async function EcosystemSection() {
           );
         })}
       </StaggerGroup>
-    </Section>
+    </section>
   );
 }

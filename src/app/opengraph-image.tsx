@@ -14,16 +14,18 @@ export default function OpengraphImage() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#060D18',
-          backgroundImage: 'radial-gradient(circle at 50% 30%, rgba(98,126,234,0.25), transparent 60%)',
+          background: '#161660',
+          backgroundImage: 'radial-gradient(circle at 50% 30%, rgba(108,92,231,0.3), transparent 60%)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', fontSize: 84, fontWeight: 700, fontFamily: 'sans-serif' }}>
-          <span style={{ color: '#E8ECF1' }}>Flow</span>
-          <span style={{ color: '#627EEA' }}>Dex</span>
-          <span style={{ color: '#E8ECF1', marginLeft: 18 }}>Protocol</span>
+        <div style={{ display: 'flex', alignItems: 'center', fontSize: 84, fontWeight: 500, fontFamily: 'serif' }}>
+          <span style={{ color: '#fff', fontStyle: 'italic' }}>Flow</span>
+          <span style={{ color: '#fff' }}>Dex</span>
+          <span style={{ color: 'rgba(255,255,255,0.5)', marginLeft: 18, fontFamily: 'sans-serif', fontSize: 32, textTransform: 'uppercase', letterSpacing: 4 }}>
+            Protocol
+          </span>
         </div>
-        <div style={{ marginTop: 24, fontSize: 32, color: '#8899AA', fontFamily: 'sans-serif' }}>
+        <div style={{ marginTop: 24, fontSize: 32, color: 'rgba(255,255,255,0.4)', fontFamily: 'sans-serif' }}>
           Trade Everything. Know Everything.
         </div>
       </div>

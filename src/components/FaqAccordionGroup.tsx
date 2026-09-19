@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { CmsFaq } from '@/lib/types';
+import { Accordion, AccordionItem } from './Accordion';
 
 const CATEGORY_LABELS: Record<string, string> = {
   general: 'General',
@@ -21,32 +22,27 @@ export default function FaqAccordionGroup({ faqs }: { faqs: CmsFaq[] }) {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-10">
+    <div className="mx-auto max-w-2xl">
       {Array.from(grouped.entries()).map(([category, items]) => (
-        <div key={category}>
-          <h2 className="mb-4 text-xs font-bold uppercase tracking-widest text-primary">
-            {CATEGORY_LABELS[category] || category}
-          </h2>
-          <div className="space-y-1">
-            {items.map((item) => {
-              const isOpen = openId === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setOpenId(isOpen ? null : item.id)}
-                  className={`block w-full rounded-xl border px-5 py-4 text-left transition-colors ${
-                    isOpen ? 'border-primary/25 bg-primary-dim' : 'border-border bg-card'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-sm font-semibold text-ink sm:text-base">{item.question}</span>
-                    <span className={`shrink-0 text-lg text-ink-faint transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`}>+</span>
-                  </div>
-                  {isOpen && <p className="mt-3 text-sm leading-relaxed text-ink-faint">{item.answer}</p>}
-                </button>
-              );
-            })}
-          </div>
+        <div key={category} className="mb-10">
+          <h2 className="sec-label">{CATEGORY_LABELS[category] || category}</h2>
+          <Accordion>
+            {items.map((item) => (
+              <AccordionItem
+                key={item.id}
+                isOpen={openId === item.id}
+                onToggle={() => setOpenId((id) => (id === item.id ? null : item.id))}
+                header={
+                  <>
+                    <span className="faq-q">{item.question}</span>
+                    <span className="acc-tog">{openId === item.id ? '−' : '+'}</span>
+                  </>
+                }
+              >
+                <p>{item.answer}</p>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       ))}
     </div>

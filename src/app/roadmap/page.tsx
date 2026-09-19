@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { cms, fetchPageContent } from '@/lib/cms';
-import { Container, Pill, Section } from '@/components/ui';
-import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
+import { Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
+import { fadeUp } from '@/lib/motion';
 
 const ROADMAP_DESCRIPTION =
   'See the FlowDex Protocol roadmap — from presale and Universal Exchange launch to the AI Intelligence Terminal and FlowChain Layer 1.';
@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 };
 
 // Batch 1 seeded 4 CMS phases (roadmap.phase_1..phase_4) — these drive the
-// first 4 cards below, with this array's values as the per-phase fallback.
-// The 5th card ("Full Ecosystem") wasn't seeded, so it stays purely
+// first 4 entries below, with this array's values as the per-phase fallback.
+// The 5th entry ("Full Ecosystem") wasn't seeded, so it stays purely
 // hardcoded, appended after the CMS-driven ones.
 const CMS_PHASES = [
   {
@@ -83,47 +83,38 @@ export default async function RoadmapPage() {
 
   return (
     <>
-      <section className="bg-radial-glow py-14 sm:py-20">
-        <Container className="text-center">
-          <Reveal>
-            <h1 className="text-3xl font-bold text-ink sm:text-5xl">
-              Our <span className="text-primary">Roadmap</span>
-            </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-ink-dim sm:text-lg">
-              The path from presale to a full multi-asset trading ecosystem. Timelines are targets, not guarantees.
-            </p>
-          </Reveal>
-        </Container>
-      </section>
+      <div className="page-hero">
+        <div className="page-hero-glow" />
+        <Reveal>
+          <h1>
+            Our <em>Roadmap</em>
+          </h1>
+          <p>The path from presale to a full multi-asset trading ecosystem. Timelines are targets, not guarantees.</p>
+        </Reveal>
+      </div>
 
       <Section>
-        <StaggerGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5" staggerDelay={0.08}>
-          {phases.map((p) => (
-            <StaggerItem key={p.phase}>
-              <div
-                className={`relative h-full rounded-xl border p-6 ${
-                  p.active ? 'border-primary/40 bg-primary-dim' : 'border-border bg-card'
-                }`}
-              >
-                {p.active && <span className="absolute right-3 top-3 h-1.5 w-1.5 rounded-full bg-primary pulse-dot" />}
-                <div className={`text-xs font-bold uppercase tracking-widest ${p.active ? 'text-primary' : 'text-ink-faint'}`}>
-                  {p.phase}
-                </div>
-                <div className="mt-0.5 text-xs text-ink-faint">{p.time}</div>
-                <div className="mt-2 mb-3 text-base font-bold text-ink">{p.title}</div>
-                <ul className="space-y-1.5">
-                  {p.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-ink-faint">
-                      <span className={`mt-1.5 h-1 w-1 shrink-0 rounded-full ${p.active ? 'bg-primary' : 'bg-ink-faint'}`} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                {p.active && <Pill tone="primary" className="mt-4">In progress</Pill>}
-              </div>
-            </StaggerItem>
+        <div className="rm-timeline" style={{ maxWidth: 720 }}>
+          <div className="rm-line" />
+          {phases.map((p, i) => (
+            <Reveal key={p.phase} variants={fadeUp} delay={i * 0.06} as="div" className={`rm-phase${p.active ? ' active' : ''}`}>
+              <div className="rm-dot" />
+              {p.active && <span className="rm-badge">Current</span>}
+              <h4>
+                {p.phase} — {p.title}
+              </h4>
+              <p style={{ marginBottom: '10px' }}>{p.time}</p>
+              <ul className="space-y-1.5">
+                {p.items.map((item) => (
+                  <li key={item} className="flex items-start gap-2 font-sans text-[13px] text-ink-faint">
+                    <span className={`mt-1.5 h-1 w-1 shrink-0 rounded-full ${p.active ? 'bg-[#6c5ce7]' : 'bg-white/20'}`} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           ))}
-        </StaggerGroup>
+        </div>
       </Section>
     </>
   );

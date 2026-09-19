@@ -1,65 +1,56 @@
-import type { AnchorHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, ReactNode } from 'react';
 
 export function Container({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>;
+  return <div className={`mx-auto w-full max-w-[1320px] ${className}`}>{children}</div>;
 }
 
 export function Section({ id, children, className = '' }: { id?: string; children: ReactNode; className?: string }) {
   return (
-    <section id={id} className={`py-14 sm:py-20 scroll-mt-24 ${className}`}>
+    <section id={id} className={`sec scroll-mt-24 ${className}`}>
       <Container>{children}</Container>
     </section>
   );
 }
 
 export function SectionHeading({
+  label,
   title,
   subtitle,
-  center = true,
+  center = false,
 }: {
+  label?: ReactNode;
   title: ReactNode;
   subtitle?: ReactNode;
   center?: boolean;
 }) {
   return (
-    <div className={`mb-10 sm:mb-14 ${center ? 'text-center' : ''}`}>
-      <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink">{title}</h2>
-      {subtitle && <p className={`mt-3 text-sm sm:text-base text-ink-dim ${center ? 'mx-auto max-w-2xl' : 'max-w-2xl'}`}>{subtitle}</p>}
+    <div className={center ? 'mx-auto text-center' : ''}>
+      {label && <div className="sec-label">{label}</div>}
+      <h2 className={`sec-title ${center ? 'mx-auto' : ''}`}>{title}</h2>
+      {subtitle && <p className={`sec-sub ${center ? 'mx-auto' : ''}`}>{subtitle}</p>}
     </div>
   );
 }
 
-export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`rounded-xl border border-border bg-card ${className}`}>{children}</div>;
-}
-
-export function GlassCard({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`glass rounded-2xl ${className}`}>{children}</div>;
-}
-
-export function Mono({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <span className={`font-mono tabular-nums ${className}`}>{children}</span>;
-}
-
 type BadgeTone = 'primary' | 'green' | 'red' | 'purple' | 'neutral';
 
+const badgeTones: Record<BadgeTone, string> = {
+  primary: 'border-[rgba(108,92,231,0.25)] bg-[rgba(108,92,231,0.08)] text-[#a78bfa]',
+  green: 'border-[rgba(74,222,128,0.2)] bg-[rgba(74,222,128,0.08)] text-[#4ade80]',
+  red: 'border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.08)] text-[#f87171]',
+  purple: 'border-[rgba(168,85,247,0.25)] bg-[rgba(168,85,247,0.08)] text-[#c084fc]',
+  neutral: 'border-white/10 bg-white/[0.03] text-ink-dim',
+};
+
 export function Pill({ children, tone = 'primary', className = '' }: { children: ReactNode; tone?: BadgeTone; className?: string }) {
-  const tones: Record<BadgeTone, string> = {
-    primary: 'bg-primary-dim text-primary border-primary-border',
-    green: 'bg-green-dim text-green border-green/25',
-    red: 'bg-red-dim text-red border-red/25',
-    purple: 'bg-purple-dim text-purple border-purple/25',
-    neutral: 'bg-white/5 text-ink-dim border-border',
-  };
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${tones[tone]} ${className}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-sans text-[11px] font-medium uppercase tracking-[1.5px] ${badgeTones[tone]} ${className}`}
+    >
       {children}
     </span>
   );
 }
-
-const buttonBase =
-  'inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all duration-300 whitespace-nowrap';
 
 export function BuyButton({
   className = '',
@@ -68,110 +59,14 @@ export function BuyButton({
   ...rest
 }: AnchorHTMLAttributes<HTMLAnchorElement> & { children?: ReactNode }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`${buttonBase} bg-gradient-to-br from-primary to-[#4E65BB] text-[#03131a] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(98,126,234,0.35)] ${className}`}
-      {...rest}
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer" className={`pill ${className}`} {...rest}>
       {children}
     </a>
-  );
-}
-
-export function OutlineLink({
-  href,
-  className = '',
-  children,
-  external,
-}: {
-  href: string;
-  className?: string;
-  children: ReactNode;
-  external?: boolean;
-}) {
-  return (
-    <a
-      href={href}
-      target={external ? '_blank' : undefined}
-      rel={external ? 'noopener noreferrer' : undefined}
-      className={`${buttonBase} border-[1.5px] border-border-soft text-ink-dim hover:border-primary hover:text-primary ${className}`}
-    >
-      {children}
-    </a>
-  );
-}
-
-export function ProgressBar({ pct, className = '', shimmer = false }: { pct: number; className?: string; shimmer?: boolean }) {
-  const clamped = Math.min(100, Math.max(0, pct));
-  return (
-    <div className={`h-3 w-full overflow-hidden rounded-full border border-border bg-card ${className}`}>
-      <div
-        className={`h-full rounded-full transition-[width] duration-1000 ease-out ${shimmer ? 'shimmer-bar' : 'bg-green'}`}
-        style={{ width: `${clamped}%` }}
-      />
-    </div>
-  );
-}
-
-// Four-step vesting visual: TGE -> cliff -> vesting -> full unlock.
-export function VestingTimeline({
-  tgePct,
-  cliffMonths,
-  vestMonths,
-  className = '',
-}: {
-  tgePct: number;
-  cliffMonths: number;
-  vestMonths: number;
-  className?: string;
-}) {
-  const totalMonths = Math.max(cliffMonths + vestMonths, 1);
-  const cliffWidthPct = (cliffMonths / totalMonths) * 100;
-  const vestWidthPct = (vestMonths / totalMonths) * 100;
-
-  return (
-    <div className={className}>
-      <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/5">
-        <div className="absolute inset-y-0 left-0 bg-primary/20" style={{ width: `${cliffWidthPct}%` }} />
-        <div className="absolute inset-y-0 bg-primary/40" style={{ left: `${cliffWidthPct}%`, width: `${vestWidthPct}%` }} />
-      </div>
-      <div className="mt-2 grid grid-cols-4 gap-1 text-center text-xs leading-tight text-ink-faint">
-        <div>
-          <span className="block font-semibold text-primary">TGE {tgePct}%</span>
-          Instant
-        </div>
-        <div>
-          <span className="block font-semibold text-ink-dim">{cliffMonths}mo</span>
-          Cliff
-        </div>
-        <div>
-          <span className="block font-semibold text-ink-dim">{vestMonths}mo</span>
-          Vesting
-        </div>
-        <div>
-          <span className="block font-semibold text-green">Full Unlock</span>
-          {totalMonths}mo total
-        </div>
-      </div>
-    </div>
   );
 }
 
 export function EmptyState({ children }: { children: ReactNode }) {
-  return <div className="rounded-xl border border-dashed border-border p-10 text-center text-sm text-ink-faint">{children}</div>;
-}
-
-export function Input({ className = '', ...rest }: InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <input
-      className={`min-h-11 rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-ink placeholder:text-ink-faint outline-none focus:border-primary ${className}`}
-      {...rest}
-    />
+    <div className="rounded-2xl border border-white/[0.04] bg-white/[0.02] p-10 text-center font-sans text-sm text-ink-faint">{children}</div>
   );
-}
-
-export function EyebrowLabel({ children }: { children: ReactNode }) {
-  return <div className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">{children}</div>;
 }

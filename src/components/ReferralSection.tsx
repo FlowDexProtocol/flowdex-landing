@@ -1,7 +1,7 @@
 import { cms, fetchPageContent } from '@/lib/cms';
-import { BuyButton, Section, SectionHeading } from './ui';
+import { Section, SectionHeading } from './ui';
 import Reveal from './motion/Reveal';
-import { slideLeft, slideRight } from '@/lib/motion';
+import { fadeUp, slideLeft, slideRight } from '@/lib/motion';
 
 const STEPS = [
   'Connect your wallet on the buy page to get your unique referral link',
@@ -16,94 +16,52 @@ export default async function ReferralSection() {
   const steps = STEPS.map((fallback, i) => cms(cmsData, 'referral', `step_${i + 1}`, fallback));
 
   return (
-    <Section>
+    <Section id="referral">
       <SectionHeading
+        label="Referral"
         title={cms(cmsData, 'referral', 'title', 'Earn 15% When You Refer')}
         subtitle={cms(cmsData, 'referral', 'subtitle', 'Your friends earn 30% bonus on their purchase.')}
       />
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-        <Reveal variants={slideLeft}>
-          <div>
-            <ol className="space-y-5">
-              {steps.map((step, i) => (
-                <li key={i} className="flex items-start gap-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-[#03131a]">
-                    {i + 1}
-                  </span>
-                  <p className="pt-1 text-sm text-ink-dim sm:text-base">{step}</p>
-                </li>
-              ))}
-            </ol>
-            <BuyButton className="mt-8">Start Earning</BuyButton>
-          </div>
+      <div className="ref-grid">
+        <Reveal variants={slideLeft} className="ref-steps">
+          {steps.map((step, i) => (
+            <div key={i} className="ref-step">
+              <span className="ref-n">{i + 1}</span>
+              <p className="ref-t">{step}</p>
+            </div>
+          ))}
+          <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill" style={{ marginTop: '10px' }}>
+            Start Earning
+          </a>
         </Reveal>
 
-        <Reveal variants={slideRight} delay={0.1}>
-          <div className="flex h-full flex-col justify-center rounded-xl border border-border bg-card p-8">
-            <div className="flex items-center justify-center gap-3 text-center text-sm">
-              <div className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-primary text-xs font-bold text-ink">
-                You
-              </div>
-              <div className="flex flex-col items-center gap-1 text-xs text-ink-faint">
-                <span>Share Link</span>
-                <svg width="40" height="10" viewBox="0 0 40 10" fill="none">
-                  <path d="M0 5h34M30 1l5 4-5 4" stroke="var(--color-primary)" strokeWidth="1.5" strokeDasharray="3 3" />
-                </svg>
-              </div>
-              <div className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-primary text-xs font-bold text-ink">
-                Friend
-              </div>
+        <Reveal variants={slideRight} delay={0.1} className="ref-vis">
+          <div className="ref-flow">
+            <div className="ref-c">You</div>
+            <span className="ref-arr">↓ Share</span>
+            <div className="ref-c">Friend</div>
+            <span className="ref-arr">↓ Buys</span>
+            <div className="ref-res">
+              <div className="ref-b you">15% You</div>
+              <div className="ref-b fri">30% Friend</div>
             </div>
-
-            <div className="mx-auto mt-3 flex flex-col items-center gap-1 text-xs text-ink-faint">
-              <span>Friend Buys</span>
-              <svg width="10" height="28" viewBox="0 0 10 28" fill="none">
-                <path d="M5 0v22M1 18l4 5 4-5" stroke="var(--color-primary)" strokeWidth="1.5" strokeDasharray="3 3" />
-              </svg>
-            </div>
-
-            <div className="mt-3 grid grid-cols-2 divide-x divide-border overflow-hidden rounded-xl border border-border">
-              <div className="p-4 text-center">
-                <div className="text-xs uppercase tracking-widest text-ink-faint">You</div>
-                <div className="mt-1 text-lg font-bold text-green">15% Bonus</div>
-              </div>
-              <div className="p-4 text-center">
-                <div className="text-xs uppercase tracking-widest text-ink-faint">Friend</div>
-                <div className="mt-1 text-lg font-bold text-primary">30% Bonus</div>
-              </div>
-            </div>
-
-            <p className="mt-4 text-center text-xs text-ink-faint">
-              Terminal Credits redeemable when the Intelligence Terminal launches.
-            </p>
           </div>
         </Reveal>
       </div>
 
-      <Reveal className="mx-auto mt-16 max-w-3xl rounded-xl border border-border bg-card p-6 text-center sm:p-10">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+      <Reveal variants={fadeUp} className="mx-auto mt-16 max-w-3xl rounded-xl border border-border bg-card p-6 text-center sm:p-10">
+        <p className="sec-label" style={{ marginBottom: '8px' }}>
           {cms(cmsData, 'referral', 'burn_title', 'Deflationary by Design')}
         </p>
-        <h3 className="mt-2 text-xl font-bold text-ink sm:text-2xl">Every referral purchase burns tokens permanently 🔥</h3>
-        <p className="mx-auto mt-3 max-w-xl text-sm text-ink-dim sm:text-base">
+        <p className="mx-auto max-w-xl font-sans text-sm text-ink-dim sm:text-base">
           {cms(
             cmsData,
             'referral',
             'burn_description',
-            'Every referral purchase burns tokens permanently 🔥. When your friend buys using your code, bonus tokens are created for both of you — and an equal amount is burned from the supply at full tier price. More referrals = more burns = less supply = more value for holders.'
+            'Every referral purchase burns tokens permanently. When your friend buys using your code, bonus tokens are created for both of you — and an equal amount is burned from the supply at full tier price. More referrals = more burns = less supply = more value for holders.'
           )}
         </p>
-        <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-2 text-xs font-semibold text-ink-dim sm:text-sm">
-          <span className="rounded-full border border-border bg-bg-soft px-3 py-1.5">Purchase</span>
-          <span className="text-ink-faint">→</span>
-          <span className="rounded-full border border-primary/30 bg-primary-dim px-3 py-1.5 text-primary">Bonus Created</span>
-          <span className="text-ink-faint">→</span>
-          <span className="rounded-full border border-red/25 bg-red-dim px-3 py-1.5 text-red">Equal Amount Burned</span>
-          <span className="text-ink-faint">→</span>
-          <span className="rounded-full border border-green/25 bg-green-dim px-3 py-1.5 text-green">Supply Decreases</span>
-        </div>
-        <p className="mt-5 text-sm font-semibold text-ink">More referrals = more burns = less supply = more value for holders.</p>
       </Reveal>
     </Section>
   );

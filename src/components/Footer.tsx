@@ -1,22 +1,13 @@
 import Link from 'next/link';
 import { cms, fetchPageContent } from '@/lib/cms';
-import { Container } from './ui';
 import CmsMedia from './CmsMedia';
 import { isSafeLinkUrl } from '@/lib/url-safety';
-
-const RESEARCH_LINKS = [
-  { label: 'Blog', href: '/blogs' },
-  { label: 'Whitepaper', href: '/whitepaper' },
-  { label: 'Tokenomics', href: '/tokenomics' },
-  { label: 'Roadmap', href: '/roadmap' },
-  { label: 'FAQ', href: '/faq' },
-  { label: 'How to Buy', href: '/how-to-buy' },
-];
 
 const LEGAL_LINKS = [
   { label: 'Terms', href: '/terms' },
   { label: 'Privacy', href: '/privacy' },
   { label: 'Legal Notice', href: '/legal' },
+  { label: 'FAQs', href: '/faq' },
 ];
 
 export function SocialIcon({ type }: { type: 'x' | 'telegram' | 'discord' }) {
@@ -42,6 +33,15 @@ export function SocialIcon({ type }: { type: 'x' | 'telegram' | 'discord' }) {
   );
 }
 
+function LogoDrops() {
+  return (
+    <div className="f-logo-drops">
+      <div className="f-drop f-drop-1" />
+      <div className="f-drop f-drop-2" />
+    </div>
+  );
+}
+
 export default async function Footer() {
   const cmsGlobal = await fetchPageContent('global');
   const logoType = cms(cmsGlobal, 'logo', 'type', 'text');
@@ -49,9 +49,15 @@ export default async function Footer() {
   const logoMain = cms(cmsGlobal, 'logo', 'text_main', 'Flow');
   const logoAccent = cms(cmsGlobal, 'logo', 'text_accent', 'Dex');
   const supportEmail = cms(cmsGlobal, 'site', 'support_email', 'support@flowdexprotocol.com');
+  const disclaimer = cms(
+    cmsGlobal,
+    'footer',
+    'disclaimer',
+    'This is not financial advice. $FDP is a utility token. Cryptocurrency purchases carry risk, including total loss of funds.'
+  );
 
   const safeSocialUrl = (raw: string, fallback: string) => (isSafeLinkUrl(raw) ? raw : fallback);
-  const communityLinks = [
+  const socialLinks = [
     {
       key: 'x' as const,
       label: 'X / Twitter',
@@ -73,115 +79,59 @@ export default async function Footer() {
   ];
 
   return (
-    <footer className="border-t border-border bg-footer-bg">
-      <Container className="py-14 sm:py-16">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
-          <div>
-            <Link href="/" className="flex items-center gap-0.5">
-              {logoType === 'image' || logoType === 'animated' ? (
-                <CmsMedia
-                  src={logoImageUrl}
-                  alt={`${logoMain}${logoAccent}`}
-                  className="h-8 w-auto object-contain"
-                  fallback={
-                    <>
-                      <span className="text-xl font-bold text-ink sm:text-2xl">{logoMain}</span>
-                      <span className="text-xl font-bold text-primary sm:text-2xl">{logoAccent}</span>
-                    </>
-                  }
-                />
-              ) : (
-                <>
-                  <span className="text-xl font-bold text-ink sm:text-2xl">{logoMain}</span>
-                  <span className="text-xl font-bold text-primary sm:text-2xl">{logoAccent}</span>
-                </>
-              )}
-            </Link>
-            <p className="mt-3 max-w-[240px] text-sm text-ink-faint">
-              {cms(cmsGlobal, 'site', 'tagline', 'Trade Everything. Know Everything.')}
-            </p>
-            <div className="mt-4 flex items-center gap-2">
-              {communityLinks.map((l) => (
-                <a
-                  key={l.key}
-                  href={l.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center text-ink-faint transition-colors hover:text-ink"
-                  aria-label={l.key}
-                >
-                  <SocialIcon type={l.key} />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-faint">Research</div>
-            <ul>
-              {RESEARCH_LINKS.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="flex min-h-11 items-center text-sm text-ink-faint transition-colors hover:text-ink">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-faint">Legal</div>
-            <ul>
-              {LEGAL_LINKS.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="flex min-h-11 items-center text-sm text-ink-faint transition-colors hover:text-ink">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-faint">Community</div>
-            <ul>
-              {communityLinks.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex min-h-11 items-center text-sm text-ink-faint transition-colors hover:text-ink"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-12 flex flex-col-reverse items-center justify-between gap-3 border-t border-border pt-5 text-center sm:flex-row sm:text-left">
-          <span className="text-xs text-ink-faint">© {new Date().getFullYear()} FlowDex Protocol. All rights reserved.</span>
-          <span className="text-xs text-ink-faint">
-            {cms(
-              cmsGlobal,
-              'footer',
-              'disclaimer',
-              'This is not financial advice. $FDP is a utility token. Cryptocurrency purchases carry risk, including total loss of funds.'
+    <footer>
+      <div className="footer">
+        <div className="f-left">
+          <Link href="/" className="f-logo">
+            {logoType === 'image' || logoType === 'animated' ? (
+              <CmsMedia src={logoImageUrl} alt={`${logoMain}${logoAccent}`} className="h-7 w-auto object-contain" fallback={<LogoDrops />} />
+            ) : (
+              <LogoDrops />
             )}
-          </span>
+            <div className="f-logo-text">
+              <span className="f-logo-name">
+                <em>{logoMain}</em>
+                {logoAccent}
+              </span>
+              <span className="f-logo-sub">Protocol</span>
+            </div>
+          </Link>
+          <div className="f-legal">
+            All rights reserved.
+            {LEGAL_LINKS.map((l) => (
+              <Link key={l.href} href={l.href}>
+                {l.label}
+              </Link>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-1 flex justify-center sm:justify-start">
-          <a
-            href={`mailto:${supportEmail}`}
-            className="flex min-h-11 items-center text-xs text-ink-faint transition-colors hover:text-ink"
-          >
-            Support: {supportEmail}
+        <div className="f-right">
+          {socialLinks.map((l) => (
+            <a key={l.key} href={l.href} target="_blank" rel="noopener noreferrer" className="f-link">
+              <span className="flex items-center gap-2">
+                <SocialIcon type={l.key} />
+                {l.label}
+              </span>
+              <span className="f-icon">↗</span>
+            </a>
+          ))}
+          <a href={`mailto:${supportEmail}`} className="f-link">
+            <span className="flex items-center gap-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m3 7 9 6 9-6" />
+              </svg>
+              {supportEmail}
+            </span>
+            <span className="f-icon">↗</span>
           </a>
         </div>
-      </Container>
+      </div>
+
+      <div className="f-disc">
+        © {new Date().getFullYear()} FlowDex Protocol. {disclaimer}
+      </div>
     </footer>
   );
 }

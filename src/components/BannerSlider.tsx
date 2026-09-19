@@ -7,6 +7,8 @@ import { PURCHASE_URL } from '@/lib/api';
 import { isSafeLinkUrl, sanitizeImageUrl } from '@/lib/url-safety';
 
 const AUTO_ROTATE_MS = 5000;
+const SLIDE_STYLES = ['bs1', 'bs2', 'bs3'] as const;
+const SHAPE_STYLES = ['bsh1', 'bsh2', 'bsh3'] as const;
 
 function getRemaining(targetIso: string) {
   const diff = new Date(targetIso).getTime() - Date.now();
@@ -27,14 +29,17 @@ function BannerCountdown({ targetIso }: { targetIso: string }) {
   }, [targetIso]);
 
   if (!remaining) {
-    return <span className="text-xs font-semibold uppercase tracking-widest text-red">Ended</span>;
+    return <div className="banner-countdown text-red">Ended</div>;
   }
 
   const pad = (n: number) => String(n).padStart(2, '0');
   return (
-    <span className="font-mono text-xs font-semibold uppercase tracking-widest text-ink">
-      {remaining.days}d {pad(remaining.hours)}h {pad(remaining.minutes)}m {pad(remaining.seconds)}s
-    </span>
+    <div className="banner-countdown">
+      <strong>
+        {remaining.days}d {pad(remaining.hours)}h {pad(remaining.minutes)}m {pad(remaining.seconds)}s
+      </strong>
+      remaining
+    </div>
   );
 }
 
@@ -46,12 +51,7 @@ function BannerCta({ banner }: { banner: CmsBanner }) {
   const isBuyCta = /buy/i.test(banner.cta_text);
   if (isBuyCta) {
     return (
-      <a
-        href={PURCHASE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex w-fit items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-6 py-3 text-sm font-semibold text-[#03131a] transition-transform hover:-translate-y-0.5"
-      >
+      <a href={PURCHASE_URL} target="_blank" rel="noopener noreferrer" className="pill">
         {banner.cta_text}
       </a>
     );
@@ -62,21 +62,13 @@ function BannerCta({ banner }: { banner: CmsBanner }) {
   const isExternal = /^https:\/\//i.test(href);
   if (isExternal) {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex w-fit items-center gap-2 rounded-xl border-[1.5px] border-primary/50 px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary-dim"
-      >
+      <a href={href} target="_blank" rel="noopener noreferrer" className="pill pill-ghost">
         {banner.cta_text}
       </a>
     );
   }
   return (
-    <Link
-      href={href}
-      className="inline-flex w-fit items-center gap-2 rounded-xl border-[1.5px] border-primary/50 px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary-dim"
-    >
+    <Link href={href} className="pill pill-ghost">
       {banner.cta_text}
     </Link>
   );
@@ -130,26 +122,24 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
     touchStartX.current = null;
   }
 
+  const prev = () => setIndex((i) => (i - 1 + banners.length) % banners.length);
+  const next = () => setIndex((i) => (i + 1) % banners.length);
+
   return (
-    <div
-      className="relative h-[180px] w-full overflow-hidden border-b border-border bg-bg-soft sm:h-[280px]"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
+    <div className="banner-slider" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {banners.map((banner, i) => {
         const safeDesktopUrl = sanitizeImageUrl(banner.image_url_desktop);
         const safeMobileUrl = sanitizeImageUrl(banner.image_url_mobile);
         const hasImage = !!safeDesktopUrl && !brokenImages.has(banner.id);
         const hasColor = !!banner.bg_color;
+        const slideStyle = SLIDE_STYLES[i % SLIDE_STYLES.length];
+        const shapeStyle = SHAPE_STYLES[i % SHAPE_STYLES.length];
+
         return (
           <div
             key={banner.id}
-            className="absolute inset-0 flex items-center transition-opacity duration-700 ease-out"
-            style={{
-              opacity: i === index ? 1 : 0,
-              pointerEvents: i === index ? 'auto' : 'none',
-              backgroundColor: hasColor ? banner.bg_color! : undefined,
-            }}
+            className={`banner-slide ${hasImage || hasColor ? '' : slideStyle}${i === index ? ' active' : ''}`}
+            style={hasColor ? { backgroundColor: banner.bg_color! } : undefined}
           >
             {hasImage && (
               <>
@@ -166,50 +156,40 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
                 <div className="absolute inset-0 bg-bg/40" />
               </>
             )}
-            {!hasImage && !hasColor && (
-              <>
-                <div className="absolute inset-0 bg-radial-glow" />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage:
-                      'linear-gradient(rgba(98,126,234,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(98,126,234,0.05) 1px, transparent 1px)',
-                    backgroundSize: '48px 48px',
-                  }}
-                />
-              </>
-            )}
 
-            <div className="relative mx-auto flex w-full max-w-6xl flex-col justify-center gap-2 px-4 sm:gap-4 sm:px-6 lg:px-8">
-              <h2 className="line-clamp-2 max-w-xl text-xl font-bold leading-tight text-ink sm:text-3xl">{banner.title}</h2>
-              {banner.subtitle && (
-                <p className="line-clamp-2 max-w-lg text-xs text-ink-dim sm:text-base">{banner.subtitle}</p>
-              )}
+            <div className={`banner-shape ${shapeStyle}`} />
+
+            <div className="banner-inner">
+              {banner.subtitle && <div className="banner-tag">{banner.subtitle}</div>}
+              <h2 className="banner-h">{banner.title}</h2>
               {banner.show_countdown && banner.countdown_end && <BannerCountdown targetIso={banner.countdown_end} />}
-              <div className="mt-1 sm:mt-2">
-                <BannerCta banner={banner} />
-              </div>
+              <BannerCta banner={banner} />
             </div>
           </div>
         );
       })}
 
       {banners.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
-          {banners.map((b, i) => (
-            <button
-              key={b.id}
-              onClick={() => setIndex(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className="flex h-6 w-6 items-center justify-center"
-            >
-              <span
-                className="h-1.5 rounded-full transition-all duration-300"
-                style={{ width: i === index ? 20 : 6, background: i === index ? 'var(--color-primary)' : 'var(--color-border)' }}
-              />
+        <>
+          <div className="banner-arrows">
+            <button type="button" className="barr" onClick={prev} aria-label="Previous slide">
+              ‹
             </button>
-          ))}
-        </div>
+            <button type="button" className="barr" onClick={next} aria-label="Next slide">
+              ›
+            </button>
+          </div>
+          <div className="banner-dots">
+            {banners.map((b, i) => (
+              <button
+                key={b.id}
+                onClick={() => setIndex(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`bdot${i === index ? ' active' : ''}`}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

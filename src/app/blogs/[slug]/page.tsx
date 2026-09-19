@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { sanitizeHtml } from '@/lib/sanitize';
 import { getCmsBlogPost } from '@/lib/api';
 import { formatDate } from '@/lib/format';
-import { Container, Pill, Section } from '@/components/ui';
+import { Container, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import CmsImage from '@/components/CmsImage';
 import { resolveApiUrl } from '@/lib/cms';
@@ -118,22 +118,23 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
-      <section className="border-b border-border bg-radial-glow py-14 sm:py-16">
-        <Container>
-          <Reveal>
-            <Link href="/blogs" className="text-xs font-semibold text-primary hover:underline">
+      <div className="page-hero" style={{ paddingBottom: '40px' }}>
+        <div className="page-hero-glow" />
+        <Reveal>
+          <Container className="text-left">
+            <Link href="/blogs" className="font-sans text-xs font-semibold text-primary hover:underline">
               ← Back to Blog
             </Link>
-            <div className="mx-auto mt-6 max-w-[800px] text-left">
-              <Pill tone="neutral">{post.category}</Pill>
-              <h1 className="mt-4 text-2xl font-bold leading-tight text-ink sm:text-4xl">{post.title}</h1>
-              <p className="mt-4 text-xs text-ink-faint">
+            <div className="mx-auto mt-6 max-w-[800px]">
+              <span className="eco-tag">{post.category}</span>
+              <h1 style={{ fontSize: '38px', marginTop: '14px', textAlign: 'left' }}>{post.title}</h1>
+              <p className="mt-4 font-sans text-xs text-ink-faint" style={{ textAlign: 'left', margin: '14px 0 0' }}>
                 {post.author} · {formatDate(post.published_at)}
               </p>
             </div>
-          </Reveal>
-        </Container>
-      </section>
+          </Container>
+        </Reveal>
+      </div>
 
       <Section className="!pt-0">
         <div className="mx-auto max-w-[800px] overflow-x-hidden">
@@ -142,15 +143,12 @@ export default async function BlogPostPage(props: PageProps<'/blogs/[slug]'>) {
             alt=""
             className="mb-8 h-auto max-h-[400px] w-full rounded-xl border border-border object-cover"
             fallback={
-              <div className="mb-8 flex aspect-video w-full items-center justify-center rounded-xl border border-border bg-gradient-to-br from-primary/15 to-purple/15">
-                <span className="text-xs font-semibold uppercase tracking-widest text-primary/40">{post.category}</span>
+              <div className="blog-thumb mb-8 flex aspect-video w-full items-center justify-center rounded-xl">
+                <span className="eco-tag">{post.category}</span>
               </div>
             }
           />
-          <div
-            className="prose-blog max-w-full space-y-4 text-sm leading-relaxed text-ink-dim sm:text-base"
-            dangerouslySetInnerHTML={{ __html: safeContent }}
-          />
+          <div className="prose-blog max-w-full" dangerouslySetInnerHTML={{ __html: safeContent }} />
         </div>
       </Section>
     </>

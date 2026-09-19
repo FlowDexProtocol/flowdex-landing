@@ -1,10 +1,10 @@
 import { getPublicScenarios, getTierCurrent } from '@/lib/api';
 import { formatCompactUSD, formatTokenPrice, toNum } from '@/lib/format';
 import { cms, fetchPageContent } from '@/lib/cms';
-import { BuyButton, Container, GlassCard, OutlineLink, Pill, ProgressBar } from './ui';
 import Reveal from './motion/Reveal';
 import { fadeUp, slideRight } from '@/lib/motion';
 import { isSafeLinkUrl } from '@/lib/url-safety';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 const ACCEPTED_CURRENCIES = ['ETH', 'USDT', 'USDC', 'BNB', 'SOL', 'BTC', 'TRX'];
 
@@ -25,110 +25,87 @@ export default async function Hero() {
   const ctaSecondaryLinkRaw = cms(cmsData, 'hero', 'cta_secondary_link', '/whitepaper');
   const ctaSecondaryLink = isSafeLinkUrl(ctaSecondaryLinkRaw) ? ctaSecondaryLinkRaw : '/whitepaper';
 
+  const countdownText = presaleLive
+    ? tier.countdown ?? cms(cmsData, 'presale_card', 'countdown_text', `${tier.name} closes at $${formatCompactUSD(tier.hard_cap_usd)}`)
+    : null;
+
   return (
-    <section className="relative overflow-hidden bg-radial-glow py-14 sm:py-20">
-      <Container>
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[3fr_2fr] lg:gap-14">
-          {/* LEFT — 60% */}
-          <div>
-            <Reveal variants={fadeUp}>
-              <Pill tone="green" className="mb-5">
-                <span className="h-1.5 w-1.5 rounded-full bg-green pulse-dot" />
-                {cms(cmsData, 'hero', 'badge_text', 'Presale Live')}
-              </Pill>
-            </Reveal>
+    <section className="hero">
+      <div className="shape sh1" />
+      <div className="shape sh2" />
 
-            <Reveal variants={fadeUp} delay={0.05}>
-              <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
-                {cms(cmsData, 'hero', 'headline_1', 'Trade Everything.')}
-                <br />
-                <span className="text-primary">{cms(cmsData, 'hero', 'headline_2', 'Know Everything.')}</span>
-              </h1>
-            </Reveal>
+      <div className="hero-left">
+        <Reveal variants={fadeUp}>
+          <h1>
+            {cms(cmsData, 'hero', 'headline_1', 'What is')} <em>{cms(cmsData, 'hero', 'headline_2', 'FlowDex Protocol?')}</em>
+          </h1>
+        </Reveal>
 
-            <Reveal variants={fadeUp} delay={0.1}>
-              <p className="mt-5 max-w-xl text-base text-ink-dim sm:text-lg">
-                {cms(
-                  cmsData,
-                  'hero',
-                  'subtitle',
-                  'FlowDex Protocol unifies crypto, stocks, forex, and commodities into a single intelligent trading layer. $FDP powers fee sharing, governance, and AI-driven market intelligence.'
-                )}
-              </p>
-            </Reveal>
+        <Reveal variants={fadeUp} delay={0.08}>
+          <p className="hero-body">
+            {cms(
+              cmsData,
+              'hero',
+              'subtitle',
+              'FlowDex Protocol unifies crypto, stocks, forex, and commodities into a single intelligent trading layer. $FDP powers fee sharing, governance, and market intelligence.'
+            )}
+          </p>
+        </Reveal>
 
-            <Reveal variants={fadeUp} delay={0.15}>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <BuyButton href={ctaPrimaryLink}>
-                  {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
-                </BuyButton>
-                <OutlineLink href={ctaSecondaryLink}>
-                  {cms(cmsData, 'hero', 'cta_secondary_text', 'Read Whitepaper')}
-                </OutlineLink>
-              </div>
-            </Reveal>
-
-            <Reveal variants={fadeUp} delay={0.2}>
-              <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs text-ink-faint">
-                {[
-                  cms(cmsData, 'hero', 'trust_1', 'Audit in Progress'),
-                  cms(cmsData, 'hero', 'trust_2', 'Community Growing'),
-                  cms(cmsData, 'hero', 'trust_3', '6 Chains'),
-                ].map((t) => (
-                  <span key={t} className="flex items-center gap-1.5">
-                    <span className="h-1 w-1 rounded-full bg-ink-faint" />
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </Reveal>
+        <Reveal variants={fadeUp} delay={0.16}>
+          <div className="hero-btns">
+            <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" className="pill">
+              {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
+            </a>
+            <a href={ctaSecondaryLink} className="pill pill-ghost">
+              {cms(cmsData, 'hero', 'cta_secondary_text', 'Read Whitepaper')}
+            </a>
           </div>
+        </Reveal>
+      </div>
 
-          {/* RIGHT — 40% — Live Presale Card */}
-          <Reveal variants={slideRight} delay={0.1}>
-            <GlassCard className="p-6 shadow-[0_0_50px_rgba(98,126,234,0.08)] sm:p-8">
-              {presaleLive ? (
-                <>
-                  <div className="text-xs font-semibold uppercase tracking-widest text-ink-faint">
-                    {cms(cmsData, 'presale_card', 'label', `Stage: ${tier.name}`)}
-                  </div>
-                  <div className="mt-2 font-mono text-4xl font-extrabold text-primary sm:text-[42px]">{formatTokenPrice(tier.price)}</div>
+      <Reveal as="div" variants={slideRight} delay={0.1} className="pc">
+        {presaleLive ? (
+          <>
+            <div className="pc-label">
+              <span className="pc-dot" />
+              {cms(cmsData, 'presale_card', 'label', `Stage · ${tier.name}`)}
+            </div>
+            <div className="pc-price">{formatTokenPrice(tier.price)}</div>
+            <div className="pc-listing">
+              Listing: <s>{formatTokenPrice(listingPrice)}</s>
+              {discountPct > 0 && <span className="pc-green">{discountPct.toFixed(0)}% below</span>}
+            </div>
 
-                  <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-                    <span className="text-ink-faint">
-                      Listing: <span className="line-through">{formatTokenPrice(listingPrice)}</span>
-                    </span>
-                    {discountPct > 0 && <Pill tone="green">{discountPct.toFixed(0)}% below listing</Pill>}
-                  </div>
+            {countdownText && <div className="pc-countdown" dangerouslySetInnerHTML={{ __html: sanitizeHtml(countdownText) }} />}
 
-                  <div className="mt-5">
-                    <ProgressBar pct={progressPct} shimmer />
-                    <div className="mt-2 flex justify-between text-xs text-ink-faint">
-                      <span className="font-mono text-ink-dim">{formatCompactUSD(tier.total_raised_usd)} raised</span>
-                      <span className="font-mono">{formatCompactUSD(tier.hard_cap_usd)} goal</span>
-                    </div>
-                  </div>
+            <div className="pbar">
+              <div className="pfill" style={{ width: `${Math.min(100, Math.max(0, progressPct))}%` }} />
+            </div>
+            <div className="pc-stats">
+              <span>{formatCompactUSD(tier.total_raised_usd)} raised</span>
+              <span>{formatCompactUSD(tier.hard_cap_usd)} goal</span>
+            </div>
 
-                  <div className="my-5 border-t border-border" />
-
-                  <BuyButton className="w-full" href={ctaPrimaryLink}>
-                    {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
-                  </BuyButton>
-                  <p className="mt-3 text-center text-xs text-ink-faint">
-                    {cms(cmsData, 'presale_card', 'tokens_accepted', ACCEPTED_CURRENCIES.join(' · '))}
-                  </p>
-                </>
-              ) : (
-                <div className="py-6 text-center">
-                  <div className="text-lg font-bold text-primary">Presale Complete</div>
-                  <p className="mt-2 text-sm text-ink-dim">All presale tiers have sold out. Thank you for backing FlowDex.</p>
-                  <BuyButton className="mt-5 w-full">View Dashboard</BuyButton>
-                </div>
-              )}
-            </GlassCard>
-          </Reveal>
-        </div>
-      </Container>
+            <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" className="pc-buy">
+              {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
+            </a>
+            <p className="pc-tokens">{cms(cmsData, 'presale_card', 'tokens_accepted', ACCEPTED_CURRENCIES.join(' · '))}</p>
+          </>
+        ) : (
+          <div className="py-6 text-center">
+            <div className="pc-price" style={{ fontSize: '22px' }}>
+              Presale Complete
+            </div>
+            <p className="hero-body" style={{ margin: '10px 0 20px', maxWidth: 'none' }}>
+              All presale tiers have sold out. Thank you for backing FlowDex.
+            </p>
+            <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" className="pc-buy">
+              View Dashboard
+            </a>
+          </div>
+        )}
+      </Reveal>
     </section>
   );
 }

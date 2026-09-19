@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { cms, fetchPageContent } from '@/lib/cms';
-import { Container, Section } from '@/components/ui';
+import { Section } from '@/components/ui';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
 import Reveal from '@/components/motion/Reveal';
 
@@ -92,61 +92,52 @@ export default async function HowToBuyPage() {
 
   return (
     <>
-      <section className="bg-radial-glow py-14 sm:py-20">
-        <Container className="text-center">
-          <Reveal>
-            <h1 className="text-3xl font-bold text-ink sm:text-5xl">
-              How to Buy <span className="text-primary">$FDP</span>
-            </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-ink-dim sm:text-lg">Beginner&rsquo;s Guide</p>
-          </Reveal>
-        </Container>
-      </section>
+      <div className="page-hero">
+        <div className="page-hero-glow" />
+        <Reveal>
+          <h1>
+            How to Buy <em>$FDP</em>
+          </h1>
+          <p>Beginner&rsquo;s Guide</p>
+        </Reveal>
+      </div>
 
       <Section>
-        <StaggerGroup className="mx-auto max-w-3xl space-y-6" staggerDelay={0.08}>
+        <StaggerGroup className="mx-auto max-w-3xl space-y-4">
           {STEPS.map((step, i) => (
             <StaggerItem key={step.title}>
-              <div className="rounded-xl border border-border bg-card p-6 sm:p-8">
+              <div className="htb-step" style={{ textAlign: 'left' }}>
                 <div className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-dim">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)">
+                  <div className="htb-num" style={{ margin: 0 }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       {step.icon}
                     </svg>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-primary">Step {i + 1}</p>
-                    <h2 className="mt-1 text-lg font-bold text-ink sm:text-xl">{step.title}</h2>
+                    <p className="sec-label" style={{ marginBottom: '4px' }}>
+                      Step {i + 1}
+                    </p>
+                    <h4 style={{ fontSize: '17px' }}>{step.title}</h4>
                   </div>
                 </div>
 
-                <p className="mt-4 text-sm leading-relaxed text-ink-dim sm:text-base">{step.body}</p>
+                <p className="mt-4">{step.body}</p>
 
                 {step.links.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
                     {step.links.map((l) => (
-                      <a
-                        key={l.href}
-                        href={l.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-semibold text-primary hover:underline"
-                      >
+                      <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="font-sans text-sm font-semibold text-primary hover:underline">
                         {l.label}
                       </a>
                     ))}
                   </div>
                 )}
-
-                <div className="mt-5 flex h-32 items-center justify-center rounded-xl border border-dashed border-border text-xs text-ink-faint sm:h-40">
-                  Screenshot coming soon
-                </div>
               </div>
             </StaggerItem>
           ))}
         </StaggerGroup>
 
-        <p className="mt-10 text-center text-sm text-ink-dim">
+        <p className="mt-10 text-center font-sans text-sm text-ink-dim">
           Still confused? Contact{' '}
           <a href={`mailto:${supportEmail}`} className="font-semibold text-primary hover:underline">
             {supportEmail}

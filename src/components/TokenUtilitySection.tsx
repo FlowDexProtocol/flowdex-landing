@@ -1,10 +1,14 @@
 import { cms, fetchPageContent } from '@/lib/cms';
 import { Section, SectionHeading } from './ui';
-import Reveal from './motion/Reveal';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
-import { scaleIn } from '@/lib/motion';
 
 const UTILITIES = [
+  {
+    num: '01',
+    key: 'utility_1',
+    title: '40% Fee Sharing',
+    description: 'Stake $FDP to earn 40% of all trading fees. Every trade across crypto, stocks, forex, and commodities generates revenue for stakers.',
+  },
   {
     num: '02',
     key: 'utility_2',
@@ -32,62 +36,29 @@ const UTILITIES = [
   {
     num: '06',
     key: 'utility_6',
-    title: 'Deflationary Supply 🔥',
-    description:
-      'Every referral purchase permanently burns $FDP from the supply. The more the community grows, the scarcer $FDP becomes.',
+    title: 'Deflationary Burns',
+    description: 'Every referral purchase permanently burns $FDP from the supply. The more the community grows, the scarcer $FDP becomes.',
   },
 ];
 
-function UtilityIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.5">
-      <path d="M12 3v4M12 17v4M5 12H3M21 12h-2" strokeLinecap="round" />
-      <circle cx="12" cy="12" r="5" />
-    </svg>
-  );
-}
-
 export default async function TokenUtilitySection() {
   const cmsData = await fetchPageContent('home');
-  const featuredTitle = cms(cmsData, 'utility_1', 'title', '40% Fee Sharing');
-  const featuredDescription = cms(
-    cmsData,
-    'utility_1',
-    'description',
-    'Stake $FDP to earn 40% of all trading fees. Every trade across crypto, stocks, forex, and commodities generates revenue for stakers.'
-  );
 
   return (
-    <Section>
+    <Section id="utility">
       <SectionHeading
+        label="Utility"
         title={cms(cmsData, 'utility', 'title', '$FDP Powers Everything')}
         subtitle={cms(cmsData, 'utility', 'subtitle', 'Six utilities. One token. Real value from day one.')}
       />
 
-      {/* Featured card 01 */}
-      <Reveal variants={scaleIn} className="relative mb-5 overflow-hidden rounded-xl border border-border border-l-[3px] border-l-primary bg-card p-6 shadow-[0_0_40px_rgba(98,126,234,0.08)] sm:p-10">
-        <span className="pointer-events-none absolute right-4 top-0 select-none text-[80px] font-black leading-none text-primary/[0.08] sm:right-8">
-          01
-        </span>
-        <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-primary-dim">
-          <UtilityIcon />
-        </div>
-        <h3 className="relative mt-4 text-xl font-bold text-ink sm:text-2xl">{featuredTitle}</h3>
-        <p className="relative mt-2 max-w-xl text-sm text-ink-faint sm:text-base">{featuredDescription}</p>
-      </Reveal>
-
-      <StaggerGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2" staggerDelay={0.08}>
+      <StaggerGroup className="ugrid">
         {UTILITIES.map((u) => (
           <StaggerItem key={u.num}>
-            <div className="relative h-full overflow-hidden rounded-xl border border-border bg-card p-6">
-              <span className="pointer-events-none absolute right-3 top-0 select-none text-[64px] font-black leading-none text-primary/[0.08]">
-                {u.num}
-              </span>
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-primary-dim">
-                <UtilityIcon />
-              </div>
-              <h3 className="relative mt-4 text-lg font-bold text-ink">{cms(cmsData, u.key, 'title', u.title)}</h3>
-              <p className="relative mt-2 text-sm text-ink-faint">{cms(cmsData, u.key, 'description', u.description)}</p>
+            <div className="ucard">
+              <span className="unum">{u.num}</span>
+              <h4>{cms(cmsData, u.key, 'title', u.title)}</h4>
+              <p>{cms(cmsData, u.key, 'description', u.description)}</p>
             </div>
           </StaggerItem>
         ))}

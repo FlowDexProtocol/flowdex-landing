@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { BuyButton, Container, Pill, Section } from '@/components/ui';
+import { Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import { fetchWhitepaperUrl, resolveApiUrl } from '@/lib/cms';
 
@@ -55,40 +55,28 @@ export default async function WhitepaperPage() {
 
   return (
     <>
-      <section className="bg-radial-glow py-14 sm:py-20">
-        <Container className="text-center">
-          <Reveal>
-            <Pill tone="neutral" className="mb-5">
-              Living document — updated as the protocol evolves
-            </Pill>
-            <h1 className="text-3xl font-bold text-ink sm:text-5xl">FlowDex Protocol Whitepaper v7.0</h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-ink-dim sm:text-lg">
-              The full protocol whitepaper — the $FDP token, presale mechanics, tokenomics, and the FlowDex roadmap.
-            </p>
-            <div className="mt-8 flex justify-center">
-              <a
-                href={pdfUrl}
-                download
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#4E65BB] px-6 py-3.5 text-sm font-semibold text-[#03131a] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(98,126,234,0.35)]"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
-                </svg>
-                Download Whitepaper
-              </a>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <div className="page-hero">
+        <div className="page-hero-glow" />
+        <Reveal>
+          <div className="pill pill-ghost pill-sm mb-5" style={{ display: 'inline-flex', cursor: 'default' }}>
+            Living document — updated as the protocol evolves
+          </div>
+          <h1>FlowDex Protocol Whitepaper v7.0</h1>
+          <p>The full protocol whitepaper — the $FDP token, presale mechanics, tokenomics, and the FlowDex roadmap.</p>
+          <div className="mt-8 flex justify-center">
+            <a href={pdfUrl} download className="pill">
+              Download Whitepaper
+            </a>
+          </div>
+        </Reveal>
+      </div>
 
       <Section>
         <Reveal>
-          <div className="overflow-hidden rounded-xl border border-border bg-card">
+          <div className="overflow-hidden rounded-xl border border-border">
             <iframe src={pdfUrl} title="FlowDex Protocol Whitepaper" className="h-[50vh] w-full sm:h-[80vh]" />
           </div>
-          <p className="mt-4 text-center text-sm text-ink-faint">
-            Unable to display PDF? Click the download button above.
-          </p>
+          <p className="mt-4 text-center font-sans text-sm text-ink-faint">Unable to display PDF? Click the download button above.</p>
         </Reveal>
       </Section>
 
@@ -96,14 +84,18 @@ export default async function WhitepaperPage() {
         <div className="mx-auto max-w-3xl space-y-10">
           {SECTIONS.map((s) => (
             <Reveal key={s.title}>
-              <h2 className="text-xl font-bold text-ink sm:text-2xl">{s.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-ink-dim sm:text-base">{s.body}</p>
+              <h2 className="sec-title" style={{ fontSize: '26px', marginBottom: '8px' }}>
+                {s.title}
+              </h2>
+              <p className="doc-body">{s.body}</p>
             </Reveal>
           ))}
         </div>
 
         <div className="mt-14 flex justify-center">
-          <BuyButton />
+          <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill">
+            Buy $FDP
+          </a>
         </div>
       </Section>
     </>
