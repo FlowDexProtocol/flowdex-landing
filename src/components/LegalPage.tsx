@@ -74,7 +74,7 @@ function renderMarkdownLite(body: string) {
       return (
         <div key={i} className={heading ? 'space-y-2' : undefined}>
           {heading && (
-            <h2 className="sec-title" style={{ fontSize: '22px', marginBottom: '4px' }}>
+            <h2 className="doc-heading" style={{ fontSize: '22px' }}>
               {heading}
             </h2>
           )}
@@ -124,7 +124,7 @@ export default function LegalPage({
             <div className="space-y-9">
               {sections.map((s) => (
                 <div key={s.heading}>
-                  <h2 className="sec-title" style={{ fontSize: '22px', marginBottom: '4px' }}>
+                  <h2 className="doc-heading" style={{ fontSize: '22px' }}>
                     {s.heading}
                   </h2>
                   <div className="mt-2 space-y-3">

@@ -60,7 +60,7 @@ export default async function AboutPage() {
           <div className="space-y-16">
             <Reveal>
               <div>
-                <h2 className="sec-title" style={{ fontSize: '30px', marginBottom: '10px' }}>
+                <h2 className="doc-heading" style={{ fontSize: '30px' }}>
                   Our Mission
                 </h2>
                 <p className="doc-body">
@@ -72,7 +72,7 @@ export default async function AboutPage() {
 
             <Reveal>
               <div>
-                <h2 className="sec-title" style={{ fontSize: '30px', marginBottom: '10px' }}>
+                <h2 className="doc-heading" style={{ fontSize: '30px' }}>
                   What We&rsquo;re Building
                 </h2>
                 <p className="doc-body">
@@ -89,7 +89,7 @@ export default async function AboutPage() {
 
             <Reveal>
               <div>
-                <h2 className="sec-title" style={{ fontSize: '30px', marginBottom: '10px' }}>
+                <h2 className="doc-heading" style={{ fontSize: '30px' }}>
                   The $FDP Token
                 </h2>
                 <p className="doc-body">

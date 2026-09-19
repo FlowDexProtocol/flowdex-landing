@@ -84,7 +84,7 @@ export default async function WhitepaperPage() {
         <div className="mx-auto max-w-3xl space-y-10">
           {SECTIONS.map((s) => (
             <Reveal key={s.title}>
-              <h2 className="sec-title" style={{ fontSize: '26px', marginBottom: '8px' }}>
+              <h2 className="doc-heading" style={{ fontSize: '26px' }}>
                 {s.title}
               </h2>
               <p className="doc-body">{s.body}</p>

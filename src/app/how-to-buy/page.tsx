@@ -114,7 +114,7 @@ export default async function HowToBuyPage() {
                     </svg>
                   </div>
                   <div className="min-w-0">
-                    <p className="sec-label" style={{ marginBottom: '4px' }}>
+                    <p className="sec-label" style={{ marginBottom: '4px', textAlign: 'left' }}>
                       Step {i + 1}
                     </p>
                     <h4 style={{ fontSize: '17px' }}>{step.title}</h4>

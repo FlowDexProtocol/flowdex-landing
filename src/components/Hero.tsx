@@ -29,6 +29,30 @@ export default async function Hero() {
     ? tier.countdown ?? cms(cmsData, 'presale_card', 'countdown_text', `${tier.name} closes at $${formatCompactUSD(tier.hard_cap_usd)}`)
     : null;
 
+  // The CMS still holds the pre-redesign copy ("Trade Everything. Know
+  // Everything.") for hero.headline_1/2 — CMS content otherwise always wins
+  // over the fallback, so that stale value would keep showing even after
+  // updating the fallback below. Detect it specifically and render the new
+  // "What is FlowDex Protocol?" copy (with FlowDex italicized, matching the
+  // prototype) instead, while still falling through to genuine CMS-authored
+  // headlines once someone edits these fields to anything else.
+  const headline1 = cms(cmsData, 'hero', 'headline_1', 'What is FlowDex Protocol?');
+  const headline2 = cms(cmsData, 'hero', 'headline_2', '');
+  const useNewHeroHeadline = /trade everything/i.test(headline1) || headline1 === 'What is FlowDex Protocol?';
+
+  const subtitle = cms(
+    cmsData,
+    'hero',
+    'subtitle',
+    'FlowDex Protocol is building a single platform where you can trade crypto, stocks, forex, and commodities. Behind it sits an AI-powered Intelligence Terminal that tracks whale movements, detects patterns, and sends alerts before the market moves.'
+  );
+  const subtitle2 = cms(
+    cmsData,
+    'hero',
+    'subtitle_2',
+    '$FDP is the token that runs the network. Hold it to earn 40% of all trading fees, vote on how the protocol evolves, and unlock the full Intelligence Terminal.'
+  );
+
   return (
     <section className="hero">
       <div className="shape sh1" />
@@ -37,19 +61,26 @@ export default async function Hero() {
       <div className="hero-left">
         <Reveal variants={fadeUp}>
           <h1>
-            {cms(cmsData, 'hero', 'headline_1', 'What is')} <em>{cms(cmsData, 'hero', 'headline_2', 'FlowDex Protocol?')}</em>
+            {useNewHeroHeadline ? (
+              <>
+                What is <em>FlowDex</em> Protocol?
+              </>
+            ) : headline2 ? (
+              <>
+                {headline1} <em>{headline2}</em>
+              </>
+            ) : (
+              headline1
+            )}
           </h1>
         </Reveal>
 
         <Reveal variants={fadeUp} delay={0.08}>
-          <p className="hero-body">
-            {cms(
-              cmsData,
-              'hero',
-              'subtitle',
-              'FlowDex Protocol unifies crypto, stocks, forex, and commodities into a single intelligent trading layer. $FDP powers fee sharing, governance, and market intelligence.'
-            )}
-          </p>
+          <p className="hero-body">{subtitle}</p>
+        </Reveal>
+
+        <Reveal variants={fadeUp} delay={0.12}>
+          <p className="hero-body">{subtitle2}</p>
         </Reveal>
 
         <Reveal variants={fadeUp} delay={0.16}>

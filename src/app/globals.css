@@ -1229,6 +1229,7 @@ body.loading {
   text-transform: uppercase;
   letter-spacing: 2.5px;
   margin-bottom: 20px;
+  text-align: center;
 }
 .sec-title {
   font-family: var(--font-serif);
@@ -1236,8 +1237,9 @@ body.loading {
   font-weight: 300;
   line-height: 1.12;
   max-width: 700px;
-  margin-bottom: 16px;
+  margin: 0 auto 16px;
   color: #fff;
+  text-align: center;
 }
 .sec-title em {
   font-style: italic;
@@ -1248,7 +1250,22 @@ body.loading {
   color: rgba(255, 255, 255, 0.35);
   line-height: 1.7;
   max-width: 500px;
-  margin-bottom: 60px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+/* Left-aligned variant of the heading trio, for prose/document pages
+   (About mission blocks, Whitepaper sections, Legal Notice headings)
+   where centering a document's own subheadings would read wrong — the
+   sections fix above only wants the homepage-style title/subtitle/label
+   blocks centered, not article prose. */
+.doc-heading {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 300;
+  color: #fff;
+  text-align: left;
+  margin: 0 0 10px;
 }
 
 /* ── How to buy steps ── */
@@ -1308,6 +1325,7 @@ body.loading {
   display: flex;
   gap: 60px;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
 }
 .donut-legend {
@@ -1320,7 +1338,7 @@ body.loading {
   align-items: center;
   gap: 10px;
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.6);
 }
 .donut-dot {
@@ -1341,6 +1359,7 @@ body.loading {
 .rm-timeline {
   position: relative;
   padding-left: 40px;
+  margin: 0 auto;
 }
 .rm-line {
   position: absolute;
@@ -1453,6 +1472,7 @@ body.loading {
 /* ── Accordion (tiers + FAQ) ── */
 .accordion {
   max-width: 900px;
+  margin: 0 auto;
 }
 .acc-item {
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);

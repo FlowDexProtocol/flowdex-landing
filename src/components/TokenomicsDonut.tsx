@@ -9,9 +9,9 @@ export interface AllocationSlice {
   color: string;
 }
 
-const SIZE = 220;
-const RADIUS = 80;
-const STROKE = 26;
+const SIZE = 280;
+const RADIUS = 105;
+const STROKE = 34;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const CENTER = SIZE / 2;
 // Segments below this share get a legend-only permanent percentage label —
@@ -53,7 +53,7 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
         width={SIZE}
         height={SIZE}
         viewBox={`0 0 ${SIZE} ${SIZE}`}
-        className="h-[180px] w-[180px] shrink-0 overflow-visible sm:h-[220px] sm:w-[220px]"
+        className="h-[280px] w-[280px] shrink-0 overflow-visible sm:h-[400px] sm:w-[400px]"
         style={{ transform: 'rotate(-90deg)' }}
       >
         <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="none" stroke="var(--color-card)" strokeWidth={STROKE} />
@@ -91,7 +91,7 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
               x={s.labelX}
               y={s.labelY}
               fill="#03131a"
-              fontSize="13"
+              fontSize="15"
               fontWeight="700"
               textAnchor="middle"
               dominantBaseline="middle"
@@ -111,10 +111,10 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
             }}
           >
             <rect
-              x={segments[hovered].labelX - 46}
-              y={segments[hovered].labelY - 34}
-              width={92}
-              height={30}
+              x={segments[hovered].labelX - 54}
+              y={segments[hovered].labelY - 38}
+              width={108}
+              height={34}
               rx={8}
               fill="var(--color-bg)"
               stroke={segments[hovered].color}
@@ -122,9 +122,9 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
             />
             <text
               x={segments[hovered].labelX}
-              y={segments[hovered].labelY - 23}
+              y={segments[hovered].labelY - 26}
               textAnchor="middle"
-              fontSize="9.5"
+              fontSize="11"
               fontWeight="700"
               fill="var(--color-ink)"
             >
@@ -132,9 +132,9 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
             </text>
             <text
               x={segments[hovered].labelX}
-              y={segments[hovered].labelY - 11}
+              y={segments[hovered].labelY - 13}
               textAnchor="middle"
-              fontSize="9.5"
+              fontSize="11"
               fontWeight="600"
               fill={segments[hovered].color}
             >
@@ -144,11 +144,11 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
         )}
       </svg>
 
-      <div className="grid w-full max-w-xs grid-cols-1 gap-2.5 sm:w-auto">
+      <div className="grid w-full max-w-sm grid-cols-1 gap-3 sm:w-auto">
         {allocation.map((a, i) => (
           <div
             key={a.label}
-            className={`flex items-center justify-between gap-4 rounded-lg px-2 py-1 text-sm transition-colors ${
+            className={`flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 text-[14px] transition-colors ${
               hovered === i ? 'bg-white/5' : ''
             }`}
             onMouseEnter={() => setHovered(i)}

@@ -12,22 +12,12 @@ export function Section({ id, children, className = '' }: { id?: string; childre
   );
 }
 
-export function SectionHeading({
-  label,
-  title,
-  subtitle,
-  center = false,
-}: {
-  label?: ReactNode;
-  title: ReactNode;
-  subtitle?: ReactNode;
-  center?: boolean;
-}) {
+export function SectionHeading({ label, title, subtitle }: { label?: ReactNode; title: ReactNode; subtitle?: ReactNode }) {
   return (
-    <div className={center ? 'mx-auto text-center' : ''}>
+    <div>
       {label && <div className="sec-label">{label}</div>}
-      <h2 className={`sec-title ${center ? 'mx-auto' : ''}`}>{title}</h2>
-      {subtitle && <p className={`sec-sub ${center ? 'mx-auto' : ''}`}>{subtitle}</p>}
+      <h2 className="sec-title">{title}</h2>
+      {subtitle && <p className="sec-sub">{subtitle}</p>}
     </div>
   );
 }
