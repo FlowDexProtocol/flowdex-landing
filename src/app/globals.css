@@ -27,6 +27,13 @@
   --grad-pink: #ec4899;
   --grad-violet: #a855f7;
   --grad-cyan: #4ecdc4;
+  /* The exact two gradients the logo's fluid drops use — every large
+     decorative background shape (hero, banner, tab panels, eco CTA)
+     reuses these same two so they all read as bigger, blurred versions
+     of the same logo drops rather than each having its own one-off
+     gradient, for a cohesive visual identity across the site. */
+  --drop-gradient-1: linear-gradient(135deg, var(--grad-purple), var(--grad-violet), var(--grad-blue), var(--grad-teal));
+  --drop-gradient-2: linear-gradient(135deg, var(--grad-blue), var(--grad-teal), var(--grad-cyan), var(--grad-purple));
 
   /* Brand accent for Tailwind utilities (text-primary/bg-primary-dim/etc.)
      used across pages that read as plain accented body copy rather than the
@@ -359,6 +366,17 @@ body.loading {
     transform: translateY(-4px) rotate(5deg) scale(1.06);
   }
 }
+/* Same float as the logo drops (dropFloat) but scaled up for large
+   background shapes, where a 4px bounce would be imperceptible. */
+@keyframes bgBlobFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0) scale(1);
+  }
+  50% {
+    transform: translateY(-18px) rotate(5deg) scale(1.06);
+  }
+}
 .logo-text {
   line-height: 1;
 }
@@ -498,21 +516,35 @@ body.loading {
   position: absolute;
   right: 10%;
   top: 50%;
-  transform: translateY(-50%);
   width: 420px;
   height: 360px;
   border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
-  opacity: 0.5;
-  animation: f1 8s ease-in-out infinite;
+  opacity: 0.4;
+  filter: blur(40px);
+  animation: bgBlobFloatCentered 9s ease-in-out infinite;
+}
+/* translateY(-50%) is baked into this keyframe (rather than left as a
+   static transform on .banner-shape) because a CSS animation's keyframe
+   transform fully replaces the element's static transform for the
+   duration of the animation — a separate static translateY(-50%) would
+   just get overridden the instant the animation starts. */
+@keyframes bgBlobFloatCentered {
+  0%,
+  100% {
+    transform: translateY(-50%) rotate(0) scale(1);
+  }
+  50% {
+    transform: translateY(calc(-50% - 18px)) rotate(5deg) scale(1.06);
+  }
 }
 .bsh1 {
-  background: linear-gradient(135deg, var(--grad-purple), var(--grad-violet), var(--grad-blue), var(--grad-teal));
+  background: var(--drop-gradient-1);
 }
 .bsh2 {
-  background: linear-gradient(135deg, var(--grad-blue), var(--grad-teal), var(--grad-cyan), var(--grad-purple));
+  background: var(--drop-gradient-2);
 }
 .bsh3 {
-  background: linear-gradient(135deg, var(--grad-pink), var(--grad-violet), var(--grad-purple), var(--grad-blue));
+  background: var(--drop-gradient-1);
 }
 .banner-countdown {
   display: inline-flex;
@@ -532,15 +564,6 @@ body.loading {
 .banner-countdown strong {
   color: #fff;
   font-weight: 500;
-}
-@keyframes f1 {
-  0%,
-  100% {
-    transform: translateY(-50%) rotate(0);
-  }
-  50% {
-    transform: translateY(-55%) rotate(5deg);
-  }
 }
 .banner-dots {
   position: absolute;
@@ -689,34 +712,26 @@ body.loading {
   position: absolute;
   border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
   pointer-events: none;
+  filter: blur(40px);
 }
 .sh1 {
   width: 300px;
   height: 240px;
-  background: linear-gradient(135deg, var(--grad-cyan), var(--grad-purple), var(--grad-violet), var(--grad-teal));
+  background: var(--drop-gradient-1);
   top: 90px;
   left: 30px;
-  opacity: 0.7;
-  animation: f1 8s ease-in-out infinite;
+  opacity: 0.4;
+  animation: bgBlobFloat 9s ease-in-out infinite;
 }
 .sh2 {
   width: 480px;
   height: 420px;
-  background: linear-gradient(225deg, var(--grad-purple), var(--grad-blue), var(--grad-teal), var(--grad-violet), var(--grad-pink));
+  background: var(--drop-gradient-2);
   top: 60px;
   right: -80px;
-  opacity: 0.6;
-  animation: f2 10s ease-in-out infinite;
-  border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%;
-}
-@keyframes f2 {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0);
-  }
-  50% {
-    transform: translateY(-30px) rotate(-4deg);
-  }
+  opacity: 0.35;
+  animation: bgBlobFloat 11s ease-in-out infinite;
+  animation-delay: -5s;
 }
 
 /* Presale card */
@@ -900,6 +915,32 @@ body.loading {
   align-items: center;
   justify-content: center;
   min-height: 80vh;
+}
+/* Ambient background blob shared by every .msec tab panel — same logo-drop
+   gradients/shape/blur/float as the hero and banner shapes, so the tabs
+   read as part of the same "logo drops floating in the background" motif
+   rather than introducing their own one-off decoration. .msec's own
+   overflow:hidden clips it, so it never bleeds into neighboring sections. */
+.tab-bg-blob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 420px;
+  height: 420px;
+  border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
+  filter: blur(40px);
+  opacity: 0.35;
+  pointer-events: none;
+  animation: bgBlobFloatCenter 10s ease-in-out infinite;
+}
+@keyframes bgBlobFloatCenter {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0) scale(1);
+  }
+  50% {
+    transform: translate(-50%, calc(-50% - 18px)) rotate(5deg) scale(1.06);
+  }
 }
 .mbg {
   position: absolute;
@@ -1331,6 +1372,19 @@ body.loading {
   padding: 28px;
   text-align: center;
   transition: 0.3s;
+  /* .htb-grid is a grid, and grid items (the StaggerItem wrapper divs)
+     already stretch to the tallest row member by default — but a block
+     child doesn't inherit that stretched height automatically, only its
+     parent's width, so .htb-step itself still sized to its own content
+     and left ragged bottom edges when one card's text ran longer. Filling
+     height:100% (of the already-equal-height wrapper) plus a min-height
+     floor and a column flex layout keeps every card the same size and
+     its content evenly distributed regardless of text length. */
+  height: 100%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .htb-step:hover {
   border-color: rgba(255, 255, 255, 0.1);
@@ -1954,15 +2008,16 @@ body.loading {
 }
 .eco-s {
   position: absolute;
-  width: 140px;
-  height: 140px;
-  background: linear-gradient(135deg, var(--grad-violet), var(--grad-blue), var(--grad-teal), var(--grad-pink));
+  width: 220px;
+  height: 220px;
+  background: var(--drop-gradient-2);
   border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
   right: 6%;
   top: 12%;
-  animation: f1 7s ease-in-out infinite;
+  animation: bgBlobFloat 8s ease-in-out infinite;
   z-index: 1;
-  opacity: 0.7;
+  opacity: 0.4;
+  filter: blur(40px);
 }
 
 /* ── Final CTA ── */

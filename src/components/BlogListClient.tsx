@@ -5,14 +5,9 @@ import Link from 'next/link';
 import type { CmsBlogListItem } from '@/lib/types';
 import { formatDate } from '@/lib/format';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
+import CmsImage from './CmsImage';
 
-export default function BlogListClient({
-  posts,
-  coverUrls,
-}: {
-  posts: CmsBlogListItem[];
-  coverUrls: Record<number, string>;
-}) {
+export default function BlogListClient({ posts }: { posts: CmsBlogListItem[] }) {
   const [category, setCategory] = useState<string>('all');
   const categories = useMemo(() => ['all', ...Array.from(new Set(posts.map((p) => p.category)))], [posts]);
   const filtered = category === 'all' ? posts : posts.filter((p) => p.category === category);
@@ -39,7 +34,9 @@ export default function BlogListClient({
         {filtered.map((post) => (
           <StaggerItem key={post.id}>
             <Link href={`/blogs/${post.slug}`} className="blog-card">
-              <div className="blog-thumb" style={coverUrls[post.id] ? { backgroundImage: `url(${coverUrls[post.id]})` } : undefined} />
+              <div className="blog-thumb">
+                <CmsImage src={post.cover_image_url} alt={post.title} className="h-full w-full object-cover" fallback={null} />
+              </div>
               <div className="blog-body">
                 <div className="blog-cat">{post.category}</div>
                 <h4>{post.title}</h4>

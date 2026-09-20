@@ -14,10 +14,14 @@ const RADIUS = 105;
 const STROKE = 34;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const CENTER = SIZE / 2;
-// Segments below this share get a legend-only permanent percentage label —
-// an in-chart label on a ~7% slice just overlaps its neighbors. The hover
-// tooltip still works on every segment regardless of size.
-const MIN_LABEL_PCT = 10;
+// Segments below this share get their label moved OUTSIDE the ring with a
+// short leader line instead of centered on the arc — an in-ring label on a
+// ~7% slice has no room and just overlaps its neighbors. The hover tooltip
+// still works on every segment regardless of size.
+const MIN_INLINE_LABEL_PCT = 10;
+const OUTER_LINE_START = RADIUS + STROKE / 2 + 4;
+const OUTER_LINE_END = RADIUS + STROKE / 2 + 16;
+const OUTER_LABEL_RADIUS = RADIUS + STROKE / 2 + 26;
 
 export default function TokenomicsDonut({ allocation }: { allocation: AllocationSlice[] }) {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -45,6 +49,8 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
     // is applied.
     const midAngleDeg = (startPct + a.pct / 2) * 3.6;
     const rad = (midAngleDeg * Math.PI) / 180;
+    const cos = Math.cos(rad);
+    const sin = Math.sin(rad);
     return {
       ...a,
       // Static, always-correct — this is what actually carves each segment's
@@ -54,8 +60,16 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
       // which is what was breaking the coloring before.
       finalDasharray: `${(a.pct / 100) * CIRCUMFERENCE} ${CIRCUMFERENCE}`,
       dashoffset: -((startPct / 100) * CIRCUMFERENCE),
-      labelX: CENTER + Math.cos(rad) * RADIUS,
-      labelY: CENTER + Math.sin(rad) * RADIUS,
+      labelX: CENTER + cos * RADIUS,
+      labelY: CENTER + sin * RADIUS,
+      // Leader-line + outside label for segments too small to hold their
+      // own centered label legibly — same midpoint angle, just further out.
+      lineX1: CENTER + cos * OUTER_LINE_START,
+      lineY1: CENTER + sin * OUTER_LINE_START,
+      lineX2: CENTER + cos * OUTER_LINE_END,
+      lineY2: CENTER + sin * OUTER_LINE_END,
+      outerLabelX: CENTER + cos * OUTER_LABEL_RADIUS,
+      outerLabelY: CENTER + sin * OUTER_LABEL_RADIUS,
     };
   });
 
@@ -95,9 +109,8 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
             }}
           />
         ))}
-        {segments
-          .filter((s) => s.pct >= MIN_LABEL_PCT)
-          .map((s) => (
+        {segments.map((s) =>
+          s.pct >= MIN_INLINE_LABEL_PCT ? (
             <text
               key={s.label}
               x={s.labelX}
@@ -112,7 +125,25 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
             >
               {s.pct}%
             </text>
-          ))}
+          ) : (
+            <g key={s.label} className="pointer-events-none select-none">
+              <line x1={s.lineX1} y1={s.lineY1} x2={s.lineX2} y2={s.lineY2} stroke="rgba(255,255,255,0.35)" strokeWidth={1} />
+              <text
+                x={s.outerLabelX}
+                y={s.outerLabelY}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="rgba(255,255,255,0.7)"
+                fontFamily="var(--font-mono)"
+                fontSize="11"
+                fontWeight="500"
+                style={{ transform: 'rotate(90deg)', transformOrigin: `${s.outerLabelX}px ${s.outerLabelY}px` }}
+              >
+                {s.pct}%
+              </text>
+            </g>
+          )
+        )}
 
         {hovered !== null && (
           <g

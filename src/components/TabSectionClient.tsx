@@ -19,6 +19,10 @@ function Watermark({ text }: { text: string }) {
   return <div className="mbg">{`${text} ${text} ${text}`}</div>;
 }
 
+function TabBgBlob({ variant = 1 }: { variant?: 1 | 2 }) {
+  return <div className="tab-bg-blob" style={{ background: `var(--drop-gradient-${variant})` }} />;
+}
+
 function Mcontent({ label, text }: { label: string; text: string }) {
   return (
     <div className="mcontent">
@@ -31,6 +35,7 @@ function Mcontent({ label, text }: { label: string; text: string }) {
 function PresaleVisual({ tab }: { tab: TabContent }) {
   return (
     <div className="msec">
+      <TabBgBlob variant={1} />
       <Watermark text="PRESALE" />
       <div className="tab-vis-presale">
         {BAR_HEIGHTS.map((h, i) => (
@@ -49,6 +54,7 @@ function PresaleVisual({ tab }: { tab: TabContent }) {
 function ExchangeVisual({ tab }: { tab: TabContent }) {
   return (
     <div className="msec">
+      <TabBgBlob variant={2} />
       <Watermark text="EXCHANGE" />
       <div className="tab-vis-exchange">
         <div className="tv-orb tv-orb-1" />
@@ -64,6 +70,7 @@ function ExchangeVisual({ tab }: { tab: TabContent }) {
 function IntelligenceVisual({ tab }: { tab: TabContent }) {
   return (
     <div className="msec">
+      <TabBgBlob variant={1} />
       <Watermark text="INTELLIGENCE" />
       <div className="tab-vis-intel">
         <div className="tv-ring tv-ring-1" />
@@ -102,6 +109,7 @@ function StakingVisual({ tab }: { tab: TabContent }) {
 function FlowChainVisual({ tab }: { tab: TabContent }) {
   return (
     <div className="msec">
+      <TabBgBlob variant={2} />
       <Watermark text="FLOWCHAIN" />
       <div className="tab-vis-chain">
         <div className="tv-chain-line" />

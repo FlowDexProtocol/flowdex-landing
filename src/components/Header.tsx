@@ -95,6 +95,18 @@ export default function Header({
     };
   }, [menuOpen]);
 
+  // Closes the mobile menu on tap (it sits above it, z-index-wise, so it's
+  // reachable even while the menu is open) and, since Next.js's <Link>
+  // doesn't scroll when the href matches the current route (no navigation
+  // actually happens), explicitly scrolls to top for the common case of
+  // tapping the logo from partway down the homepage itself.
+  function handleLogoClick() {
+    setMenuOpen(false);
+    if (window.location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
   return (
     <>
       {showAnnounce && (
@@ -107,7 +119,7 @@ export default function Header({
       )}
 
       <div className={`nav${scrolled ? ' scrolled' : ''}${showAnnounce ? ' has-announce' : ''}`}>
-        <Link href="/" className="logo">
+        <Link href="/" className="logo" onClick={handleLogoClick}>
           {logoType === 'image' || logoType === 'animated' ? (
             <CmsMedia
               src={logoImageUrl}

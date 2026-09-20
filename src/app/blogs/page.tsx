@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { getCmsBlog } from '@/lib/api';
-import { resolveApiUrl } from '@/lib/cms';
-import { sanitizeImageUrl } from '@/lib/url-safety';
 import { EmptyState, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import BlogListClient from '@/components/BlogListClient';
@@ -18,11 +16,6 @@ export const metadata: Metadata = {
 export default async function BlogsPage() {
   const data = await getCmsBlog(1, 24).catch(() => null);
   const posts = data?.posts ?? [];
-  const coverUrls: Record<number, string> = {};
-  for (const post of posts) {
-    const safe = sanitizeImageUrl(resolveApiUrl(post.cover_image_url ?? ''));
-    if (safe) coverUrls[post.id] = safe;
-  }
 
   return (
     <>
@@ -37,7 +30,7 @@ export default async function BlogsPage() {
       </div>
 
       <Section>
-        {posts.length === 0 ? <EmptyState>No posts published yet — check back soon.</EmptyState> : <BlogListClient posts={posts} coverUrls={coverUrls} />}
+        {posts.length === 0 ? <EmptyState>No posts published yet — check back soon.</EmptyState> : <BlogListClient posts={posts} />}
       </Section>
     </>
   );
