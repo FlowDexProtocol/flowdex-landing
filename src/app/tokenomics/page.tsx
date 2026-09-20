@@ -65,14 +65,14 @@ export default async function TokenomicsPage() {
           title="Token Allocation"
           subtitle="10 billion $FDP, distributed for long-term sustainability — no VC allocation."
         />
-        <div className="donut-wrap">
+        <Reveal className="donut-wrap">
           <TokenomicsDonut allocation={allocation} />
-        </div>
+        </Reveal>
       </Section>
 
       <Section>
         <SectionHeading label="Presale" title="All Presale Tiers" subtitle="Live pricing, hard caps, and vesting terms for every tier." />
-        <div className="overflow-x-auto rounded-xl border border-border">
+        <Reveal className="overflow-x-auto rounded-xl border border-border">
           <table className="w-full min-w-[720px] text-left font-sans text-sm">
             <thead>
               <tr className="border-b border-border text-xs uppercase tracking-wider text-ink-faint">
@@ -113,7 +113,7 @@ export default async function TokenomicsPage() {
               ))}
             </tbody>
           </table>
-        </div>
+        </Reveal>
         <p className="mt-4 text-center font-sans text-xs text-ink-faint">
           Earlier tiers get the lowest price but the longest vesting. Later tiers cost more but unlock faster — Tier 8 unlocks 100%
           instantly.
@@ -122,7 +122,7 @@ export default async function TokenomicsPage() {
 
       {staking && (
         <Section>
-          <div className="relative overflow-hidden rounded-xl border border-border bg-card p-8 text-center sm:p-10">
+          <Reveal className="relative overflow-hidden rounded-xl border border-border bg-card p-8 text-center sm:p-10">
             <div className="flex flex-wrap items-center justify-center gap-3 font-sans text-xs uppercase tracking-widest text-ink-faint">
               <span className="rounded-full border border-[rgba(168,85,247,0.25)] bg-[rgba(168,85,247,0.08)] px-3 py-1 text-[#c084fc]">
                 {staking.status.replace('_', ' ')}
@@ -147,7 +147,7 @@ export default async function TokenomicsPage() {
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
         </Section>
       )}
     </>

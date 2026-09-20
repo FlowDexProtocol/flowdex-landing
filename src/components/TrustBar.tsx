@@ -1,4 +1,6 @@
 import { cms, fetchPageContent } from '@/lib/cms';
+import Reveal from './motion/Reveal';
+import { fadeUp } from '@/lib/motion';
 
 const DEFAULTS = [
   { icon: '🔒', text: 'Audit in Progress' },
@@ -17,13 +19,13 @@ export default async function TrustBar() {
   }));
 
   return (
-    <div className="trust-bar">
+    <Reveal variants={fadeUp} as="div" className="trust-bar">
       {items.map((item) => (
         <div key={item.text} className="trust-item">
           <span className="trust-icon">{item.icon}</span>
           {item.text}
         </div>
       ))}
-    </div>
+    </Reveal>
   );
 }

@@ -2,6 +2,8 @@ import { getPublicScenarios, getPublicStats, getTierCurrent } from '@/lib/api';
 import { formatTokenPrice, toNum } from '@/lib/format';
 import { cms, fetchPageContent } from '@/lib/cms';
 import CountUp from './motion/CountUp';
+import Reveal from './motion/Reveal';
+import { fadeUp } from '@/lib/motion';
 
 export default async function MetricsBar() {
   const [tier, scenarios, cmsData, stats] = await Promise.all([
@@ -41,13 +43,13 @@ export default async function MetricsBar() {
   ];
 
   return (
-    <div className="metrics-bar">
+    <Reveal variants={fadeUp} as="div" className="metrics-bar">
       {metrics.map((m) => (
         <div key={m.label} className="metric">
           {m.value}
           <div className="metric-label">{m.label}</div>
         </div>
       ))}
-    </div>
+    </Reveal>
   );
 }

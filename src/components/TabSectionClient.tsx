@@ -24,7 +24,37 @@ const EXCHANGE_NODES = [
   { label: 'Forex', icon: '⇄' },
   { label: 'Commodities', icon: '◆' },
   { label: 'DEXs', icon: '⬡' },
-  { label: 'Liquidity', icon: '◉' },
+  { label: 'Pools', icon: '◉' },
+];
+const NODE_GRADIENTS = [
+  'linear-gradient(135deg, rgba(108,92,231,0.35), rgba(168,85,247,0.15))',
+  'linear-gradient(135deg, rgba(59,130,246,0.35), rgba(45,212,191,0.15))',
+  'linear-gradient(135deg, rgba(168,85,247,0.35), rgba(59,130,246,0.15))',
+  'linear-gradient(135deg, rgba(45,212,191,0.35), rgba(78,205,196,0.15))',
+  'linear-gradient(135deg, rgba(78,205,196,0.35), rgba(108,92,231,0.15))',
+  'linear-gradient(135deg, rgba(59,130,246,0.35), rgba(168,85,247,0.15))',
+];
+const HUB_CENTER = 180;
+const HUB_ORBIT_R = 140;
+
+const BRAIN_OUTLINE =
+  'M70 90 L50 120 L55 155 L40 175 L65 200 L60 225 L95 235 L110 215 L130 230 L160 220 L185 235 L210 210 L195 185 L215 160 L200 130 L215 100 L185 75 L160 90 L140 65 L110 80 L90 60 Z';
+const BRAIN_DIVIDE = 'M130 70 L128 100 L135 130 L125 160 L132 190 L128 225';
+const BRAIN_DOTS: [number, number][] = [
+  [70, 90],
+  [55, 155],
+  [95, 235],
+  [160, 220],
+  [210, 210],
+  [215, 160],
+  [185, 75],
+];
+const BRAIN_LINES = [
+  { d: 'M215 110h140', dotStart: [215, 110] as [number, number] },
+  { d: 'M212 140h140q10 0 10 20', dotStart: [212, 140] as [number, number] },
+  { d: 'M210 175q80 0 110 -35', dotStart: [210, 175] as [number, number] },
+  { d: 'M200 205q100 20 150 -25', dotStart: [200, 205] as [number, number] },
+  { d: 'M180 225q120 45 180 -20', dotStart: [180, 225] as [number, number] },
 ];
 
 const STAKING_INPUTS = [
@@ -72,7 +102,7 @@ function PresaleVisual({ tab }: { tab: TabContent }) {
         </div>
         <div className="tv-funnel-arrow">
           <span className="tv-funnel-arrow-line" />
-          <span className="tv-funnel-arrow-label">Price increases ↓</span>
+          <span className="tv-funnel-arrow-label">Price ↑</span>
         </div>
       </div>
       <Mcontent label={tab.label} text={tab.text} />
@@ -82,37 +112,49 @@ function PresaleVisual({ tab }: { tab: TabContent }) {
 
 function ExchangeVisual({ tab }: { tab: TabContent }) {
   const n = EXCHANGE_NODES.length;
+  const positions = EXCHANGE_NODES.map((node, i) => {
+    const angle = (i / n) * 360 - 90;
+    const rad = (angle * Math.PI) / 180;
+    return { ...node, x: HUB_CENTER + Math.cos(rad) * HUB_ORBIT_R, y: HUB_CENTER + Math.sin(rad) * HUB_ORBIT_R };
+  });
+
   return (
     <div className="msec">
       <TabBgBlob variant={2} />
       <Watermark text="EXCHANGE" />
       <div className="tv-hub">
         <svg className="tv-hub-lines" viewBox="0 0 360 360">
-          {EXCHANGE_NODES.map((node, i) => {
-            const angle = (i / n) * 360 - 90;
-            const rad = (angle * Math.PI) / 180;
-            const x = 180 + Math.cos(rad) * 130;
-            const y = 180 + Math.sin(rad) * 130;
-            return <line key={node.label} x1={180} y1={180} x2={x} y2={y} stroke="rgba(255,255,255,0.12)" strokeWidth={1} />;
+          {positions.map((node) => {
+            const dx = node.x - HUB_CENTER;
+            const dy = node.y - HUB_CENTER;
+            const len = Math.sqrt(dx * dx + dy * dy) || 1;
+            const bow = 16;
+            const mx = (HUB_CENTER + node.x) / 2 + (-dy / len) * bow;
+            const my = (HUB_CENTER + node.y) / 2 + (dx / len) * bow;
+            return (
+              <path
+                key={node.label}
+                d={`M${HUB_CENTER} ${HUB_CENTER} Q ${mx} ${my} ${node.x} ${node.y}`}
+                fill="none"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth={1}
+              />
+            );
           })}
         </svg>
         <div className="tv-hub-center">FlowDex</div>
-        {EXCHANGE_NODES.map((node, i) => {
-          const angle = (i / n) * 360 - 90;
-          const rad = (angle * Math.PI) / 180;
-          const x = 180 + Math.cos(rad) * 130;
-          const y = 180 + Math.sin(rad) * 130;
-          return (
-            <div
-              key={node.label}
-              className="tv-hub-node"
-              style={{ left: x, top: y, animationDelay: `${i * 0.35}s` }}
-            >
-              <span className="tv-hub-node-icon">{node.icon}</span>
-              <span className="tv-hub-node-label">{node.label}</span>
+        <div className="tv-hub-orbit">
+          {positions.map((node, i) => (
+            <div key={node.label} className="tv-hub-node" style={{ left: node.x, top: node.y }}>
+              <div className="tv-hub-node-spin">
+                <span className="tv-hub-node-icon" style={{ background: NODE_GRADIENTS[i % NODE_GRADIENTS.length] }}>
+                  {node.icon}
+                </span>
+                <span className="tv-hub-node-label">{node.label}</span>
+              </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
       <Mcontent label={tab.label} text={tab.text} />
     </div>
@@ -125,47 +167,29 @@ function IntelligenceVisual({ tab }: { tab: TabContent }) {
       <TabBgBlob variant={1} />
       <div className="tv-grid-bg" />
       <Watermark text="INTELLIGENCE" />
-      <svg className="tv-brain" viewBox="0 0 420 260" fill="none">
-        {/* Brain silhouette, built from two overlapping lobes. */}
-        <path
-          d="M120 60c-30-10-60 8-64 38-3 22 8 34 6 50-3 22 14 40 36 42 10 18 34 26 52 16 18 12 44 8 56-8 22 2 40-14 40-36 16-8 24-28 16-46 8-20-4-42-26-48-6-22-30-34-52-26-16-14-42-12-56 6-12-2-24 4-30 12"
-          stroke="url(#brainGrad)"
-          strokeWidth="1.5"
-          opacity="0.55"
-        />
-        <path d="M156 56v148M156 130c14-6 22-18 20-32M156 158c18 4 34-4 40-18" stroke="url(#brainGrad)" strokeWidth="1" opacity="0.4" />
-        {[
-          [96, 96],
-          [150, 66],
-          [206, 84],
-          [92, 154],
-          [140, 190],
-          [200, 168],
-          [176, 122],
-        ].map(([cx, cy], i) => (
-          <circle key={i} cx={cx} cy={cy} r={3} fill="var(--grad-violet)" className="tv-brain-dot" style={{ animationDelay: `${i * 0.25}s` }} />
+      <svg className="tv-brain" viewBox="0 0 500 350" fill="none">
+        <path d={BRAIN_OUTLINE} stroke="rgba(168,85,247,0.45)" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d={BRAIN_DIVIDE} stroke="rgba(168,85,247,0.3)" strokeWidth="1" />
+        {BRAIN_DOTS.map(([cx, cy], i) => (
+          <circle key={i} cx={cx} cy={cy} r={3.5} fill="rgba(168,85,247,0.85)" className="tv-brain-dot" style={{ animationDelay: `${i * 0.22}s` }} />
         ))}
 
-        {/* Connecting lines from brain out to the chart. */}
-        <path d="M232 130h60" stroke="url(#brainGrad)" strokeWidth="1" opacity="0.4" />
-        <circle r={3} fill="#fff" className="tv-brain-travel">
-          <animateMotion dur="2.4s" repeatCount="indefinite" path="M232 130h60" />
-        </circle>
+        {BRAIN_LINES.map((line, i) => (
+          <g key={i}>
+            <path d={line.d} stroke="rgba(168,85,247,0.4)" strokeWidth="1" fill="none" />
+            <circle r={2.5} fill="rgba(168,85,247,0.85)">
+              <animateMotion dur={`${2.4 + i * 0.3}s`} begin={`${i * 0.4}s`} repeatCount="indefinite" path={line.d} />
+            </circle>
+          </g>
+        ))}
 
-        {/* Small bar chart on the right. */}
-        <g transform="translate(310,90)">
-          <rect x="0" y="64" width="14" height="24" rx="2" fill="var(--grad-blue)" opacity="0.7" />
-          <rect x="20" y="44" width="14" height="44" rx="2" fill="var(--grad-teal)" opacity="0.7" />
-          <rect x="40" y="20" width="14" height="68" rx="2" fill="var(--grad-violet)" opacity="0.7" />
+        {/* Small ascending bar chart the brain's signal lines feed into. */}
+        <g transform="translate(365,150)">
+          <rect x="0" y="64" width="14" height="24" rx="2" fill="var(--grad-blue)" opacity="0.75" />
+          <rect x="20" y="44" width="14" height="44" rx="2" fill="var(--grad-teal)" opacity="0.75" />
+          <rect x="40" y="20" width="14" height="68" rx="2" fill="var(--grad-violet)" opacity="0.75" />
           <path d="M0 60 20 40 40 16" stroke="#fff" strokeWidth="1.5" opacity="0.5" />
         </g>
-
-        <defs>
-          <linearGradient id="brainGrad" x1="0" y1="0" x2="420" y2="260" gradientUnits="userSpaceOnUse">
-            <stop stopColor="var(--grad-violet)" />
-            <stop offset="1" stopColor="var(--grad-blue)" />
-          </linearGradient>
-        </defs>
       </svg>
       <Mcontent label={tab.label} text={tab.text} />
     </div>
@@ -204,7 +228,7 @@ function StakingVisual({ tab }: { tab: TabContent }) {
 }
 
 function FlowChainVisual({ tab }: { tab: TabContent }) {
-  const binaryTexture = '01 '.repeat(24);
+  const binaryTexture = '01010 '.repeat(20);
   return (
     <div className="msec">
       <TabBgBlob variant={2} />

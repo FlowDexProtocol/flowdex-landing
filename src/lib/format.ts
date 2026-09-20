@@ -69,3 +69,16 @@ export function formatDate(iso: string | null | undefined): string {
   if (Number.isNaN(d.getTime())) return '—';
   return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 }
+
+// "Zaheer A." -> "ZA", "Z.A." -> "ZA" — splits on whitespace OR periods so
+// an already-abbreviated name (the team fallback data) initializes the
+// same way a full name does, instead of collapsing to a single letter.
+export function initials(name: string): string {
+  return name
+    .split(/[\s.]+/)
+    .filter(Boolean)
+    .map((p) => p[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}

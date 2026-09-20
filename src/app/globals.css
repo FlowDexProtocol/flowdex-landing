@@ -108,36 +108,26 @@
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
-  /* Deliberately NOT setting overflow-x here. Per the CSS Overflow spec,
-     when <html> has no explicit overflow and <body> does (see body{}
-     below), body's overflow is propagated to the viewport itself rather
-     than creating a scroll/clip box on body — this is what actually
-     clips decorative full-bleed elements (hero/banner shapes, tab
-     watermark text) at the page edge today, with no separate scrollbar.
-     Adding overflow-x:hidden here too was tried as a mobile-overflow
-     "fix", but it stops that propagation: both html and body then
-     establish their OWN independent scroll containers (html gets an
-     implicit overflow-y:auto — the UA forces the other axis away from
-     `visible` once one axis is non-visible, and setting overflow-y
-     explicitly back to `visible` doesn't avoid this, since the rule
-     triggers on the visible/non-visible split regardless of which one
-     was explicit). That nested html-is-its-own-900px-tall-scrollbox
-     broke window.scrollTo()/anchor scrolling against the real page
-     content sitting in body — confirmed via
-     document.documentElement.scrollHeight collapsing to exactly one
-     viewport height while document.body.scrollHeight still reported the
-     full page. document.documentElement.scrollWidth alone isn't proof of
-     a real visible overflow bug either — an ancestor clips content via
-     `overflow:hidden` without changing that element's own scrollWidth
-     measurement, so don't reintroduce this without confirming an actual
-     horizontal scrollbar/visible cut content, not just the metric. */
 }
 body {
   background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-serif);
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* No overflow-x/height rules here deliberately — both used to live on
+     body (overflow-x:hidden + a hard height:100% via h-full in
+     layout.tsx) and each caused its own real, confirmed regression: the
+     height cap made body its own internally-scrolling container (per the
+     CSS overflow spec, a non-visible overflow-x with no explicit
+     overflow-y forces overflow-y to `auto`), decoupling
+     window.scrollTo()-based code (Back to Top, logo-click-to-top) from
+     the real scrollable content; and separately, body is the propagation
+     target for the viewport's own overflow when <html> has none set,
+     and in that root-propagated mode overflow-x:hidden did not reliably
+     clip full-bleed decorative elements (confirmed via a real
+     before/after screenshot of visible horizontal drift). The clip and
+     the layout floor now both live on the plain (non-root) wrapper div
+     in layout.tsx instead, which has neither special case. */
 }
 body.loading {
   overflow: hidden;
@@ -186,6 +176,7 @@ body.loading {
 .pill:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 24px rgba(108, 92, 231, 0.1);
 }
 .pill-ghost {
   background: transparent;
@@ -374,7 +365,7 @@ body.loading {
     transform: translateY(0) rotate(0) scale(1);
   }
   50% {
-    transform: translateY(-18px) rotate(5deg) scale(1.06);
+    transform: translateY(-13px) rotate(4deg) scale(1.04);
   }
 }
 .logo-text {
@@ -519,9 +510,9 @@ body.loading {
   width: 420px;
   height: 360px;
   border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
-  opacity: 0.4;
-  filter: blur(40px);
-  animation: bgBlobFloatCentered 9s ease-in-out infinite;
+  opacity: 0.22;
+  filter: blur(80px);
+  animation: bgBlobFloatCentered 11s ease-in-out infinite;
 }
 /* translateY(-50%) is baked into this keyframe (rather than left as a
    static transform on .banner-shape) because a CSS animation's keyframe
@@ -534,7 +525,7 @@ body.loading {
     transform: translateY(-50%) rotate(0) scale(1);
   }
   50% {
-    transform: translateY(calc(-50% - 18px)) rotate(5deg) scale(1.06);
+    transform: translateY(calc(-50% - 13px)) rotate(4deg) scale(1.04);
   }
 }
 .bsh1 {
@@ -712,7 +703,7 @@ body.loading {
   position: absolute;
   border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
   pointer-events: none;
-  filter: blur(60px);
+  filter: blur(80px);
 }
 .sh1 {
   width: 300px;
@@ -720,8 +711,8 @@ body.loading {
   background: var(--drop-gradient-1);
   top: 90px;
   left: 30px;
-  opacity: 0.25;
-  animation: bgBlobFloat 9s ease-in-out infinite;
+  opacity: 0.2;
+  animation: bgBlobFloat 11s ease-in-out infinite;
 }
 .sh2 {
   width: 480px;
@@ -729,8 +720,8 @@ body.loading {
   background: var(--drop-gradient-2);
   top: 60px;
   right: -80px;
-  opacity: 0.25;
-  animation: bgBlobFloat 11s ease-in-out infinite;
+  opacity: 0.18;
+  animation: bgBlobFloat 12s ease-in-out infinite;
   animation-delay: -5s;
 }
 
@@ -928,10 +919,10 @@ body.loading {
   width: 420px;
   height: 420px;
   border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
-  filter: blur(50px);
-  opacity: 0.2;
+  filter: blur(80px);
+  opacity: 0.18;
   pointer-events: none;
-  animation: bgBlobFloatCenter 10s ease-in-out infinite;
+  animation: bgBlobFloatCenter 12s ease-in-out infinite;
 }
 @keyframes bgBlobFloatCenter {
   0%,
@@ -939,7 +930,7 @@ body.loading {
     transform: translate(-50%, -50%) rotate(0) scale(1);
   }
   50% {
-    transform: translate(-50%, calc(-50% - 18px)) rotate(5deg) scale(1.06);
+    transform: translate(-50%, calc(-50% - 13px)) rotate(4deg) scale(1.04);
   }
 }
 .mbg {
@@ -1009,7 +1000,7 @@ body.loading {
 .tv-funnel-bars {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 .tv-funnel-bar {
   height: 30px;
@@ -1081,8 +1072,8 @@ body.loading {
   top: 180px;
   left: 180px;
   transform: translate(-50%, -50%);
-  width: 84px;
-  height: 84px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: var(--drop-gradient-1);
   display: flex;
@@ -1090,32 +1081,58 @@ body.loading {
   justify-content: center;
   text-align: center;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 9px;
   font-weight: 600;
+  letter-spacing: 0.2px;
   color: #fff;
   box-shadow: 0 0 30px rgba(108, 92, 231, 0.4);
+}
+/* Orbits slowly around the hub — the node layer itself rotates, while
+   each node's own icon+label counter-rotates the same amount so its
+   content stays upright even as its position revolves. */
+.tv-hub-orbit {
+  position: absolute;
+  inset: 0;
+  animation: hubOrbit 60s linear infinite;
+}
+@keyframes hubOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 .tv-hub-node {
   position: absolute;
   transform: translate(-50%, -50%);
+}
+.tv-hub-node-spin {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
   width: 84px;
-  animation: bgBlobFloat 6s ease-in-out infinite;
+  animation: hubOrbitReverse 60s linear infinite;
+}
+@keyframes hubOrbitReverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }
 .tv-hub-node-icon {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.8);
 }
 .tv-hub-node-label {
   font-family: var(--font-sans);
@@ -1129,15 +1146,15 @@ body.loading {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 32px 32px;
   pointer-events: none;
 }
 .tv-brain {
   position: relative;
   z-index: 2;
-  width: 420px;
+  width: 500px;
   max-width: 90vw;
   height: auto;
 }
@@ -1183,7 +1200,10 @@ body.loading {
   width: 520px;
   height: 520px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
+    linear-gradient(135deg, var(--grad-purple), var(--grad-teal)) border-box;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1196,9 +1216,9 @@ body.loading {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, #2a2a8a, #1e3a7a, #2a4a6a);
+  background: radial-gradient(circle at 50% 50%, #35357f 0%, #23235f 55%, #181850 100%);
   border-radius: 50%;
-  opacity: 0.4;
+  opacity: 0.7;
 }
 .circle-text {
   position: relative;
@@ -1210,7 +1230,7 @@ body.loading {
 }
 .tv-stake-pct {
   font-family: var(--font-serif);
-  font-size: 72px;
+  font-size: 52px;
   font-weight: 300;
   font-style: italic;
   line-height: 1;
@@ -1218,7 +1238,7 @@ body.loading {
 .tv-stake-fee {
   margin-top: 8px;
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
@@ -1378,10 +1398,10 @@ body.loading {
 }
 .tv-chain-link {
   position: relative;
-  width: 90px;
-  height: 60px;
-  margin-left: -14px;
-  border-radius: 30px;
+  width: 80px;
+  height: 50px;
+  margin-left: -8px;
+  border-radius: 25px;
   border: 2px solid transparent;
   background:
     linear-gradient(rgba(18, 18, 66, 0.92), rgba(18, 18, 66, 0.92)) padding-box,
@@ -1401,7 +1421,7 @@ body.loading {
   font-family: var(--font-mono);
   font-size: 9px;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.02);
   overflow: hidden;
   padding: 4px;
   text-align: center;
@@ -1564,8 +1584,8 @@ body.loading {
   margin: 40px auto 0;
 }
 .donut-svg {
-  width: 420px;
-  height: 420px;
+  width: 380px;
+  height: 380px;
   flex-shrink: 0;
   overflow: visible;
 }
@@ -1641,6 +1661,12 @@ body.loading {
   border-radius: 20px;
   overflow: hidden;
   transition: 0.4s;
+  /* .eco-grid's items already stretch to equal height by default (it's a
+     grid), but a block child doesn't inherit that automatically — same
+     fix as .htb-step, for cards whose description length varies. */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .eco-card:hover {
   border-color: rgba(255, 255, 255, 0.1);
@@ -1657,6 +1683,9 @@ body.loading {
 }
 .eco-body {
   padding: 26px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .eco-card h4 {
   font-family: var(--font-sans);
@@ -1676,6 +1705,7 @@ body.loading {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  margin-top: auto;
 }
 .eco-tag {
   padding: 4px 10px;
@@ -1765,7 +1795,7 @@ body.loading {
 .acc-body {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.4s;
+  transition: grid-template-rows 0.4s ease-in-out;
 }
 .acc-body.open {
   grid-template-rows: 1fr;
@@ -1852,6 +1882,7 @@ body.loading {
   position: relative;
   overflow: hidden;
   transition: 0.4s;
+  height: 100%;
 }
 .ucard:hover {
   border-color: rgba(255, 255, 255, 0.1);
@@ -2055,7 +2086,8 @@ body.loading {
   align-items: center;
   width: 140px;
   text-align: center;
-  transition: transform 0.25s ease;
+  transition: transform 0.3s ease;
+  cursor: default;
 }
 .team-node:hover {
   transform: translateX(-50%) translateY(-3px);
@@ -2063,35 +2095,35 @@ body.loading {
 .team-node-avatar {
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(108, 92, 231, 0.25), rgba(59, 130, 246, 0.18));
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-sans);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.5);
   overflow: hidden;
   transition:
-    transform 0.25s ease,
-    border-color 0.25s ease;
+    transform 0.3s ease,
+    border-color 0.3s ease;
 }
 .team-node:hover .team-node-avatar {
   transform: scale(1.08);
-  border-color: rgba(108, 92, 231, 0.5);
+  border-color: rgba(108, 92, 231, 0.6);
 }
 .team-node-name {
   margin-top: 10px;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #fff;
 }
 .team-node-role {
   margin-top: 2px;
   font-family: var(--font-sans);
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.35);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
 }
 .team-mobile-fallback {
   display: none;
@@ -2113,7 +2145,9 @@ body.loading {
   transition: 0.3s;
   text-decoration: none;
   color: #fff;
-  display: block;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .blog-card:hover {
   border-color: rgba(255, 255, 255, 0.1);
@@ -2121,12 +2155,16 @@ body.loading {
 }
 .blog-thumb {
   height: 140px;
+  flex-shrink: 0;
   background: linear-gradient(135deg, rgba(108, 92, 231, 0.12), rgba(59, 130, 246, 0.08));
   background-size: cover;
   background-position: center;
 }
 .blog-body {
   padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .blog-card h4 {
   font-family: var(--font-sans);
@@ -2145,7 +2183,8 @@ body.loading {
   font-family: var(--font-sans);
   font-size: 11px;
   color: rgba(255, 255, 255, 0.2);
-  margin-top: 10px;
+  margin-top: auto;
+  padding-top: 10px;
 }
 .blog-cat {
   font-family: var(--font-sans);
@@ -2181,16 +2220,16 @@ body.loading {
 }
 .eco-s {
   position: absolute;
-  width: 220px;
-  height: 220px;
+  width: 240px;
+  height: 240px;
   background: var(--drop-gradient-2);
   border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
   right: 6%;
   top: 12%;
-  animation: bgBlobFloat 8s ease-in-out infinite;
+  animation: bgBlobFloat 10s ease-in-out infinite;
   z-index: 1;
-  opacity: 0.3;
-  filter: blur(40px);
+  opacity: 0.2;
+  filter: blur(80px);
 }
 
 /* ── Final CTA ── */

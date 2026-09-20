@@ -77,16 +77,28 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
   ]);
 
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}>
-      <body className="flex h-full flex-col">
+    <html lang="en" className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body>
         <PageLoader />
         <GoogleAnalytics />
-        <Header cmsGlobal={cmsGlobal} cmsNav={cmsNav} cmsHome={cmsHome} />
-        <main className="flex-1 pb-16 sm:pb-0">{children}</main>
-        <Footer />
-        <MobileStickyBar />
-        <CookieConsent cmsGlobal={cmsGlobal} />
-        <BackToTop />
+        {/* Plain (non-root) clip wrapper, deliberately not on <body> itself:
+            <body> is the propagation target for the viewport's own overflow
+            when <html> has no explicit overflow, and that root-propagated
+            mode turned out not to reliably clip full-bleed decorative
+            elements (background blobs, tab watermark text) — confirmed via
+            a real before/after screenshot of window.scrollTo(300, 0)
+            visibly shifting page content left, even though
+            getComputedStyle(body).overflowX correctly reported "hidden".
+            An ordinary descendant div has no such root special-casing and
+            clips reliably. */}
+        <div className="flex min-h-screen flex-col overflow-x-hidden">
+          <Header cmsGlobal={cmsGlobal} cmsNav={cmsNav} cmsHome={cmsHome} />
+          <main className="flex-1 pb-16 sm:pb-0">{children}</main>
+          <Footer />
+          <MobileStickyBar />
+          <CookieConsent cmsGlobal={cmsGlobal} />
+          <BackToTop />
+        </div>
       </body>
     </html>
   );

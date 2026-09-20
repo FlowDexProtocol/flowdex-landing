@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { initials } from '@/lib/format';
 import CmsMedia from './CmsMedia';
 
 export interface TeamCircleMember {
@@ -12,18 +13,11 @@ export interface TeamCircleMember {
 
 const WRAP_SIZE = 560;
 const CENTER = WRAP_SIZE / 2;
-const CENTER_CIRCLE_R = 70;
-const NODE_RADIUS = 200;
-const AVATAR_SIZE = 84;
-
-function initials(name: string) {
-  return name
-    .split(' ')
-    .map((p) => p[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
-}
+const OUTER_CIRCLE_R = 200;
+const CENTER_CIRCLE_R = 60;
+// Avatars sit centered directly on the outer circle's circumference.
+const NODE_RADIUS = OUTER_CIRCLE_R;
+const AVATAR_SIZE = 72;
 
 export default function TeamCircle({ members }: { members: TeamCircleMember[] }) {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -41,6 +35,7 @@ export default function TeamCircle({ members }: { members: TeamCircleMember[] })
   return (
     <div className="team-circle-wrap" style={{ width: WRAP_SIZE, height: WRAP_SIZE }}>
       <svg width={WRAP_SIZE} height={WRAP_SIZE} viewBox={`0 0 ${WRAP_SIZE} ${WRAP_SIZE}`} className="team-circle-lines">
+        <circle cx={CENTER} cy={CENTER} r={OUTER_CIRCLE_R} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth={1} />
         {nodes.map((n, i) => (
           <line
             key={n.id}
@@ -48,9 +43,12 @@ export default function TeamCircle({ members }: { members: TeamCircleMember[] })
             y1={CENTER}
             x2={n.x}
             y2={n.y}
-            stroke={hovered === i ? 'rgba(108,92,231,0.6)' : 'rgba(255,255,255,0.12)'}
+            stroke={hovered === i ? 'rgba(108,92,231,0.55)' : 'rgba(255,255,255,0.08)'}
             strokeWidth={1}
-            style={{ transition: 'stroke 0.2s ease' }}
+            style={{
+              transition: 'stroke 0.3s ease, filter 0.3s ease',
+              filter: hovered === i ? 'drop-shadow(0 0 4px rgba(108,92,231,0.5))' : 'none',
+            }}
           />
         ))}
       </svg>

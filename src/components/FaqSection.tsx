@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { getCmsFaqs } from '@/lib/api';
 import { Section, SectionHeading } from './ui';
 import FaqSectionClient from './FaqSectionClient';
+import Reveal from './motion/Reveal';
+import { fadeUp } from '@/lib/motion';
 
 const FALLBACK_FAQS = [
   {
@@ -39,14 +41,14 @@ export default async function FaqSection() {
     <Section id="faq">
       <SectionHeading label="FAQ" title="Frequently Asked Questions" />
 
-      <div className="mx-auto max-w-2xl">
+      <Reveal variants={fadeUp} className="mx-auto max-w-2xl">
         <FaqSectionClient items={items} />
         <div className="mt-6 text-center">
           <Link href="/faq" className="pill pill-ghost">
             View All FAQs
           </Link>
         </div>
-      </div>
+      </Reveal>
     </Section>
   );
 }
