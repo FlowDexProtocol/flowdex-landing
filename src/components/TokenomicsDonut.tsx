@@ -160,9 +160,8 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
         <g
           key={s.label}
           className="pointer-events-none select-none"
+          transform={`rotate(90, ${s.lineX1}, ${s.lineY1})`}
           style={{
-            transform: 'rotate(90deg)',
-            transformOrigin: `${s.lineX1}px ${s.lineY1}px`,
             opacity: hovered === null || hovered === i ? 1 : 0.35,
             transition: 'opacity 0.3s ease',
           }}
@@ -196,7 +195,7 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
       {/* Center hole text — counter-rotated around its own pivot (the
           donut's center) the same way every other label here is, since it
           sits inside the <svg> that carries the -90deg ring-drawing rotate. */}
-      <g style={{ transform: 'rotate(90deg)', transformOrigin: `${CENTER}px ${CENTER}px` }}>
+      <g transform={`rotate(90, ${CENTER}, ${CENTER})`}>
         <text x={CENTER} y={CENTER - 4} textAnchor="middle" fontFamily="var(--font-serif)" fontSize="42" fontWeight="500" fill="#fff">
           10B
         </text>
