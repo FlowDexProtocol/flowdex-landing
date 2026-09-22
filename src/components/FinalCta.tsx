@@ -5,8 +5,15 @@ import Reveal from './motion/Reveal';
 import { scaleIn } from '@/lib/motion';
 import { subscribeEmail } from '@/lib/api';
 import { cms, type CmsPageData } from '@/lib/cms';
+import { isSafeLinkUrl } from '@/lib/url-safety';
 
-export default function FinalCta({ cmsHome = {} }: { cmsHome?: CmsPageData }) {
+export default function FinalCta({
+  cmsHome = {},
+  cmsGlobal = {},
+}: {
+  cmsHome?: CmsPageData;
+  cmsGlobal?: CmsPageData;
+}) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -57,13 +64,28 @@ export default function FinalCta({ cmsHome = {} }: { cmsHome?: CmsPageData }) {
             <span className="cta-social-proof">You&rsquo;re subscribed!</span>
           )}
         </div>
-        {error && <p className="mt-3 text-xs text-red">{error}</p>}
+        {error && <p className="cta-error">{error}</p>}
 
         <div className="socials">
           {[
-            { label: 'X / Twitter', href: 'https://x.com/flowdexprotocol' },
-            { label: 'Telegram', href: 'https://t.me/flowdexprotocol' },
-            { label: 'Discord', href: 'https://discord.gg/flowdexprotocol' },
+            {
+              label: 'X / Twitter',
+              href: isSafeLinkUrl(cms(cmsGlobal, 'social', 'twitter', 'https://x.com/flowdexprotocol'))
+                ? cms(cmsGlobal, 'social', 'twitter', 'https://x.com/flowdexprotocol')
+                : 'https://x.com/flowdexprotocol',
+            },
+            {
+              label: 'Telegram',
+              href: isSafeLinkUrl(cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol'))
+                ? cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol')
+                : 'https://t.me/flowdexprotocol',
+            },
+            {
+              label: 'Discord',
+              href: isSafeLinkUrl(cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol'))
+                ? cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol')
+                : 'https://discord.gg/flowdexprotocol',
+            },
           ].map((s) => (
             <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
               {s.label}

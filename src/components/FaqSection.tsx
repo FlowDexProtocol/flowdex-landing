@@ -41,9 +41,9 @@ export default async function FaqSection() {
     <Section id="faq">
       <SectionHeading label="FAQ" title="Frequently Asked Questions" />
 
-      <Reveal variants={fadeUp} className="mx-auto max-w-2xl">
+      <Reveal variants={fadeUp} className="faq-list">
         <FaqSectionClient items={items} />
-        <div className="mt-6 text-center">
+        <div className="faq-cta">
           <Link href="/faq" className="pill pill-ghost">
             View All FAQs
           </Link>

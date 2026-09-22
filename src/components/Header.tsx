@@ -147,11 +147,11 @@ export default function Header({
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-3">
-          <a href={buyButtonUrl} target="_blank" rel="noopener noreferrer" className="pill hidden sm:inline-flex">
+        <div className="nav-actions">
+          <a href={buyButtonUrl} target="_blank" rel="noopener noreferrer" className="pill nav-buy-desktop">
             {buyButtonText}
           </a>
-          <button type="button" className="nav-burger lg:!hidden" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu" aria-expanded={menuOpen}>
+          <button type="button" className="nav-burger" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu" aria-expanded={menuOpen}>
             {menuOpen ? (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -166,13 +166,13 @@ export default function Header({
       </div>
 
       {menuOpen && (
-        <div className="mobile-menu lg:hidden">
+        <div className="mobile-menu">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
               {link.label}
             </Link>
           ))}
-          <a href={buyButtonUrl} target="_blank" rel="noopener noreferrer" className="pill mt-6 w-full text-center">
+          <a href={buyButtonUrl} target="_blank" rel="noopener noreferrer" className="pill mobile-menu-buy">
             {buyButtonText}
           </a>
         </div>

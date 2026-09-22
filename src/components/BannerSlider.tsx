@@ -30,7 +30,7 @@ function BannerCountdown({ targetIso }: { targetIso: string }) {
   }, [targetIso]);
 
   if (!remaining) {
-    return <div className="banner-countdown text-red">Ended</div>;
+    return <div className="banner-countdown banner-ended">Ended</div>;
   }
 
   const pad = (n: number) => String(n).padStart(2, '0');

@@ -22,9 +22,9 @@ export default function FaqAccordionGroup({ faqs }: { faqs: CmsFaq[] }) {
   }
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="faq-list">
       {Array.from(grouped.entries()).map(([category, items]) => (
-        <div key={category} className="mb-10">
+        <div key={category} className="faq-group">
           <h2 className="sec-label">{CATEGORY_LABELS[category] || category}</h2>
           <Accordion>
             {items.map((item) => (

@@ -6,9 +6,12 @@ import CmsMedia from './CmsMedia';
 import TeamCircle from './TeamCircle';
 
 const FALLBACK_TEAM = [
-  { id: -1, name: 'Z.A.', role: 'Founder & CEO', photo_url: null },
-  { id: -2, name: 'H.S.', role: 'CTO', photo_url: null },
-  { id: -3, name: 'A.K.', role: 'Head of Marketing', photo_url: null },
+  { id: -1, name: 'Atlas', role: 'Founder & CEO', photo_url: null },
+  { id: -2, name: 'Helix', role: 'CTO', photo_url: null },
+  { id: -3, name: 'Vector', role: 'Head of Risk', photo_url: null },
+  { id: -4, name: 'Cipher', role: 'Smart Contracts Lead', photo_url: null },
+  { id: -5, name: 'Nova', role: 'Research Lead', photo_url: null },
+  { id: -6, name: 'Orbit', role: 'Growth Lead', photo_url: null },
 ];
 
 export default async function TeamSection() {

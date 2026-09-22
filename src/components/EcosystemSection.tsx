@@ -1,4 +1,5 @@
 import { cms, fetchPageContent } from '@/lib/cms';
+import { Section, SectionHeading } from './ui';
 import { StaggerGroup, StaggerItem } from './motion/StaggerGroup';
 import CmsMedia from './CmsMedia';
 
@@ -79,12 +80,12 @@ export default async function EcosystemSection() {
   const cmsData = await fetchPageContent('home');
 
   return (
-    <section className="sec" id="ecosystem">
-      <div className="sec-label">Ecosystem</div>
-      <h2 className="sec-title">{cms(cmsData, 'ecosystem', 'title', 'The FlowDex Ecosystem')}</h2>
-      <p className="sec-sub">
-        {cms(cmsData, 'ecosystem', 'subtitle', 'A complete DeFi infrastructure for the next generation of finance.')}
-      </p>
+    <Section id="ecosystem">
+      <SectionHeading
+        label="Ecosystem"
+        title={cms(cmsData, 'ecosystem', 'title', 'The FlowDex Ecosystem')}
+        subtitle={cms(cmsData, 'ecosystem', 'subtitle', 'A complete DeFi infrastructure for the next generation of finance.')}
+      />
 
       <StaggerGroup className="eco-grid">
         {CARDS.map((card) => {
@@ -128,6 +129,6 @@ export default async function EcosystemSection() {
           );
         })}
       </StaggerGroup>
-    </section>
+    </Section>
   );
 }

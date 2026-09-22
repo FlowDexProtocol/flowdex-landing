@@ -109,7 +109,7 @@ export default async function Footer() {
         <div className="f-right">
           {socialLinks.map((l) => (
             <a key={l.key} href={l.href} target="_blank" rel="noopener noreferrer" className="f-link">
-              <span className="flex items-center gap-2">
+              <span className="f-link-inner">
                 <SocialIcon type={l.key} />
                 {l.label}
               </span>
@@ -117,7 +117,7 @@ export default async function Footer() {
             </a>
           ))}
           <a href={`mailto:${supportEmail}`} className="f-link">
-            <span className="flex items-center gap-2">
+            <span className="f-link-inner">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <rect x="3" y="5" width="18" height="14" rx="2" />
                 <path d="m3 7 9 6 9-6" />

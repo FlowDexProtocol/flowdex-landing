@@ -25,7 +25,7 @@ export default async function RoadmapSection() {
     <Section id="roadmap">
       <SectionHeading label="Roadmap" title="Where We're Headed" subtitle="Four phases from presale to a full multi-asset trading ecosystem." />
 
-      <div className="rm-timeline" style={{ maxWidth: 640 }}>
+      <div className="rm-timeline">
         <div className="rm-line" />
         {phases.map((p, i) => (
           <Reveal key={p.phase} variants={fadeUp} delay={i * 0.06} as="div" className={`rm-phase${p.active ? ' active' : ''}`}>
@@ -39,7 +39,7 @@ export default async function RoadmapSection() {
         ))}
       </div>
 
-      <div className="mt-10">
+      <div className="rm-cta">
         <Link href="/roadmap" className="pill pill-ghost">
           View Full Roadmap
         </Link>

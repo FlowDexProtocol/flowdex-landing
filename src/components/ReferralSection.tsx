@@ -31,7 +31,7 @@ export default async function ReferralSection() {
               <p className="ref-t">{step}</p>
             </div>
           ))}
-          <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill" style={{ marginTop: '10px' }}>
+          <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill ref-start">
             Start Earning
           </a>
         </Reveal>
@@ -50,11 +50,11 @@ export default async function ReferralSection() {
         </Reveal>
       </div>
 
-      <Reveal variants={fadeUp} className="mx-auto mt-16 max-w-3xl rounded-xl border border-border bg-card p-6 text-center sm:p-10">
-        <p className="sec-label" style={{ marginBottom: '8px' }}>
+      <Reveal variants={fadeUp} className="ref-burn">
+        <p className="sec-label">
           {cms(cmsData, 'referral', 'burn_title', 'Deflationary by Design')}
         </p>
-        <p className="mx-auto max-w-xl font-sans text-sm text-ink-dim sm:text-base">
+        <p className="ref-burn-text">
           {cms(
             cmsData,
             'referral',

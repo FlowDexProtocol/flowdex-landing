@@ -124,11 +124,11 @@ export default async function Hero() {
             <p className="pc-tokens">{cms(cmsData, 'presale_card', 'tokens_accepted', ACCEPTED_CURRENCIES.join(' · '))}</p>
           </>
         ) : (
-          <div className="py-6 text-center">
-            <div className="pc-price" style={{ fontSize: '22px' }}>
+          <div className="pc-complete">
+            <div className="pc-price">
               Presale Complete
             </div>
-            <p className="hero-body" style={{ margin: '10px 0 20px', maxWidth: 'none' }}>
+            <p className="hero-body">
               All presale tiers have sold out. Thank you for backing FlowDex.
             </p>
             <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" className="pc-buy">

@@ -20,7 +20,11 @@ import EcoCtaSection from '@/components/EcoCtaSection';
 import FinalCta from '@/components/FinalCta';
 
 export default async function HomePage() {
-  const [banners, cmsHome] = await Promise.all([getCmsBanners().catch(() => []), fetchPageContent('home')]);
+  const [banners, cmsHome, cmsGlobal] = await Promise.all([
+    getCmsBanners().catch(() => []),
+    fetchPageContent('home'),
+    fetchPageContent('global'),
+  ]);
 
   return (
     <>
@@ -41,7 +45,7 @@ export default async function HomePage() {
       <FaqSection />
       <BlogPreviewSection />
       <EcoCtaSection />
-      <FinalCta cmsHome={cmsHome} />
+      <FinalCta cmsHome={cmsHome} cmsGlobal={cmsGlobal} />
     </>
   );
 }
