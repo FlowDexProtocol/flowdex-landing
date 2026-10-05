@@ -20,9 +20,7 @@ import EcoCtaSection from '@/components/EcoCtaSection';
 import FinalCta from '@/components/FinalCta';
 import type { CmsBanner } from '@/lib/types';
 
-  const [cmsBanners, cmsHome] = await Promise.all([getCmsBanners().catch(() => [] as CmsBanner[]), fetchPageContent('home')]);
-
-  const banners = cmsBanners.length > 0 ? cmsBanners : DEFAULT_BANNERS;
+const DEFAULT_BANNERS: CmsBanner[] = [
   {
     id: -1,
     title: 'FDP Presale Is Live — Tier 1 Starting at $0.0005',
@@ -74,11 +72,13 @@ import type { CmsBanner } from '@/lib/types';
 ];
 
 export default async function HomePage() {
-  const [banners, cmsHome, cmsGlobal] = await Promise.all([
-    getCmsBanners().catch(() => []),
+  const [cmsBanners, cmsHome, cmsGlobal] = await Promise.all([
+    getCmsBanners().catch(() => [] as CmsBanner[]),
     fetchPageContent('home'),
     fetchPageContent('global'),
   ]);
+
+  const banners = cmsBanners.length > 0 ? cmsBanners : DEFAULT_BANNERS;
 
   return (
     <>
