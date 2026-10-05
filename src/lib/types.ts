@@ -67,6 +67,8 @@ export interface CmsBanner {
   id: number;
   title: string;
   subtitle: string | null;
+  description: string | null;
+  stats: string[] | null;
   cta_text: string | null;
   cta_link: string | null;
   image_url: string | null;

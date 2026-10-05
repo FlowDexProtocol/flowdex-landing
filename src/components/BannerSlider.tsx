@@ -163,6 +163,14 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
             <div className="banner-inner">
               {banner.subtitle && <div className="banner-tag">{banner.subtitle}</div>}
               <h2 className="banner-h">{banner.title}</h2>
+              {banner.description && <p className="banner-p">{banner.description}</p>}
+              {banner.stats && banner.stats.length > 0 && (
+                <div className="banner-stats">
+                  {banner.stats.map((stat, si) => (
+                    <span key={si} className="banner-stat">{stat}</span>
+                  ))}
+                </div>
+              )}
               {banner.show_countdown && banner.countdown_end && <BannerCountdown targetIso={banner.countdown_end} />}
               <BannerCta banner={banner} />
             </div>
