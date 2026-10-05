@@ -4,7 +4,7 @@ import { Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import FaqAccordionGroup from '@/components/FaqAccordionGroup';
 
-const FAQ_DESCRIPTION = 'Frequently asked questions about $FDP, the FlowDex Protocol presale, tiers, staking, and the Universal Exchange.';
+const FAQ_DESCRIPTION = 'Frequently asked questions about FDP, the FlowDex Protocol presale, tiers, staking, and the Universal Exchange.';
 
 export const metadata: Metadata = {
   title: 'FAQ',
@@ -24,7 +24,7 @@ export default async function FaqPage() {
           <h1>
             Frequently Asked <em>Questions</em>
           </h1>
-          <p>Everything you need to know about the $FDP presale and the FlowDex Protocol ecosystem.</p>
+          <p>Everything you need to know about the FDP presale and the FlowDex Protocol ecosystem.</p>
         </Reveal>
       </div>
 
@@ -37,7 +37,7 @@ export default async function FaqPage() {
 
         <div className="mt-14 flex justify-center">
           <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill">
-            Buy $FDP
+            Buy FDP
           </a>
         </div>
       </Section>

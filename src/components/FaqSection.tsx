@@ -10,14 +10,14 @@ const FALLBACK_FAQS = [
     id: -1,
     question: 'What is FlowDex Protocol?',
     answer:
-      'FlowDex is a DeFi platform combining a Universal Exchange for trading all asset classes with an AI-powered Intelligence Terminal for market analytics, plus FlowChain — our upcoming Layer 1 blockchain. $FDP is the utility token powering the entire ecosystem.',
+      'FlowDex is a DeFi platform combining a Universal Exchange for trading all asset classes with an AI-powered Intelligence Terminal for market analytics, plus FlowChain — our upcoming Layer 1 blockchain. FDP is the utility token powering the entire ecosystem.',
   },
   {
     id: -2,
-    question: 'How do I buy $FDP?',
+    question: 'How do I buy FDP?',
     answer: 'Connect any wallet (MetaMask, Trust Wallet, Coinbase, or others), choose your payment currency, enter your amount, and send. No KYC required. No minimum purchase.',
   },
-  { id: -3, question: 'What is the listing price?', answer: '$0.50 per $FDP. Tier 1 buyers enter at $0.0005 — a 99.9% discount from the target launch price.' },
+  { id: -3, question: 'What is the listing price?', answer: '$0.50 per FDP. Tier 1 buyers enter at $0.0005 — a 99.9% discount from the target launch price.' },
   {
     id: -4,
     question: 'When is TGE?',
@@ -29,7 +29,7 @@ const FALLBACK_FAQS = [
     id: -6,
     question: 'Is there a referral program?',
     answer:
-      'Yes. Earn 15% of what your friend spends when you refer them. Your friend earns a 30% bonus on their purchase. Both bonuses split 70% Terminal Credits and 30% $FDP tokens.',
+      'Yes. Earn 15% of what your friend spends when you refer them. Your friend earns a 30% bonus on their purchase. Both bonuses split 70% Terminal Credits and 30% FDP tokens.',
   },
 ];
 

@@ -200,7 +200,7 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
           100B
         </text>
         <text x={CENTER} y={CENTER + 22} textAnchor="middle" fontFamily="var(--font-sans)" fontSize="14" fill="rgba(255,255,255,0.4)">
-          $FDP
+          FDP
         </text>
       </g>
     </svg>

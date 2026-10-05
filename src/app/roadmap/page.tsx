@@ -33,7 +33,7 @@ const CMS_PHASES = [
     title: 'Presale & Launch',
     time: 'Q1 2027',
     status: 'upcoming',
-    items: ['20-tier presale', '$FDP ERC-20 deployment', 'Per-tier TGEs', 'Ethereum aggregator', 'Staking launch', 'DEX/CEX listings'],
+    items: ['20-tier presale', 'FDP ERC-20 deployment', 'Per-tier TGEs', 'Ethereum aggregator', 'Staking launch', 'DEX/CEX listings'],
   },
   {
     key: 'phase_3',

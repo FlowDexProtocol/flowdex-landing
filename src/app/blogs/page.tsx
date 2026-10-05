@@ -4,7 +4,7 @@ import { EmptyState, Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import BlogListClient from '@/components/BlogListClient';
 
-const BLOG_DESCRIPTION = 'News, updates, and insights from the FlowDex Protocol team on $FDP, the presale, and the Universal Exchange.';
+const BLOG_DESCRIPTION = 'News, updates, and insights from the FlowDex Protocol team on FDP, the presale, and the Universal Exchange.';
 
 export const metadata: Metadata = {
   title: 'Blog',

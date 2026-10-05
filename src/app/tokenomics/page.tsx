@@ -8,7 +8,7 @@ import Reveal from '@/components/motion/Reveal';
 import TokenomicsDonut from '@/components/TokenomicsDonut';
 
 const TOKENOMICS_DESCRIPTION =
-  'Explore $FDP tokenomics: supply allocation, presale tiers, staking rewards, and fee-sharing mechanics for the FlowDex Protocol ecosystem.';
+  'Explore FDP tokenomics: supply allocation, presale tiers, staking rewards, and fee-sharing mechanics for the FlowDex Protocol ecosystem.';
 
 export const metadata: Metadata = {
   title: 'Tokenomics',
@@ -37,7 +37,7 @@ export default async function TokenomicsPage() {
               cmsData['hero.title']
             ) : (
               <>
-                $FDP <em>Tokenomics</em>
+                FDP <em>Tokenomics</em>
               </>
             )}
           </h1>
@@ -53,7 +53,7 @@ export default async function TokenomicsPage() {
           </p>
           <div className="mt-8 flex justify-center">
             <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill">
-              Buy $FDP
+              Buy FDP
             </a>
           </div>
         </Reveal>
@@ -63,7 +63,7 @@ export default async function TokenomicsPage() {
         <SectionHeading
           label="Allocation"
           title="Token Allocation"
-          subtitle="100 billion $FDP, distributed for long-term sustainability — no VC allocation."
+          subtitle="100 billion FDP, distributed for long-term sustainability — no VC allocation."
         />
         <Reveal className="donut-wrap">
           <TokenomicsDonut allocation={allocation} />

@@ -216,7 +216,7 @@ function StakingVisual({ tab }: { tab: TabContent }) {
             <span className="tv-stake-fee">Fee Share</span>
             <div className="tv-stake-cta">
               <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill pill-sm">
-                Buy $FDP
+                Buy FDP
               </a>
             </div>
           </div>

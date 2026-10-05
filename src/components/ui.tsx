@@ -44,7 +44,7 @@ export function Pill({ children, tone = 'primary', className = '' }: { children:
 
 export function BuyButton({
   className = '',
-  children = 'Buy $FDP',
+  children = 'Buy FDP',
   href = 'https://purchase.flowdexprotocol.com',
   ...rest
 }: AnchorHTMLAttributes<HTMLAnchorElement> & { children?: ReactNode }) {

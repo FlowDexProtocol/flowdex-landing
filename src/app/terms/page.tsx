@@ -21,8 +21,8 @@ export default async function TermsPage() {
         {
           heading: '2. Utility Token — Not a Security',
           body: [
-            '$FDP is a utility token intended to provide access to features within the FlowDex Protocol ecosystem, including fee sharing, governance participation, and platform access. Purchasing $FDP does not entitle you to equity, profit-sharing, or any ownership interest in FlowDex Protocol or any affiliated entity.',
-            'Nothing on this site constitutes an offer or solicitation to sell securities in any jurisdiction where such an offer or solicitation would be unlawful. It is your responsibility to determine whether purchasing $FDP is lawful in your jurisdiction.',
+            'FDP is a utility token intended to provide access to features within the FlowDex Protocol ecosystem, including fee sharing, governance participation, and platform access. Purchasing FDP does not entitle you to equity, profit-sharing, or any ownership interest in FlowDex Protocol or any affiliated entity.',
+            'Nothing on this site constitutes an offer or solicitation to sell securities in any jurisdiction where such an offer or solicitation would be unlawful. It is your responsibility to determine whether purchasing FDP is lawful in your jurisdiction.',
           ],
         },
         {
@@ -34,7 +34,7 @@ export default async function TermsPage() {
         {
           heading: '4. Risk Disclosure',
           body: [
-            'Purchasing cryptocurrency carries significant risk, including the total loss of funds. Presale tokens are subject to vesting schedules and may not be immediately transferable or liquid. You should only purchase $FDP with funds you can afford to lose, and after conducting your own research.',
+            'Purchasing cryptocurrency carries significant risk, including the total loss of funds. Presale tokens are subject to vesting schedules and may not be immediately transferable or liquid. You should only purchase FDP with funds you can afford to lose, and after conducting your own research.',
           ],
         },
         {

@@ -6,7 +6,7 @@ import { fetchWhitepaperUrl, resolveApiUrl } from '@/lib/cms';
 const FALLBACK_PDF_URL = '/whitepaper.pdf';
 
 const WHITEPAPER_DESCRIPTION =
-  'Read the FlowDex Protocol whitepaper — the technical and economic design behind the Universal Exchange, Intelligence Terminal, and $FDP token.';
+  'Read the FlowDex Protocol whitepaper — the technical and economic design behind the Universal Exchange, Intelligence Terminal, and FDP token.';
 
 export const metadata: Metadata = {
   title: 'Whitepaper',
@@ -18,11 +18,11 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: '1. Overview',
-    body: 'FlowDex Protocol is building a Universal Exchange — a single, non-custodial interface for trading crypto, tokenized stocks, forex, and commodities — alongside an AI-powered Intelligence Terminal and FlowChain, our upcoming Layer 1 blockchain. $FDP is the utility token that powers fee sharing, governance, and priority access across the ecosystem.',
+    body: 'FlowDex Protocol is building a Universal Exchange — a single, non-custodial interface for trading crypto, tokenized stocks, forex, and commodities — alongside an AI-powered Intelligence Terminal and FlowChain, our upcoming Layer 1 blockchain. FDP is the utility token that powers fee sharing, governance, and priority access across the ecosystem.',
   },
   {
-    title: '2. The $FDP Token',
-    body: 'Total supply: 100,000,000,000 $FDP (100 billion). 30% of supply is allocated to the presale across 20 tiers, priced from $0.0005 (Tier 1) up to $0.01 (Tier 20). Target launch price: $0.50. Zero VC allocation — 100% of the total supply is distributed across presale, staking, ecosystem, treasury, and community.',
+    title: '2. The FDP Token',
+    body: 'Total supply: 100,000,000,000 FDP (100 billion). 30% of supply is allocated to the presale across 20 tiers, priced from $0.0005 (Tier 1) up to $0.01 (Tier 20). Target launch price: $0.50. Zero VC allocation — 100% of the total supply is distributed across presale, staking, ecosystem, treasury, and community.',
   },
   {
     title: '3. Presale Mechanics',
@@ -30,11 +30,11 @@ const SECTIONS = [
   },
   {
     title: '4. Token Utility',
-    body: 'Staking $FDP earns a share of protocol trading fees (targeting 40% of all fees to stakers), grants governance voting rights on protocol upgrades and treasury allocation, and gives priority order routing. In Phase 3, staking $FDP also secures FlowChain as a validator.',
+    body: 'Staking FDP earns a share of protocol trading fees (targeting 40% of all fees to stakers), grants governance voting rights on protocol upgrades and treasury allocation, and gives priority order routing. In Phase 3, staking FDP also secures FlowChain as a validator.',
   },
   {
     title: '5. Referral Program',
-    body: 'Every wallet that connects receives a unique referral code. Referrers earn 15% of what their friend spends through their link, split between $FDP tokens and Terminal Credits; the referred buyer earns a 30% bonus on their own purchase.',
+    body: 'Every wallet that connects receives a unique referral code. Referrers earn 15% of what their friend spends through their link, split between FDP tokens and Terminal Credits; the referred buyer earns a 30% bonus on their own purchase.',
   },
   {
     title: '6. Roadmap',
@@ -42,7 +42,7 @@ const SECTIONS = [
   },
   {
     title: '7. Risk Disclosure',
-    body: '$FDP is a utility token, not a security or investment contract. Cryptocurrency purchases carry risk, including total loss of funds. Presale tokens are subject to vesting and may not be immediately liquid. Nothing in this document is financial advice.',
+    body: 'FDP is a utility token, not a security or investment contract. Cryptocurrency purchases carry risk, including total loss of funds. Presale tokens are subject to vesting and may not be immediately liquid. Nothing in this document is financial advice.',
   },
 ];
 
@@ -77,7 +77,7 @@ export default async function WhitepaperPage() {
             Living document — updated as the protocol evolves
           </div>
           <h1>FlowDex Protocol Whitepaper v8.0</h1>
-          <p>The full protocol whitepaper — the $FDP token, presale mechanics, tokenomics, and the FlowDex roadmap.</p>
+          <p>The full protocol whitepaper — the FDP token, presale mechanics, tokenomics, and the FlowDex roadmap.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href={pdfUrl} download className="pill">
               Download Whitepaper
@@ -103,7 +103,7 @@ export default async function WhitepaperPage() {
 
         <div className="mt-14 flex justify-center">
           <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill">
-            Buy $FDP
+            Buy FDP
           </a>
         </div>
       </Section>

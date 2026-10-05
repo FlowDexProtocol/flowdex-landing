@@ -5,19 +5,19 @@ import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
 import Reveal from '@/components/motion/Reveal';
 
 const DESCRIPTION =
-  "New to crypto? This step-by-step guide walks you through getting a wallet, funding it, and buying $FDP in the FlowDex Protocol presale.";
+  "New to crypto? This step-by-step guide walks you through getting a wallet, funding it, and buying FDP in the FlowDex Protocol presale.";
 
 export const metadata: Metadata = {
-  title: 'How to Buy $FDP',
+  title: 'How to Buy FDP',
   description: DESCRIPTION,
-  openGraph: { title: 'How to Buy $FDP — FlowDex Protocol', description: DESCRIPTION },
-  twitter: { title: 'How to Buy $FDP — FlowDex Protocol', description: DESCRIPTION },
+  openGraph: { title: 'How to Buy FDP — FlowDex Protocol', description: DESCRIPTION },
+  twitter: { title: 'How to Buy FDP — FlowDex Protocol', description: DESCRIPTION },
 };
 
 const STEPS = [
   {
     title: 'Get a Wallet',
-    body: 'A crypto wallet is where you\'ll hold $FDP and send your payment from. If you don\'t have one yet, MetaMask (browser extension and mobile app) and Trust Wallet (mobile) are two of the most widely used, free, and beginner-friendly options — both let you create a new wallet in a couple of minutes. Download MetaMask from metamask.io or Trust Wallet from trustwallet.com, and make sure to write down your recovery phrase somewhere safe — anyone with that phrase can access your funds, and it can never be recovered if you lose it.',
+    body: 'A crypto wallet is where you\'ll hold FDP and send your payment from. If you don\'t have one yet, MetaMask (browser extension and mobile app) and Trust Wallet (mobile) are two of the most widely used, free, and beginner-friendly options — both let you create a new wallet in a couple of minutes. Download MetaMask from metamask.io or Trust Wallet from trustwallet.com, and make sure to write down your recovery phrase somewhere safe — anyone with that phrase can access your funds, and it can never be recovered if you lose it.',
     links: [
       { label: 'Get MetaMask →', href: 'https://metamask.io' },
       { label: 'Get Trust Wallet →', href: 'https://trustwallet.com' },
@@ -31,7 +31,7 @@ const STEPS = [
   },
   {
     title: 'Add Funds',
-    body: 'Once your wallet exists, it needs some ETH, USDT, or another supported crypto in it before you can buy $FDP. If you don\'t already own crypto, the easiest way to get some is through a service like MoonPay or a centralized exchange such as Coinbase — both let you buy crypto directly with a debit card or bank transfer. Some wallets (including MetaMask and Trust Wallet) have a built-in "Buy" button that routes you through one of these providers automatically. Once purchased, send it to your wallet address if it isn\'t already there.',
+    body: 'Once your wallet exists, it needs some ETH, USDT, or another supported crypto in it before you can buy FDP. If you don\'t already own crypto, the easiest way to get some is through a service like MoonPay or a centralized exchange such as Coinbase — both let you buy crypto directly with a debit card or bank transfer. Some wallets (including MetaMask and Trust Wallet) have a built-in "Buy" button that routes you through one of these providers automatically. Once purchased, send it to your wallet address if it isn\'t already there.',
     links: [],
     icon: (
       <>
@@ -54,7 +54,7 @@ const STEPS = [
   },
   {
     title: 'Choose Payment & Amount',
-    body: 'Pick which crypto you want to pay with — ETH, USDT, USDC, BNB, SOL, BTC, and TRX (TRC-20) are all accepted — then enter how much you\'d like to spend in USD. The form shows you the live crypto amount you\'ll need to send and an estimate of how many $FDP tokens you\'ll receive at the current presale tier price, updated in real time.',
+    body: 'Pick which crypto you want to pay with — ETH, USDT, USDC, BNB, SOL, BTC, and TRX (TRC-20) are all accepted — then enter how much you\'d like to spend in USD. The form shows you the live crypto amount you\'ll need to send and an estimate of how many FDP tokens you\'ll receive at the current presale tier price, updated in real time.',
     links: [],
     icon: (
       <>
@@ -65,7 +65,7 @@ const STEPS = [
   },
   {
     title: 'Confirm & Send',
-    body: 'Click "Buy $FDP" and you\'ll get a unique deposit address and a QR code, along with your exact price locked in for 15 minutes. Send exactly the amount shown, on the correct network, from your wallet to that address — scanning the QR code with your wallet app is the fastest and safest way to avoid typos. Your purchase confirms automatically once the payment is detected on-chain, usually within a few minutes.',
+    body: 'Click "Buy FDP" and you\'ll get a unique deposit address and a QR code, along with your exact price locked in for 15 minutes. Send exactly the amount shown, on the correct network, from your wallet to that address — scanning the QR code with your wallet app is the fastest and safest way to avoid typos. Your purchase confirms automatically once the payment is detected on-chain, usually within a few minutes.',
     links: [],
     icon: (
       <>
@@ -76,7 +76,7 @@ const STEPS = [
   },
   {
     title: 'Check Your Portfolio',
-    body: 'Once your purchase confirms, head to the Dashboard section on the buy page and open the Portfolio tab. You\'ll see your total $FDP purchased, any referral bonus tokens, your purchase history, and — once your tier closes — your TGE vesting schedule showing exactly when and how much unlocks.',
+    body: 'Once your purchase confirms, head to the Dashboard section on the buy page and open the Portfolio tab. You\'ll see your total FDP purchased, any referral bonus tokens, your purchase history, and — once your tier closes — your TGE vesting schedule showing exactly when and how much unlocks.',
     links: [],
     icon: (
       <>
@@ -96,7 +96,7 @@ export default async function HowToBuyPage() {
         <div className="page-hero-glow" />
         <Reveal>
           <h1>
-            How to Buy <em>$FDP</em>
+            How to Buy <em>FDP</em>
           </h1>
           <p>Beginner&rsquo;s Guide</p>
         </Reveal>

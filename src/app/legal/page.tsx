@@ -15,7 +15,7 @@ export default async function LegalNoticePage() {
         {
           heading: 'Not Financial Advice',
           body: [
-            'Nothing on this website — including presale mechanics, tokenomics, roadmap statements, or illustrative growth scenarios — constitutes financial, investment, legal, or tax advice. $FDP is a utility token, not a security, equity instrument, or investment contract.',
+            'Nothing on this website — including presale mechanics, tokenomics, roadmap statements, or illustrative growth scenarios — constitutes financial, investment, legal, or tax advice. FDP is a utility token, not a security, equity instrument, or investment contract.',
           ],
         },
         {

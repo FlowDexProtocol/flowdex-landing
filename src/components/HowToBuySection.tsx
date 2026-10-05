@@ -6,7 +6,7 @@ const STEPS = [
   { icon: '👛', title: 'Get a Wallet', description: 'Install MetaMask, Trust Wallet, or any WalletConnect-compatible wallet.' },
   { icon: '💰', title: 'Fund Your Wallet', description: 'Add ETH, USDT, USDC, BNB, SOL, BTC, or TRX to your wallet.' },
   { icon: '🔗', title: 'Connect & Select', description: 'Connect your wallet on the buy page and select your payment currency.' },
-  { icon: '✅', title: 'Confirm Purchase', description: 'Approve the transaction — $FDP is credited to your presale balance instantly.' },
+  { icon: '✅', title: 'Confirm Purchase', description: 'Approve the transaction — FDP is credited to your presale balance instantly.' },
 ];
 
 export default async function HowToBuySection() {
@@ -16,8 +16,8 @@ export default async function HowToBuySection() {
     <Section id="how-to-buy">
       <SectionHeading
         label="Get Started"
-        title={cms(cmsData, 'howto', 'title', 'How to Buy $FDP')}
-        subtitle={cms(cmsData, 'howto', 'subtitle', 'Four steps. A few minutes. You own $FDP.')}
+        title={cms(cmsData, 'howto', 'title', 'How to Buy FDP')}
+        subtitle={cms(cmsData, 'howto', 'subtitle', 'Four steps. A few minutes. You own FDP.')}
       />
 
       <StaggerGroup className="htb-grid">

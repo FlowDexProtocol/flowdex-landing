@@ -68,12 +68,12 @@ export default function Header({
   const [menuOpen, setMenuOpen] = useState(false);
 
   const announceActive = cms(cmsHome, 'announcement', 'active', 'true') === 'true';
-  const announceText = cms(cmsHome, 'announcement', 'text', 'Tier 1 closing soon! Buy $FDP at $0.001 before the price increases.');
+  const announceText = cms(cmsHome, 'announcement', 'text', 'Tier 1 closing soon! Buy FDP at $0.001 before the price increases.');
   const [announceDismissed, setAnnounceDismissed] = useState(false);
   const showAnnounce = announceActive && !!announceText && !announceDismissed;
 
   const navLinks = buildNavLinks(cmsNav);
-  const buyButtonText = cms(cmsNav, 'header', 'buy_button_text', 'Buy $FDP');
+  const buyButtonText = cms(cmsNav, 'header', 'buy_button_text', 'Buy FDP');
   const buyButtonUrlRaw = cms(cmsNav, 'header', 'buy_button_url', 'https://purchase.flowdexprotocol.com');
   const buyButtonUrl = isSafeLinkUrl(buyButtonUrlRaw) ? buyButtonUrlRaw : 'https://purchase.flowdexprotocol.com';
   const logoType = cms(cmsGlobal, 'logo', 'type', 'text');

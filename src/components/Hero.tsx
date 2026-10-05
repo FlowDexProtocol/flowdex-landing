@@ -50,7 +50,7 @@ export default async function Hero() {
     cmsData,
     'hero',
     'subtitle_2',
-    '$FDP is the token that runs the network. Hold it to earn 40% of all trading fees, vote on how the protocol evolves, and unlock the full Intelligence Terminal.'
+    'FDP is the token that runs the network. Hold it to earn 40% of all trading fees, vote on how the protocol evolves, and unlock the full Intelligence Terminal.'
   );
 
   return (
@@ -86,7 +86,7 @@ export default async function Hero() {
         <Reveal variants={fadeUp} delay={0.16}>
           <div className="hero-btns">
             <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" className="pill">
-              {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
+              {cms(cmsData, 'hero', 'cta_primary_text', 'Buy FDP')}
             </a>
             <a href={ctaSecondaryLink} className="pill pill-ghost">
               {cms(cmsData, 'hero', 'cta_secondary_text', 'Read Whitepaper')}
@@ -119,7 +119,7 @@ export default async function Hero() {
             </div>
 
             <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" className="pc-buy">
-              {cms(cmsData, 'hero', 'cta_primary_text', 'Buy $FDP')}
+              {cms(cmsData, 'hero', 'cta_primary_text', 'Buy FDP')}
             </a>
             <p className="pc-tokens">{cms(cmsData, 'presale_card', 'tokens_accepted', ACCEPTED_CURRENCIES.join(' · '))}</p>
           </>

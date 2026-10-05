@@ -7,7 +7,7 @@ const UTILITIES = [
     num: '01',
     key: 'utility_1',
     title: '40% Fee Sharing',
-    description: 'Stake $FDP to earn 40% of all trading fees. Every trade across crypto, stocks, forex, and commodities generates revenue for stakers.',
+    description: 'Stake FDP to earn 40% of all trading fees. Every trade across crypto, stocks, forex, and commodities generates revenue for stakers.',
   },
   {
     num: '02',
@@ -19,13 +19,13 @@ const UTILITIES = [
     num: '03',
     key: 'utility_3',
     title: 'Routing Priority',
-    description: '$FDP holders get priority order routing and reduced slippage on every trade. Better execution, every time.',
+    description: 'FDP holders get priority order routing and reduced slippage on every trade. Better execution, every time.',
   },
   {
     num: '04',
     key: 'utility_4',
     title: 'Validator Staking',
-    description: 'In Phase 3, stake $FDP to become a FlowChain validator. Secure the network and earn additional rewards.',
+    description: 'In Phase 3, stake FDP to become a FlowChain validator. Secure the network and earn additional rewards.',
   },
   {
     num: '05',
@@ -37,7 +37,7 @@ const UTILITIES = [
     num: '06',
     key: 'utility_6',
     title: 'Deflationary Burns',
-    description: 'Every referral purchase permanently burns $FDP from the supply. The more the community grows, the scarcer $FDP becomes.',
+    description: 'Every referral purchase permanently burns FDP from the supply. The more the community grows, the scarcer FDP becomes.',
   },
 ];
 
@@ -48,7 +48,7 @@ export default async function TokenUtilitySection() {
     <Section id="utility">
       <SectionHeading
         label="Utility"
-        title={cms(cmsData, 'utility', 'title', '$FDP Powers Everything')}
+        title={cms(cmsData, 'utility', 'title', 'FDP Powers Everything')}
         subtitle={cms(cmsData, 'utility', 'subtitle', 'Six utilities. One token. Real value from day one.')}
       />
 

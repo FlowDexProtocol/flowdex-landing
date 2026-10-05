@@ -47,7 +47,7 @@ function BannerCountdown({ targetIso }: { targetIso: string }) {
 function BannerCta({ banner }: { banner: CmsBanner }) {
   if (!banner.cta_text) return null;
 
-  // "Buy $FDP" CTAs must always land on the purchase app, regardless of what
+  // "Buy FDP" CTAs must always land on the purchase app, regardless of what
   // the CMS entry's cta_link happens to contain.
   const isBuyCta = /buy/i.test(banner.cta_text);
   if (isBuyCta) {

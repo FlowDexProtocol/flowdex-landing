@@ -7,7 +7,7 @@ const STEPS = [
   'Connect your wallet on the buy page to get your unique referral link',
   'Share your link on social media, DMs, or anywhere',
   'When someone buys using your link, you both earn bonuses',
-  'You earn 15% of what your friend spends — split 70% Terminal Credits + 30% $FDP',
+  'You earn 15% of what your friend spends — split 70% Terminal Credits + 30% FDP',
   'Your friend earns 30% bonus on their purchase',
 ];
 

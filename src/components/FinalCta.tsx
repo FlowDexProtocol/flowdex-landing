@@ -39,11 +39,11 @@ export default function FinalCta({
       <Reveal variants={scaleIn}>
         <h2>{cms(cmsHome, 'cta', 'title', "Don't Miss the Lowest Price")}</h2>
         <p className="cta-sub">{cms(cmsHome, 'cta', 'subtitle', "Tier 1 won't last forever. Every tier costs more.")}</p>
-        <p className="cta-social-proof">{cms(cmsHome, 'cta', 'social_proof', 'Join early supporters buying $FDP')}</p>
+        <p className="cta-social-proof">{cms(cmsHome, 'cta', 'social_proof', 'Join early supporters buying FDP')}</p>
 
         <div className="cta-row">
           <a href="https://purchase.flowdexprotocol.com" target="_blank" rel="noopener noreferrer" className="pill">
-            {cms(cmsHome, 'cta', 'button_text', 'Buy $FDP Now')}
+            {cms(cmsHome, 'cta', 'button_text', 'Buy FDP Now')}
           </a>
 
           {!subscribed ? (
@@ -79,12 +79,6 @@ export default function FinalCta({
               href: isSafeLinkUrl(cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol'))
                 ? cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol')
                 : 'https://t.me/flowdexprotocol',
-            },
-            {
-              label: 'Discord',
-              href: isSafeLinkUrl(cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol'))
-                ? cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol')
-                : 'https://discord.gg/flowdexprotocol',
             },
           ].map((s) => (
             <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">

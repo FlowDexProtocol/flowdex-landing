@@ -9,7 +9,7 @@ import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
 import { isSafeLinkUrl } from '@/lib/url-safety';
 
 const ABOUT_DESCRIPTION =
-  'FlowDex Protocol unifies every financial market into one intelligent trading layer. Learn our mission, what we\'re building, and the team behind $FDP.';
+  'FlowDex Protocol unifies every financial market into one intelligent trading layer. Learn our mission, what we\'re building, and the team behind FDP.';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -33,14 +33,6 @@ export default async function AboutPage() {
       key: 'telegram' as const,
       label: 'Telegram',
       href: safeSocialUrl(cms(cmsGlobal, 'social', 'telegram', 'https://t.me/flowdexprotocol'), 'https://t.me/flowdexprotocol'),
-    },
-    {
-      key: 'discord' as const,
-      label: 'Discord',
-      href: safeSocialUrl(
-        cms(cmsGlobal, 'social', 'discord', 'https://discord.gg/flowdexprotocol'),
-        'https://discord.gg/flowdexprotocol'
-      ),
     },
   ];
 
@@ -79,7 +71,7 @@ export default async function AboutPage() {
                   FlowDex combines a Universal Exchange — one interface to trade crypto, stocks, forex, and commodities with
                   cross-chain routing that finds the best price — with a Blockchain Intelligence Terminal for AI-powered whale
                   tracking, pattern detection, and predictive signals. Both run on FlowChain, our own Layer 1 blockchain
-                  launching in Phase 3, where $FDP holders become validators.
+                  launching in Phase 3, where FDP holders become validators.
                 </p>
                 <Link href="/#ecosystem" className="mt-3 inline-block font-sans text-sm font-semibold text-primary hover:underline">
                   See the full ecosystem &rarr;
@@ -90,10 +82,10 @@ export default async function AboutPage() {
             <Reveal>
               <div>
                 <h2 className="doc-heading" style={{ fontSize: '30px' }}>
-                  The $FDP Token
+                  The FDP Token
                 </h2>
                 <p className="doc-body">
-                  $FDP powers everything on FlowDex. Holders stake for a share of protocol trading fees, vote on governance
+                  FDP powers everything on FlowDex. Holders stake for a share of protocol trading fees, vote on governance
                   decisions, get priority order routing, and unlock premium Intelligence Terminal features — all backed by a
                   fixed 100 billion token supply with no inflation.
                 </p>

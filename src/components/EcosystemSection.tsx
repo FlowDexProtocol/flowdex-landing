@@ -29,7 +29,7 @@ const CARDS = [
     key: 'ecosystem_3',
     title: 'FlowChain — Layer 1 Blockchain',
     description:
-      'Our own Layer 1 blockchain launching in Phase 3. Purpose-built for high-frequency trading and cross-chain settlement. $FDP holders become validators.',
+      'Our own Layer 1 blockchain launching in Phase 3. Purpose-built for high-frequency trading and cross-chain settlement. FDP holders become validators.',
     tags: ['Layer 1', 'Validators', 'Phase 3'],
     icon: (
       <>
@@ -44,7 +44,7 @@ const CARDS = [
     key: 'ecosystem_4',
     title: 'Staking & 40% Fee Sharing',
     description:
-      'Stake $FDP to earn 40% of all protocol trading fees. Every trade across every market generates revenue that flows to stakers. Governance voting included.',
+      'Stake FDP to earn 40% of all protocol trading fees. Every trade across every market generates revenue that flows to stakers. Governance voting included.',
     tags: ['40% Fees', 'Governance', 'Passive Income'],
     icon: (
       <>
