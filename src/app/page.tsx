@@ -18,6 +18,60 @@ import FaqSection from '@/components/FaqSection';
 import BlogPreviewSection from '@/components/BlogPreviewSection';
 import EcoCtaSection from '@/components/EcoCtaSection';
 import FinalCta from '@/components/FinalCta';
+import type { CmsBanner } from '@/lib/types';
+
+  const [cmsBanners, cmsHome] = await Promise.all([getCmsBanners().catch(() => [] as CmsBanner[]), fetchPageContent('home')]);
+
+  const banners = cmsBanners.length > 0 ? cmsBanners : DEFAULT_BANNERS;
+  {
+    id: -1,
+    title: 'FDP Presale Is Live — Tier 1 Starting at $0.0005',
+    subtitle: 'PRESALE NOW OPEN',
+    cta_text: 'Buy FDP',
+    cta_link: null,
+    image_url: null,
+    image_url_desktop: null,
+    image_url_mobile: null,
+    countdown_end: null,
+    show_countdown: false,
+    bg_color: null,
+    bg_style: 'bs1',
+    sort_order: 1,
+    is_active: true,
+  },
+  {
+    id: -2,
+    title: 'Refer Friends, Earn 15% — They Get 30% Bonus',
+    subtitle: 'REFERRAL PROGRAM',
+    cta_text: 'Buy FDP',
+    cta_link: null,
+    image_url: null,
+    image_url_desktop: null,
+    image_url_mobile: null,
+    countdown_end: null,
+    show_countdown: false,
+    bg_color: null,
+    bg_style: 'bs2',
+    sort_order: 2,
+    is_active: true,
+  },
+  {
+    id: -3,
+    title: 'Per-Tier TGE — Early Buyers Unlock First',
+    subtitle: 'TOKEN GENERATION EVENT',
+    cta_text: 'Buy FDP',
+    cta_link: null,
+    image_url: null,
+    image_url_desktop: null,
+    image_url_mobile: null,
+    countdown_end: null,
+    show_countdown: false,
+    bg_color: null,
+    bg_style: 'bs3',
+    sort_order: 3,
+    is_active: true,
+  },
+];
 
 export default async function HomePage() {
   const [banners, cmsHome, cmsGlobal] = await Promise.all([
