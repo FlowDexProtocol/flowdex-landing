@@ -78,7 +78,7 @@ export default async function HomePage() {
     fetchPageContent('global'),
   ]);
 
-  const banners = cmsBanners.length > 0 ? cmsBanners : DEFAULT_BANNERS;
+  const banners = DEFAULT_BANNERS; // TODO: switch back to cmsBanners when CMS is updated
 
   return (
     <>
