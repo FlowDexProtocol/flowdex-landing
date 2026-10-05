@@ -16,7 +16,7 @@ export default async function MetricsBar() {
   const presaleLive = !!tier && !tier.message;
   const raised = stats ? toNum(stats.total_raised_usd) : presaleLive ? toNum(tier.total_raised_usd) : 0;
   const price = presaleLive ? toNum(tier.price) : 0;
-  const listingPrice = scenarios?.listing_price ?? 0.05;
+  const listingPrice = scenarios?.listing_price ?? 0.50;
   const roi = price > 0 ? ((listingPrice - price) / price) * 100 : 0;
 
   const metrics = [

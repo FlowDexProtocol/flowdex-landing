@@ -22,7 +22,7 @@ const SECTIONS = [
   },
   {
     title: '2. The $FDP Token',
-    body: 'Total supply: 10,000,000,000 $FDP. 22.5% of supply is allocated to the presale across 8 tiers, priced from $0.001 up to the $0.05 listing price. No VC allocation — 75% of supply is reserved for the community, staking rewards, and airdrops.',
+    body: 'Total supply: 100,000,000,000 $FDP (100 billion). 30% of supply is allocated to the presale across 20 tiers, priced from $0.0005 (Tier 1) up to $0.01 (Tier 20). Target launch price: $0.50. Zero VC allocation — 100% of the total supply is distributed across presale, staking, ecosystem, treasury, and community.',
   },
   {
     title: '3. Presale Mechanics',
@@ -38,7 +38,7 @@ const SECTIONS = [
   },
   {
     title: '6. Roadmap',
-    body: 'The presale and staking teaser are live today. Subsequent phases bring the Universal Exchange, the Intelligence Terminal, and ultimately FlowChain itself. See the full roadmap for phase-by-phase detail.',
+    body: 'Phase 1 (Foundation) is underway now. Subsequent phases bring the 20-tier presale, the Universal Exchange, multi-chain expansion, the Intelligence Terminal, and ultimately FlowChain itself. See the full roadmap for phase-by-phase detail.',
   },
   {
     title: '7. Risk Disclosure',
@@ -76,7 +76,7 @@ export default async function WhitepaperPage() {
           <div className="pill pill-ghost pill-sm mb-5" style={{ display: 'inline-flex', cursor: 'default' }}>
             Living document — updated as the protocol evolves
           </div>
-          <h1>FlowDex Protocol Whitepaper v7.0</h1>
+          <h1>FlowDex Protocol Whitepaper v8.0</h1>
           <p>The full protocol whitepaper — the $FDP token, presale mechanics, tokenomics, and the FlowDex roadmap.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href={pdfUrl} download className="pill">

@@ -15,7 +15,7 @@ export default async function Hero() {
     fetchPageContent('home'),
   ]);
 
-  const listingPrice = scenarios?.listing_price ?? 0.05;
+  const listingPrice = scenarios?.listing_price ?? 0.50;
   const presaleLive = !!tier && !tier.message;
   const progressPct = presaleLive ? parseFloat(tier.progress_pct) : 0;
   const discountPct = presaleLive && listingPrice > 0 ? ((listingPrice - toNum(tier.price)) / listingPrice) * 100 : 0;

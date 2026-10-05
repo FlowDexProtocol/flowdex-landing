@@ -13,8 +13,8 @@ export default async function TokenomicsSection() {
     <Section id="tokenomics">
       <SectionHeading
         label="Tokenomics"
-        title="10 Billion $FDP, No VC Allocation"
-        subtitle="Every token is distributed for long-term sustainability — presale, liquidity, ecosystem, and community."
+        title="100 Billion $FDP, No VC Allocation"
+        subtitle="Every token is distributed for long-term sustainability — presale, staking, ecosystem, treasury, and community."
       />
       <Reveal variants={fadeUp} as="div" className="donut-wrap">
         <TokenomicsDonut allocation={allocation} />

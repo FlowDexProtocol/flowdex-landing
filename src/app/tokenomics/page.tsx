@@ -46,8 +46,8 @@ export default async function TokenomicsPage() {
               cmsData,
               'hero',
               'subtitle',
-              `${scenarios ? `${formatTokenAmount(scenarios.total_supply)} total supply` : '10,000,000,000 total supply'} — listing at ${
-                scenarios ? formatTokenPrice(scenarios.listing_price) : '$0.05'
+              `${scenarios ? `${formatTokenAmount(scenarios.total_supply)} total supply` : '100,000,000,000 total supply'} — listing at ${
+                scenarios ? formatTokenPrice(scenarios.listing_price) : '$0.50'
               }.`
             )}
           </p>
@@ -63,7 +63,7 @@ export default async function TokenomicsPage() {
         <SectionHeading
           label="Allocation"
           title="Token Allocation"
-          subtitle="10 billion $FDP, distributed for long-term sustainability — no VC allocation."
+          subtitle="100 billion $FDP, distributed for long-term sustainability — no VC allocation."
         />
         <Reveal className="donut-wrap">
           <TokenomicsDonut allocation={allocation} />
@@ -115,8 +115,7 @@ export default async function TokenomicsPage() {
           </table>
         </Reveal>
         <p className="mt-4 text-center font-sans text-xs text-ink-faint">
-          Earlier tiers get the lowest price but the longest vesting. Later tiers cost more but unlock faster — Tier 8 unlocks 100%
-          instantly.
+          Earlier tiers get the lowest price but the longest vesting. Later tiers cost more but unlock faster.
         </p>
       </Section>
 

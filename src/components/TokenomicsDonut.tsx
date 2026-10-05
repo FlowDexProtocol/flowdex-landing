@@ -197,7 +197,7 @@ export default function TokenomicsDonut({ allocation }: { allocation: Allocation
           sits inside the <svg> that carries the -90deg ring-drawing rotate. */}
       <g transform={`rotate(90, ${CENTER}, ${CENTER})`}>
         <text x={CENTER} y={CENTER - 4} textAnchor="middle" fontFamily="var(--font-serif)" fontSize="42" fontWeight="500" fill="#fff">
-          10B
+          100B
         </text>
         <text x={CENTER} y={CENTER + 22} textAnchor="middle" fontFamily="var(--font-sans)" fontSize="14" fill="rgba(255,255,255,0.4)">
           $FDP

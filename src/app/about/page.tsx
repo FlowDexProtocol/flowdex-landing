@@ -95,7 +95,7 @@ export default async function AboutPage() {
                 <p className="doc-body">
                   $FDP powers everything on FlowDex. Holders stake for a share of protocol trading fees, vote on governance
                   decisions, get priority order routing, and unlock premium Intelligence Terminal features — all backed by a
-                  fixed 10 billion token supply with no inflation.
+                  fixed 100 billion token supply with no inflation.
                 </p>
                 <Link href="/tokenomics" className="mt-3 inline-block font-sans text-sm font-semibold text-primary hover:underline">
                   Read the full tokenomics &rarr;

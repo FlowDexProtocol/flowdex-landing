@@ -6,14 +6,14 @@ import { sanitizeHtml } from '@/lib/sanitize';
 const TAB_NAMES = ['Presale', 'Exchange', 'Intelligence', 'Staking', 'FlowChain'] as const;
 
 const FUNNEL_TIERS = [
-  { name: 'Genesis', price: '$0.001' },
-  { name: 'Pioneer', price: '$0.005' },
-  { name: 'Seed', price: '$0.01' },
-  { name: 'Early Bird', price: '$0.015' },
-  { name: 'Builder', price: '$0.02' },
-  { name: 'Accelerator', price: '$0.03' },
-  { name: 'Growth', price: '$0.04' },
-  { name: 'Launch', price: '$0.05' },
+  { name: 'Tier 1', price: '$0.0005' },
+  { name: 'Tier 5', price: '$0.00094' },
+  { name: 'Tier 8', price: '$0.00151' },
+  { name: 'Tier 10', price: '$0.00207' },
+  { name: 'Tier 13', price: '$0.00332' },
+  { name: 'Tier 15', price: '$0.00455' },
+  { name: 'Tier 18', price: '$0.00729' },
+  { name: 'Tier 20', price: '$0.01' },
 ];
 const FUNNEL_MIN_WIDTH = 130;
 const FUNNEL_MAX_WIDTH = 380;

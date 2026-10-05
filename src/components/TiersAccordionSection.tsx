@@ -14,7 +14,7 @@ export default async function TiersAccordionSection() {
     <Section id="tiers">
       <SectionHeading
         label="Presale"
-        title={cms(cmsData, 'tiers', 'title', '8 Presale Tiers')}
+        title={cms(cmsData, 'tiers', 'title', '20 Presale Tiers')}
         subtitle={cms(cmsData, 'tiers', 'subtitle', 'Earlier tiers get the lowest price but the longest vesting. Later tiers cost more but unlock faster.')}
       />
       <Reveal variants={fadeUp}>

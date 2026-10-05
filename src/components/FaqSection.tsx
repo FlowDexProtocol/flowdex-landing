@@ -17,7 +17,7 @@ const FALLBACK_FAQS = [
     question: 'How do I buy $FDP?',
     answer: 'Connect any wallet (MetaMask, Trust Wallet, Coinbase, or others), choose your payment currency, enter your amount, and send. No KYC required. No minimum purchase.',
   },
-  { id: -3, question: 'What is the listing price?', answer: '$0.05 per $FDP. Tier 1 buyers get a 98% discount at $0.001.' },
+  { id: -3, question: 'What is the listing price?', answer: '$0.50 per $FDP. Tier 1 buyers enter at $0.0005 — a 99.9% discount from the target launch price.' },
   {
     id: -4,
     question: 'When is TGE?',

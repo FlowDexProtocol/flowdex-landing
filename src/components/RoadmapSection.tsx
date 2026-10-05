@@ -5,10 +5,10 @@ import Reveal from './motion/Reveal';
 import { fadeUp } from '@/lib/motion';
 
 const CMS_PHASES = [
-  { key: 'phase_1', phase: 'Phase 1', title: 'Foundation', time: 'Q3-Q4 2026', status: 'active' },
-  { key: 'phase_2', phase: 'Phase 2', title: 'Exchange Launch', time: 'Q1-Q2 2027', status: 'upcoming' },
-  { key: 'phase_3', phase: 'Phase 3', title: 'Intelligence', time: 'Q3-Q4 2027', status: 'planned' },
-  { key: 'phase_4', phase: 'Phase 4', title: 'FlowChain', time: '2028+', status: 'future' },
+  { key: 'phase_1', phase: 'Phase 1', title: 'Foundation', time: 'Q4 2026', status: 'active' },
+  { key: 'phase_2', phase: 'Phase 2', title: 'Presale & Launch', time: 'Q1 2027', status: 'upcoming' },
+  { key: 'phase_3', phase: 'Phase 3', title: 'Multi-Chain', time: 'Q2-Q3 2027', status: 'planned' },
+  { key: 'phase_4', phase: 'Phase 4', title: 'FlowChain', time: '2028-2029', status: 'future' },
 ];
 
 export default async function RoadmapSection() {
@@ -23,7 +23,7 @@ export default async function RoadmapSection() {
 
   return (
     <Section id="roadmap">
-      <SectionHeading label="Roadmap" title="Where We're Headed" subtitle="Four phases from presale to a full multi-asset trading ecosystem." />
+      <SectionHeading label="Roadmap" title="Where We're Headed" subtitle="Five phases from foundation to a full multi-asset trading ecosystem." />
 
       <div className="rm-timeline">
         <div className="rm-line" />
