@@ -71,7 +71,7 @@ export default async function AboutPage() {
                   FlowDex combines a Universal Exchange — one interface to trade crypto, stocks, forex, and commodities with
                   cross-chain routing that finds the best price — with a Blockchain Intelligence Terminal for AI-powered whale
                   tracking, pattern detection, and predictive signals. Both run on FlowChain, our own Layer 1 blockchain
-                  launching in Phase 3, where FDP holders become validators.
+                  launching in Phase 4, where FDP holders become validators.
                 </p>
                 <Link href="/#ecosystem" className="mt-3 inline-block font-sans text-sm font-semibold text-primary hover:underline">
                   See the full ecosystem &rarr;

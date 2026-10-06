@@ -30,7 +30,7 @@ const SECTIONS = [
   },
   {
     title: '4. Token Utility',
-    body: 'Staking FDP earns a share of protocol trading fees (targeting 40% of all fees to stakers), grants governance voting rights on protocol upgrades and treasury allocation, and gives priority order routing. In Phase 3, staking FDP also secures FlowChain as a validator.',
+    body: 'Staking FDP earns a share of protocol trading fees (targeting 40% of all fees to stakers), grants governance voting rights on protocol upgrades and treasury allocation, and gives priority order routing. In Phase 4, staking FDP also secures FlowChain as a validator.',
   },
   {
     title: '5. Referral Program',
@@ -47,7 +47,7 @@ const SECTIONS = [
 ];
 
 // fetchWhitepaperUrl() never throws — a down API or nothing uploaded yet
-// both just mean the bundled /flowdex-whitepaper-v9.pdf in this site's own public
+// both just mean the bundled /whitepaper.pdf in this site's own public
 // folder is used. But even when the CMS setting IS present, it can point
 // at a path that was never actually uploaded to the API host (a stale
 // placeholder) — HEAD-checking it here means a broken CMS value quietly

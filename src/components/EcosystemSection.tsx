@@ -29,8 +29,8 @@ const CARDS = [
     key: 'ecosystem_3',
     title: 'FlowChain — Layer 1 Blockchain',
     description:
-      'Our own Layer 1 blockchain launching in Phase 3. Purpose-built for high-frequency trading and cross-chain settlement. FDP holders become validators.',
-    tags: ['Layer 1', 'Validators', 'Phase 3'],
+      'Our own Layer 1 blockchain launching in Phase 4. Purpose-built for high-frequency trading and cross-chain settlement. FDP holders become validators.',
+    tags: ['Layer 1', 'Validators', 'Phase 4'],
     icon: (
       <>
         <rect x="4" y="4" width="6" height="6" rx="1" strokeWidth="1.5" />

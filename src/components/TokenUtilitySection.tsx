@@ -25,7 +25,7 @@ const UTILITIES = [
     num: '04',
     key: 'utility_4',
     title: 'Validator Staking',
-    description: 'In Phase 3, stake FDP to become a FlowChain validator. Secure the network and earn additional rewards.',
+    description: 'In Phase 4, stake FDP to become a FlowChain validator. Secure the network and earn additional rewards.',
   },
   {
     num: '05',
