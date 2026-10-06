@@ -1,0 +1,508 @@
+From bbc579691ef7959e8cbb0882e32ebed7a97ff513 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 6 Oct 2026 11:56:18 +0400
+Subject: [PATCH] QA audit: fix content accuracy, SEO metadata, and naming
+ consistency
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- Fix tier count (8→20), remove incorrect cliff from vesting FAQ
+- Update product naming to "AI Intelligence Terminal" consistently
+- Update page title, OG image tagline, and trust bar claims
+- Add SEO description metadata to legal, privacy, and terms pages
+- Add /about to sitemap, update legal page date to October 2026
+- Add KYC-verified mention to team section subtitle
+- Comment out deferred BuyBar from banner slider (redesign postponed)
+- Revert banner padding/dots to pre-BuyBar layout
+- Add BuyBar.tsx component (inactive, ready for future redesign)
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01WfyCo7PfbXQeZLTUse8Wt3
+---
+ src/app/globals.css                 | 163 ++++++++++++++++++++++++----
+ src/app/layout.tsx                  |   2 +-
+ src/app/legal/page.tsx              |   5 +-
+ src/app/opengraph-image.tsx         |   2 +-
+ src/app/privacy/page.tsx            |   5 +-
+ src/app/sitemap.ts                  |   2 +-
+ src/app/terms/page.tsx              |   5 +-
+ src/components/BannerSlider.tsx     |   3 +
+ src/components/BuyBar.tsx           |  39 +++++++
+ src/components/EcosystemSection.tsx |   4 +-
+ src/components/FaqSection.tsx       |   2 +-
+ src/components/LegalPage.tsx        |   2 +-
+ src/components/RoadmapSection.tsx   |   2 +-
+ src/components/TabSection.tsx       |   2 +-
+ src/components/TeamSection.tsx      |   2 +-
+ src/components/TrustBar.tsx         |   2 +-
+ 16 files changed, 209 insertions(+), 33 deletions(-)
+ create mode 100644 src/components/BuyBar.tsx
+
+diff --git a/src/app/globals.css b/src/app/globals.css
+index 1933a55..131b118 100644
+--- a/src/app/globals.css
++++ b/src/app/globals.css
+@@ -473,49 +473,59 @@ body.loading {
+   pointer-events: all;
+ }
+ .bs1 {
+-  background: radial-gradient(circle at 75% 40%, rgba(108, 92, 231, 0.35), transparent 55%),
+-    linear-gradient(135deg, #1a1a70, #161660 60%);
++  background: radial-gradient(circle at 70% 35%, rgba(108, 92, 231, 0.45), transparent 50%),
++    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15), transparent 40%),
++    linear-gradient(160deg, #0d0d3a, #161660 40%, #1a1a70 80%);
+ }
+ .bs2 {
+-  background: radial-gradient(circle at 75% 40%, rgba(59, 130, 246, 0.32), transparent 55%),
+-    linear-gradient(135deg, #14145c, #161660 60%);
++  background: radial-gradient(circle at 65% 30%, rgba(59, 130, 246, 0.42), transparent 50%),
++    radial-gradient(circle at 30% 75%, rgba(108, 92, 231, 0.15), transparent 40%),
++    linear-gradient(160deg, #0d0d3a, #14145c 40%, #161670 80%);
+ }
+ .bs3 {
+-  background: radial-gradient(circle at 75% 40%, rgba(168, 85, 247, 0.3), transparent 55%),
+-    linear-gradient(135deg, #1c1a66, #161660 60%);
++  background: radial-gradient(circle at 60% 35%, rgba(168, 85, 247, 0.4), transparent 50%),
++    radial-gradient(circle at 25% 70%, rgba(59, 200, 246, 0.12), transparent 40%),
++    linear-gradient(160deg, #0d0d3a, #1c1a66 40%, #181870 80%);
+ }
+ .banner-inner {
+-  max-width: 580px;
++  max-width: 640px;
+   position: relative;
+   z-index: 2;
+-  padding-top: 100px;
++  padding-top: 80px;
++  padding-bottom: 80px;
+ }
+ .banner-tag {
+   font-family: var(--font-sans);
+   font-size: 11px;
+   letter-spacing: 2.5px;
+   text-transform: uppercase;
+-  color: rgba(255, 255, 255, 0.4);
+-  margin-bottom: 20px;
++  color: var(--color-primary);
++  margin-bottom: 16px;
++  display: inline-block;
++  background: rgba(108, 92, 231, 0.12);
++  padding: 6px 14px;
++  border-radius: 4px;
++  border: 1px solid rgba(108, 92, 231, 0.2);
+ }
+ .banner-h {
+   font-family: var(--font-serif);
+-  font-size: 52px;
+-  font-weight: 300;
+-  line-height: 1.1;
+-  margin-bottom: 16px;
++  font-size: 56px;
++  font-weight: 600;
++  line-height: 1.08;
++  margin-bottom: 18px;
+   color: #fff;
++  text-shadow: 0 2px 30px rgba(108, 92, 231, 0.15);
+ }
+ .banner-h em {
+   font-style: italic;
+ }
+ .banner-p {
+   font-family: var(--font-sans);
+-  font-size: 14px;
+-  color: rgba(255, 255, 255, 0.4);
++  font-size: 15px;
++  color: rgba(255, 255, 255, 0.55);
+   line-height: 1.65;
+-  margin-bottom: 32px;
+-  max-width: 440px;
++  margin-bottom: 28px;
++  max-width: 480px;
+ }
+ .banner-stats {
+   display: flex;
+@@ -642,6 +652,90 @@ body.loading {
+   color: #fff;
+ }
+ 
++/* ── Buy bar (persistent at bottom of banner) ── */
++.buy-bar {
++  position: absolute;
++  bottom: 0;
++  left: 0;
++  right: 0;
++  z-index: 20;
++  background: linear-gradient(180deg, transparent, rgba(10, 10, 40, 0.85) 30%, rgba(10, 10, 40, 0.95));
++  padding: 24px 60px 28px;
++  backdrop-filter: blur(12px);
++  -webkit-backdrop-filter: blur(12px);
++}
++.buy-bar-inner {
++  max-width: 900px;
++  margin: 0 auto;
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 24px;
++}
++.buy-bar-methods {
++  display: flex;
++  align-items: center;
++  gap: 16px;
++  flex-wrap: wrap;
++}
++.buy-bar-label {
++  font-family: var(--font-sans);
++  font-size: 12px;
++  color: rgba(255, 255, 255, 0.4);
++  letter-spacing: 0.5px;
++  text-transform: uppercase;
++  margin-right: 4px;
++}
++.buy-bar-method {
++  display: flex;
++  align-items: center;
++  gap: 6px;
++  font-family: var(--font-mono);
++  font-size: 12px;
++  color: rgba(255, 255, 255, 0.6);
++  background: rgba(255, 255, 255, 0.06);
++  border: 1px solid rgba(255, 255, 255, 0.08);
++  border-radius: 8px;
++  padding: 8px 14px;
++  transition: all 0.25s;
++}
++.buy-bar-method:hover {
++  background: rgba(255, 255, 255, 0.1);
++  border-color: rgba(255, 255, 255, 0.15);
++}
++.buy-bar-method-icon {
++  font-size: 14px;
++}
++.buy-bar-method-name {
++  font-size: 11px;
++  letter-spacing: 0.5px;
++}
++.buy-bar-btn {
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  padding: 14px 40px;
++  background: var(--color-primary);
++  border: none;
++  border-radius: 10px;
++  color: #fff;
++  font-family: var(--font-sans);
++  font-size: 14px;
++  font-weight: 600;
++  letter-spacing: 1px;
++  text-transform: uppercase;
++  text-decoration: none;
++  cursor: pointer;
++  transition: all 0.3s;
++  white-space: nowrap;
++  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.35);
++}
++.buy-bar-btn:hover {
++  background: #7c6ef0;
++  box-shadow: 0 6px 28px rgba(108, 92, 231, 0.5);
++  transform: translateY(-1px);
++}
++
+ /* ── Trust bar ── */
+ .trust-bar {
+   display: flex;
+@@ -2866,11 +2960,42 @@ footer {
+     padding: 0 24px;
+   }
+   .banner-h {
+-    font-size: 32px;
++    font-size: 34px;
++    font-weight: 600;
++  }
++  .banner-inner {
++    padding-bottom: 180px;
+   }
+   .banner-shape {
+     display: none;
+   }
++  .banner-dots {
++    bottom: 150px;
++  }
++  .buy-bar {
++    padding: 16px 20px 20px;
++  }
++  .buy-bar-inner {
++    flex-direction: column;
++    gap: 14px;
++  }
++  .buy-bar-methods {
++    gap: 8px;
++    justify-content: center;
++  }
++  .buy-bar-label {
++    display: none;
++  }
++  .buy-bar-method {
++    padding: 6px 10px;
++  }
++  .buy-bar-method-name {
++    font-size: 10px;
++  }
++  .buy-bar-btn {
++    width: 100%;
++    padding: 14px 32px;
++  }
+   .trust-bar {
+     gap: 20px;
+     padding: 16px 24px;
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index 24769cd..4242c7c 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -38,7 +38,7 @@ const jetbrainsMono = JetBrains_Mono({
+   display: 'swap',
+ });
+ 
+-const DEFAULT_TITLE = 'FlowDex Protocol (FDP) — Trade Everything. Know Everything.';
++const DEFAULT_TITLE = 'FlowDex Protocol — One Platform for Every Market';
+ const DEFAULT_DESCRIPTION =
+   'FlowDex Protocol unifies crypto, stocks, forex, and commodities into a single intelligent trading layer. FDP powers fee sharing, governance, and market intelligence.';
+ 
+diff --git a/src/app/legal/page.tsx b/src/app/legal/page.tsx
+index ab6ef91..05cbc43 100644
+--- a/src/app/legal/page.tsx
++++ b/src/app/legal/page.tsx
+@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
+ import { fetchPageContent } from '@/lib/cms';
+ import LegalPage from '@/components/LegalPage';
+ 
+-export const metadata: Metadata = { title: 'Legal Notice' };
++export const metadata: Metadata = {
++  title: 'Legal Notice',
++  description: 'Legal notice and disclaimers for FlowDex Protocol. FDP tokens are utility tokens and do not constitute securities.',
++};
+ 
+ export default async function LegalNoticePage() {
+   const cmsData = await fetchPageContent('legal');
+diff --git a/src/app/opengraph-image.tsx b/src/app/opengraph-image.tsx
+index 160fbf4..5ac2f35 100644
+--- a/src/app/opengraph-image.tsx
++++ b/src/app/opengraph-image.tsx
+@@ -26,7 +26,7 @@ export default function OpengraphImage() {
+           </span>
+         </div>
+         <div style={{ marginTop: 24, fontSize: 32, color: 'rgba(255,255,255,0.4)', fontFamily: 'sans-serif' }}>
+-          Trade Everything. Know Everything.
++          One platform for every market. AI-powered intelligence.
+         </div>
+       </div>
+     ),
+diff --git a/src/app/privacy/page.tsx b/src/app/privacy/page.tsx
+index c0acfb6..92c0e04 100644
+--- a/src/app/privacy/page.tsx
++++ b/src/app/privacy/page.tsx
+@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
+ import { fetchPageContent } from '@/lib/cms';
+ import LegalPage from '@/components/LegalPage';
+ 
+-export const metadata: Metadata = { title: 'Privacy Policy' };
++export const metadata: Metadata = {
++  title: 'Privacy Policy',
++  description: 'Privacy Policy for FlowDex Protocol. Learn how we collect, use, and protect your data across the FDP presale and platform.',
++};
+ 
+ export default async function PrivacyPage() {
+   const cmsData = await fetchPageContent('privacy');
+diff --git a/src/app/sitemap.ts b/src/app/sitemap.ts
+index f98d8f0..f6b1c86 100644
+--- a/src/app/sitemap.ts
++++ b/src/app/sitemap.ts
+@@ -3,7 +3,7 @@ import { getCmsBlog } from '@/lib/api';
+ 
+ const SITE_URL = 'https://flowdexprotocol.com';
+ 
+-const STATIC_ROUTES = ['', '/tokenomics', '/roadmap', '/faq', '/whitepaper', '/blogs', '/terms', '/privacy', '/legal', '/how-to-buy'];
++const STATIC_ROUTES = ['', '/about', '/tokenomics', '/roadmap', '/faq', '/whitepaper', '/blogs', '/terms', '/privacy', '/legal', '/how-to-buy'];
+ 
+ async function getAllBlogSlugs(): Promise<string[]> {
+   const slugs: string[] = [];
+diff --git a/src/app/terms/page.tsx b/src/app/terms/page.tsx
+index 08039e6..9c3feb1 100644
+--- a/src/app/terms/page.tsx
++++ b/src/app/terms/page.tsx
+@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
+ import { fetchPageContent } from '@/lib/cms';
+ import LegalPage from '@/components/LegalPage';
+ 
+-export const metadata: Metadata = { title: 'Terms of Service' };
++export const metadata: Metadata = {
++  title: 'Terms of Service',
++  description: 'Terms of Service for FlowDex Protocol. Read the rules and conditions governing your use of the FDP presale and platform.',
++};
+ 
+ export default async function TermsPage() {
+   const cmsData = await fetchPageContent('terms');
+diff --git a/src/components/BannerSlider.tsx b/src/components/BannerSlider.tsx
+index d564e8c..3563ebe 100644
+--- a/src/components/BannerSlider.tsx
++++ b/src/components/BannerSlider.tsx
+@@ -6,6 +6,7 @@ import type { CmsBanner } from '@/lib/types';
+ import { PURCHASE_URL } from '@/lib/api';
+ import { resolveApiUrl } from '@/lib/cms';
+ import { isSafeLinkUrl, sanitizeImageUrl } from '@/lib/url-safety';
++// import BuyBar from '@/components/BuyBar'; // Deferred: BlockDAG-inspired redesign
+ 
+ const AUTO_ROTATE_MS = 5000;
+ const SLIDE_STYLES = ['bs1', 'bs2', 'bs3'] as const;
+@@ -200,6 +201,8 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
+           </div>
+         </>
+       )}
++
++      {/* <BuyBar /> */}{/* Deferred: BlockDAG-inspired redesign */}
+     </div>
+   );
+ }
+diff --git a/src/components/BuyBar.tsx b/src/components/BuyBar.tsx
+new file mode 100644
+index 0000000..396d101
+--- /dev/null
++++ b/src/components/BuyBar.tsx
+@@ -0,0 +1,39 @@
++'use client';
++
++import { PURCHASE_URL } from '@/lib/api';
++
++const PAYMENT_METHODS = [
++  { label: 'ETH', icon: '⟠' },
++  { label: 'USDT', icon: '₮' },
++  { label: 'USDC', icon: '$' },
++  { label: 'BNB', icon: '◆' },
++  { label: 'SOL', icon: '◎' },
++  { label: 'BTC', icon: '₿' },
++  { label: 'TRX', icon: '◈' },
++];
++
++export default function BuyBar() {
++  return (
++    <div className="buy-bar">
++      <div className="buy-bar-inner">
++        <div className="buy-bar-methods">
++          <span className="buy-bar-label">Pay with</span>
++          {PAYMENT_METHODS.map((m) => (
++            <span key={m.label} className="buy-bar-method" title={m.label}>
++              <span className="buy-bar-method-icon">{m.icon}</span>
++              <span className="buy-bar-method-name">{m.label}</span>
++            </span>
++          ))}
++        </div>
++        <a
++          href={PURCHASE_URL}
++          target="_blank"
++          rel="noopener noreferrer"
++          className="buy-bar-btn"
++        >
++          Buy FDP Now
++        </a>
++      </div>
++    </div>
++  );
++}
+diff --git a/src/components/EcosystemSection.tsx b/src/components/EcosystemSection.tsx
+index 0fb9b01..b953c2c 100644
+--- a/src/components/EcosystemSection.tsx
++++ b/src/components/EcosystemSection.tsx
+@@ -14,9 +14,9 @@ const CARDS = [
+   },
+   {
+     key: 'ecosystem_2',
+-    title: 'Blockchain Intelligence Terminal',
++    title: 'AI Intelligence Terminal',
+     description:
+-      'AI-powered market intelligence. Real-time whale tracking, pattern detection, predictive analytics, and smart alerts — all derived from live on-chain data.',
++      'AI-powered market intelligence at your fingertips. Real-time whale tracking, pattern detection, predictive analytics, and smart alerts — all derived from live on-chain data.',
+     tags: ['AI-Powered', 'Whale Tracking', 'Real-Time'],
+     icon: (
+       <>
+diff --git a/src/components/FaqSection.tsx b/src/components/FaqSection.tsx
+index 027fd47..0d0196b 100644
+--- a/src/components/FaqSection.tsx
++++ b/src/components/FaqSection.tsx
+@@ -22,7 +22,7 @@ const FALLBACK_FAQS = [
+     id: -4,
+     question: 'When is TGE?',
+     answer:
+-      'TGE date will be announced after the presale. Each tier has its own TGE percentage — Tier 1 gets 5% at TGE with the rest vesting over 24 months after a 12-month cliff.',
++      'TGE date will be announced after the presale. Each tier has its own TGE percentage and unlocks independently. Tier 1 gets 5% at TGE with the rest vesting monthly. No cliff.',
+   },
+   { id: -5, question: 'Is there a minimum purchase?', answer: 'No minimum. Buy any amount.' },
+   {
+diff --git a/src/components/LegalPage.tsx b/src/components/LegalPage.tsx
+index 94a5b08..bc18a4b 100644
+--- a/src/components/LegalPage.tsx
++++ b/src/components/LegalPage.tsx
+@@ -106,7 +106,7 @@ export default function LegalPage({
+         <div className="page-hero-glow" />
+         <Reveal>
+           <h1>{title}</h1>
+-          <p className="doc-updated">Last updated: January 2026</p>
++          <p className="doc-updated">Last updated: October 2026</p>
+         </Reveal>
+       </div>
+ 
+diff --git a/src/components/RoadmapSection.tsx b/src/components/RoadmapSection.tsx
+index 13f85ec..787620d 100644
+--- a/src/components/RoadmapSection.tsx
++++ b/src/components/RoadmapSection.tsx
+@@ -23,7 +23,7 @@ export default async function RoadmapSection() {
+ 
+   return (
+     <Section id="roadmap">
+-      <SectionHeading label="Roadmap" title="Where We're Headed" subtitle="Five phases from foundation to a full multi-asset trading ecosystem." />
++      <SectionHeading label="Roadmap" title="Where We're Headed" subtitle="Four phases from foundation to a full multi-asset trading ecosystem." />
+ 
+       <div className="rm-timeline">
+         <div className="rm-line" />
+diff --git a/src/components/TabSection.tsx b/src/components/TabSection.tsx
+index 7474ff0..cb940f1 100644
+--- a/src/components/TabSection.tsx
++++ b/src/components/TabSection.tsx
+@@ -6,7 +6,7 @@ const TAB_DEFAULTS = [
+     key: 'tab_presale',
+     tab: 'Presale',
+     label: 'Presale',
+-    text: 'Get FDP at the <em>lowest possible price</em> before it lists on exchanges. Eight tiers, each priced higher than the last.',
++    text: 'Get FDP at the <em>lowest possible price</em> before it lists on exchanges. Twenty tiers, each priced higher than the last.',
+   },
+   {
+     key: 'tab_exchange',
+diff --git a/src/components/TeamSection.tsx b/src/components/TeamSection.tsx
+index aeb8cae..b942b90 100644
+--- a/src/components/TeamSection.tsx
++++ b/src/components/TeamSection.tsx
+@@ -20,7 +20,7 @@ export default async function TeamSection() {
+ 
+   return (
+     <Section id="team">
+-      <SectionHeading label="Team" title="Built by Traders and Builders" subtitle="A small team obsessed with markets, on-chain data, and shipping fast." />
++      <SectionHeading label="Team" title="Built by Traders and Builders" subtitle="A pseudonymous, KYC-verified team obsessed with markets, on-chain data, and shipping fast." />
+ 
+       <TeamCircle members={members} />
+ 
+diff --git a/src/components/TrustBar.tsx b/src/components/TrustBar.tsx
+index e6e1985..e82c3a3 100644
+--- a/src/components/TrustBar.tsx
++++ b/src/components/TrustBar.tsx
+@@ -4,7 +4,7 @@ import { fadeUp } from '@/lib/motion';
+ 
+ const DEFAULTS = [
+   { icon: '🔒', text: 'Audit in Progress' },
+-  { icon: '⛓', text: '6 Chains Supported' },
++  { icon: '⛓', text: '7 Currencies Accepted' },
+   { icon: '👥', text: 'Community Growing' },
+   { icon: '🔐', text: 'Non-Custodial' },
+   { icon: '✉', text: 'Email Verified' },
+-- 
+2.43.0
+

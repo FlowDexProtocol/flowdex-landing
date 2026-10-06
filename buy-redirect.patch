@@ -1,0 +1,41 @@
+From 11bb860b6d312112adc5b2d609033436bfd8225b Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 6 Oct 2026 14:53:35 +0400
+Subject: [PATCH] Add /buy redirect to purchase.flowdexprotocol.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Redirects flowdexprotocol.com/buy → https://purchase.flowdexprotocol.com
+so users who guess or share the /buy URL reach the presale app.
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01WfyCo7PfbXQeZLTUse8Wt3
+---
+ next.config.ts | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/next.config.ts b/next.config.ts
+index e9ffa30..49cd40f 100644
+--- a/next.config.ts
++++ b/next.config.ts
+@@ -1,7 +1,15 @@
+ import type { NextConfig } from "next";
+ 
+ const nextConfig: NextConfig = {
+-  /* config options here */
++  async redirects() {
++    return [
++      {
++        source: '/buy',
++        destination: 'https://purchase.flowdexprotocol.com',
++        permanent: true,
++      },
++    ];
++  },
+ };
+ 
+ export default nextConfig;
+-- 
+2.43.0
+

@@ -47,7 +47,7 @@ const SECTIONS = [
 ];
 
 // fetchWhitepaperUrl() never throws — a down API or nothing uploaded yet
-// both just mean the bundled /whitepaper.pdf in this site's own public
+// both just mean the bundled /flowdex-whitepaper-v9.pdf in this site's own public
 // folder is used. But even when the CMS setting IS present, it can point
 // at a path that was never actually uploaded to the API host (a stale
 // placeholder) — HEAD-checking it here means a broken CMS value quietly
