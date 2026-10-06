@@ -14,9 +14,9 @@ const CARDS = [
   },
   {
     key: 'ecosystem_2',
-    title: 'Blockchain Intelligence Terminal',
+    title: 'AI Intelligence Terminal',
     description:
-      'AI-powered market intelligence. Real-time whale tracking, pattern detection, predictive analytics, and smart alerts — all derived from live on-chain data.',
+      'AI-powered market intelligence at your fingertips. Real-time whale tracking, pattern detection, predictive analytics, and smart alerts — all derived from live on-chain data.',
     tags: ['AI-Powered', 'Whale Tracking', 'Real-Time'],
     icon: (
       <>

@@ -20,7 +20,7 @@ export default async function TeamSection() {
 
   return (
     <Section id="team">
-      <SectionHeading label="Team" title="Built by Traders and Builders" subtitle="A small team obsessed with markets, on-chain data, and shipping fast." />
+      <SectionHeading label="Team" title="Built by Traders and Builders" subtitle="A pseudonymous, KYC-verified team obsessed with markets, on-chain data, and shipping fast." />
 
       <TeamCircle members={members} />
 

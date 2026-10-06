@@ -473,49 +473,59 @@ body.loading {
   pointer-events: all;
 }
 .bs1 {
-  background: radial-gradient(circle at 75% 40%, rgba(108, 92, 231, 0.35), transparent 55%),
-    linear-gradient(135deg, #1a1a70, #161660 60%);
+  background: radial-gradient(circle at 70% 35%, rgba(108, 92, 231, 0.45), transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15), transparent 40%),
+    linear-gradient(160deg, #0d0d3a, #161660 40%, #1a1a70 80%);
 }
 .bs2 {
-  background: radial-gradient(circle at 75% 40%, rgba(59, 130, 246, 0.32), transparent 55%),
-    linear-gradient(135deg, #14145c, #161660 60%);
+  background: radial-gradient(circle at 65% 30%, rgba(59, 130, 246, 0.42), transparent 50%),
+    radial-gradient(circle at 30% 75%, rgba(108, 92, 231, 0.15), transparent 40%),
+    linear-gradient(160deg, #0d0d3a, #14145c 40%, #161670 80%);
 }
 .bs3 {
-  background: radial-gradient(circle at 75% 40%, rgba(168, 85, 247, 0.3), transparent 55%),
-    linear-gradient(135deg, #1c1a66, #161660 60%);
+  background: radial-gradient(circle at 60% 35%, rgba(168, 85, 247, 0.4), transparent 50%),
+    radial-gradient(circle at 25% 70%, rgba(59, 200, 246, 0.12), transparent 40%),
+    linear-gradient(160deg, #0d0d3a, #1c1a66 40%, #181870 80%);
 }
 .banner-inner {
-  max-width: 580px;
+  max-width: 640px;
   position: relative;
   z-index: 2;
-  padding-top: 100px;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
 .banner-tag {
   font-family: var(--font-sans);
   font-size: 11px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 20px;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  display: inline-block;
+  background: rgba(108, 92, 231, 0.12);
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(108, 92, 231, 0.2);
 }
 .banner-h {
   font-family: var(--font-serif);
-  font-size: 52px;
-  font-weight: 300;
-  line-height: 1.1;
-  margin-bottom: 16px;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.08;
+  margin-bottom: 18px;
   color: #fff;
+  text-shadow: 0 2px 30px rgba(108, 92, 231, 0.15);
 }
 .banner-h em {
   font-style: italic;
 }
 .banner-p {
   font-family: var(--font-sans);
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1.65;
-  margin-bottom: 32px;
-  max-width: 440px;
+  margin-bottom: 28px;
+  max-width: 480px;
 }
 .banner-stats {
   display: flex;
@@ -640,6 +650,90 @@ body.loading {
 .barr:hover {
   border-color: rgba(255, 255, 255, 0.3);
   color: #fff;
+}
+
+/* ── Buy bar (persistent at bottom of banner) ── */
+.buy-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: linear-gradient(180deg, transparent, rgba(10, 10, 40, 0.85) 30%, rgba(10, 10, 40, 0.95));
+  padding: 24px 60px 28px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.buy-bar-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.buy-bar-methods {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.buy-bar-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+.buy-bar-method {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 8px 14px;
+  transition: all 0.25s;
+}
+.buy-bar-method:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.buy-bar-method-icon {
+  font-size: 14px;
+}
+.buy-bar-method-name {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+.buy-bar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 40px;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.35);
+}
+.buy-bar-btn:hover {
+  background: #7c6ef0;
+  box-shadow: 0 6px 28px rgba(108, 92, 231, 0.5);
+  transform: translateY(-1px);
 }
 
 /* ── Trust bar ── */
@@ -2866,10 +2960,41 @@ footer {
     padding: 0 24px;
   }
   .banner-h {
-    font-size: 32px;
+    font-size: 34px;
+    font-weight: 600;
+  }
+  .banner-inner {
+    padding-bottom: 180px;
   }
   .banner-shape {
     display: none;
+  }
+  .banner-dots {
+    bottom: 150px;
+  }
+  .buy-bar {
+    padding: 16px 20px 20px;
+  }
+  .buy-bar-inner {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .buy-bar-methods {
+    gap: 8px;
+    justify-content: center;
+  }
+  .buy-bar-label {
+    display: none;
+  }
+  .buy-bar-method {
+    padding: 6px 10px;
+  }
+  .buy-bar-method-name {
+    font-size: 10px;
+  }
+  .buy-bar-btn {
+    width: 100%;
+    padding: 14px 32px;
   }
   .trust-bar {
     gap: 20px;

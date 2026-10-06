@@ -4,7 +4,7 @@ import { fadeUp } from '@/lib/motion';
 
 const DEFAULTS = [
   { icon: '🔒', text: 'Audit in Progress' },
-  { icon: '⛓', text: '6 Chains Supported' },
+  { icon: '⛓', text: '7 Currencies Accepted' },
   { icon: '👥', text: 'Community Growing' },
   { icon: '🔐', text: 'Non-Custodial' },
   { icon: '✉', text: 'Email Verified' },

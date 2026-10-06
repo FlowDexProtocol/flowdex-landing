@@ -6,7 +6,7 @@ const TAB_DEFAULTS = [
     key: 'tab_presale',
     tab: 'Presale',
     label: 'Presale',
-    text: 'Get FDP at the <em>lowest possible price</em> before it lists on exchanges. Eight tiers, each priced higher than the last.',
+    text: 'Get FDP at the <em>lowest possible price</em> before it lists on exchanges. Twenty tiers, each priced higher than the last.',
   },
   {
     key: 'tab_exchange',

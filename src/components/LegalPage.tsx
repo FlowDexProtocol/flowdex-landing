@@ -106,7 +106,7 @@ export default function LegalPage({
         <div className="page-hero-glow" />
         <Reveal>
           <h1>{title}</h1>
-          <p className="doc-updated">Last updated: January 2026</p>
+          <p className="doc-updated">Last updated: October 2026</p>
         </Reveal>
       </div>
 

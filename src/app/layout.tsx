@@ -38,7 +38,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-const DEFAULT_TITLE = 'FlowDex Protocol (FDP) — Trade Everything. Know Everything.';
+const DEFAULT_TITLE = 'FlowDex Protocol — One Platform for Every Market';
 const DEFAULT_DESCRIPTION =
   'FlowDex Protocol unifies crypto, stocks, forex, and commodities into a single intelligent trading layer. FDP powers fee sharing, governance, and market intelligence.';
 

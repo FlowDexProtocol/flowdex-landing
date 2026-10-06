@@ -22,7 +22,7 @@ const FALLBACK_FAQS = [
     id: -4,
     question: 'When is TGE?',
     answer:
-      'TGE date will be announced after the presale. Each tier has its own TGE percentage — Tier 1 gets 5% at TGE with the rest vesting over 24 months after a 12-month cliff.',
+      'TGE date will be announced after the presale. Each tier has its own TGE percentage and unlocks independently. Tier 1 gets 5% at TGE with the rest vesting monthly. No cliff.',
   },
   { id: -5, question: 'Is there a minimum purchase?', answer: 'No minimum. Buy any amount.' },
   {

@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { fetchPageContent } from '@/lib/cms';
 import LegalPage from '@/components/LegalPage';
 
-export const metadata: Metadata = { title: 'Privacy Policy' };
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'Privacy Policy for FlowDex Protocol. Learn how we collect, use, and protect your data across the FDP presale and platform.',
+};
 
 export default async function PrivacyPage() {
   const cmsData = await fetchPageContent('privacy');

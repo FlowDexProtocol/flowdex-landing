@@ -23,7 +23,7 @@ export default async function RoadmapSection() {
 
   return (
     <Section id="roadmap">
-      <SectionHeading label="Roadmap" title="Where We're Headed" subtitle="Five phases from foundation to a full multi-asset trading ecosystem." />
+      <SectionHeading label="Roadmap" title="Where We're Headed" subtitle="Four phases from foundation to a full multi-asset trading ecosystem." />
 
       <div className="rm-timeline">
         <div className="rm-line" />

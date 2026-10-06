@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { fetchPageContent } from '@/lib/cms';
 import LegalPage from '@/components/LegalPage';
 
-export const metadata: Metadata = { title: 'Terms of Service' };
+export const metadata: Metadata = {
+  title: 'Terms of Service',
+  description: 'Terms of Service for FlowDex Protocol. Read the rules and conditions governing your use of the FDP presale and platform.',
+};
 
 export default async function TermsPage() {
   const cmsData = await fetchPageContent('terms');

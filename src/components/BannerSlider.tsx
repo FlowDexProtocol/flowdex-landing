@@ -6,6 +6,7 @@ import type { CmsBanner } from '@/lib/types';
 import { PURCHASE_URL } from '@/lib/api';
 import { resolveApiUrl } from '@/lib/cms';
 import { isSafeLinkUrl, sanitizeImageUrl } from '@/lib/url-safety';
+// import BuyBar from '@/components/BuyBar'; // Deferred: BlockDAG-inspired redesign
 
 const AUTO_ROTATE_MS = 5000;
 const SLIDE_STYLES = ['bs1', 'bs2', 'bs3'] as const;
@@ -200,6 +201,8 @@ export default function BannerSlider({ banners }: { banners: CmsBanner[] }) {
           </div>
         </>
       )}
+
+      {/* <BuyBar /> */}{/* Deferred: BlockDAG-inspired redesign */}
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function OpengraphImage() {
           </span>
         </div>
         <div style={{ marginTop: 24, fontSize: 32, color: 'rgba(255,255,255,0.4)', fontFamily: 'sans-serif' }}>
-          Trade Everything. Know Everything.
+          One platform for every market. AI-powered intelligence.
         </div>
       </div>
     ),

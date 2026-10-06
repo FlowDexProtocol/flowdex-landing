@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { fetchPageContent } from '@/lib/cms';
 import LegalPage from '@/components/LegalPage';
 
-export const metadata: Metadata = { title: 'Legal Notice' };
+export const metadata: Metadata = {
+  title: 'Legal Notice',
+  description: 'Legal notice and disclaimers for FlowDex Protocol. FDP tokens are utility tokens and do not constitute securities.',
+};
 
 export default async function LegalNoticePage() {
   const cmsData = await fetchPageContent('legal');
