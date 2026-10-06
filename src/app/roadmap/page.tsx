@@ -25,7 +25,7 @@ const CMS_PHASES = [
     title: 'Foundation',
     time: 'Q4 2026',
     status: 'active',
-    items: ['Whitepaper v8.0', 'Website launch', 'Community building', 'Smart contract audits', 'Partnership development'],
+    items: ['Whitepaper v9.0', 'Website launch', 'Community building', 'Smart contract audits', 'Partnership development'],
   },
   {
     key: 'phase_2',

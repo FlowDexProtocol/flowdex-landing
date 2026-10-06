@@ -3,7 +3,7 @@ import { Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import { fetchWhitepaperUrl, resolveApiUrl } from '@/lib/cms';
 
-const FALLBACK_PDF_URL = '/whitepaper.pdf';
+const FALLBACK_PDF_URL = '/flowdex-whitepaper-v9.pdf';
 
 const WHITEPAPER_DESCRIPTION =
   'Read the FlowDex Protocol whitepaper — the technical and economic design behind the Universal Exchange, Intelligence Terminal, and FDP token.';
@@ -76,7 +76,7 @@ export default async function WhitepaperPage() {
           <div className="pill pill-ghost pill-sm mb-5" style={{ display: 'inline-flex', cursor: 'default' }}>
             Living document — updated as the protocol evolves
           </div>
-          <h1>FlowDex Protocol Whitepaper v8.0</h1>
+          <h1>FlowDex Protocol Whitepaper v9.0</h1>
           <p>The full protocol whitepaper — the FDP token, presale mechanics, tokenomics, and the FlowDex roadmap.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href={pdfUrl} download className="pill">

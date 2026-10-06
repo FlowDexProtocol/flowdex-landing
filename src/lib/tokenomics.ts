@@ -1,7 +1,7 @@
 import type { CmsPageData } from './cms';
 import type { AllocationSlice } from '@/components/TokenomicsDonut';
 
-// Whitepaper v8.0 allocation — 10 categories, 100B total supply.
+// Whitepaper v9.0 allocation — 10 categories, 100B total supply.
 // Labels match the CMS's seeded tokenomics.distribution.* field names so the
 // breakdown is CMS-editable. Colors match the FlowDex design spec.
 export const DEFAULT_ALLOCATION: (AllocationSlice & { field: string })[] = [
