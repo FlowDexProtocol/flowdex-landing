@@ -26,11 +26,11 @@ const SECTIONS = [
   },
   {
     title: '3. Presale Mechanics',
-    body: 'Each tier has a fixed price and hard cap in USD. When a tier’s cap is reached, the next tier opens automatically at a higher price. Every purchase locks in the price at time of payment. Tokens vest per-tier: a percentage unlocks at TGE, with the remainder released linearly after a cliff period.',
+    body: 'Each tier has a fixed price and hard cap in USD. When a tier’s cap is reached, the next tier opens automatically at a higher price. Every purchase locks in the price at time of payment. Vesting runs per tier rather than on one shared date: a tier’s claim opens once that tier closes, 5% of the allocation unlocks at TGE, and the remainder releases monthly with no cliff.',
   },
   {
     title: '4. Token Utility',
-    body: 'Staking FDP earns a share of protocol trading fees (targeting 40% of all fees to stakers), grants governance voting rights on protocol upgrades and treasury allocation, and gives priority order routing. In Phase 4, staking FDP also secures FlowChain as a validator.',
+    body: 'Once the exchange is live, staking FDP is designed to earn a share of protocol trading fees (targeting 40% of all fees to stakers), grant governance voting rights on protocol upgrades and treasury allocation, and give priority order routing. In Phase 4, staking FDP is also intended to secure FlowChain as a validator.',
   },
   {
     title: '5. Referral Program',
@@ -42,7 +42,7 @@ const SECTIONS = [
   },
   {
     title: '7. Risk Disclosure',
-    body: 'FDP is a utility token, not a security or investment contract. Cryptocurrency purchases carry risk, including total loss of funds. Presale tokens are subject to vesting and may not be immediately liquid. Nothing in this document is financial advice.',
+    body: 'FDP is designed as a utility token, intended for fee sharing, governance, and access across the FlowDex ecosystem. How it is treated in any given jurisdiction depends on facts and regulation that can change, and nothing here is a legal determination of its status. The Universal Exchange, Intelligence Terminal, and FlowChain are under development and are not yet available. Cryptocurrency purchases carry risk, including total loss of funds. Presale tokens are subject to vesting and may not be immediately liquid. Nothing in this document is financial advice, and you should take your own legal and tax advice before purchasing.',
   },
 ];
 

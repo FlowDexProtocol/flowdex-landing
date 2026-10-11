@@ -8,9 +8,8 @@ import CookieConsent from '@/components/CookieConsent';
 import PageLoader from '@/components/PageLoader';
 import BackToTop from '@/components/BackToTop';
 import { fetchPageContent } from '@/lib/cms';
+import { organizationJsonLd, safeJsonLd, SITE_URL } from '@/lib/json-ld';
 import './globals.css';
-
-const SITE_URL = 'https://flowdexprotocol.com';
 
 // Design system: Cormorant Garamond for headlines (weight 300, italic for
 // emphasis), Inter for body/nav/labels, JetBrains Mono for numbers/prices —
@@ -90,6 +89,14 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body>
+        {/* Organization + WebSite entity, emitted on every route. This is
+            the machine-readable statement of who owns this domain; answer
+            engines weight entity resolution heavily and have nothing else
+            to go on besides prose. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(organizationJsonLd()) }}
+        />
         <PageLoader />
         <GoogleAnalytics />
         {/* Plain (non-root) clip wrapper, deliberately not on <body> itself:
