@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getCmsBlog } from '@/lib/api';
+import { WHITEPAPER_SECTIONS } from '@/lib/whitepaper-content';
 
 const SITE_URL = 'https://flowdexprotocol.com';
 
@@ -30,11 +31,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }));
 
+  // Whitepaper sections are static and known at build time. They carry a
+  // higher priority than the average page because they are the substantive
+  // reference content on the site, and the pages most likely to answer a
+  // specific question someone puts to a search or answer engine.
+  const whitepaperEntries: MetadataRoute.Sitemap = WHITEPAPER_SECTIONS.map((s) => ({
+    url: `${SITE_URL}/whitepaper/${s.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
   const slugs = await getAllBlogSlugs();
   const blogEntries: MetadataRoute.Sitemap = slugs.map((slug) => ({
     url: `${SITE_URL}/blogs/${slug}`,
     lastModified: new Date(),
   }));
 
-  return [...staticEntries, ...blogEntries];
+  return [...staticEntries, ...whitepaperEntries, ...blogEntries];
 }

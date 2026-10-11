@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Section } from '@/components/ui';
 import Reveal from '@/components/motion/Reveal';
 import { fetchWhitepaperUrl, resolveApiUrl } from '@/lib/cms';
+import { WHITEPAPER_SECTIONS } from '@/lib/whitepaper-content';
 
 const FALLBACK_PDF_URL = '/flowdex-whitepaper-v9.pdf';
 
@@ -99,6 +101,26 @@ export default async function WhitepaperPage() {
               <p className="doc-body">{s.body}</p>
             </Reveal>
           ))}
+        </div>
+
+        <div className="mx-auto mt-16 max-w-3xl">
+          <h2 className="doc-heading" style={{ fontSize: '26px' }}>
+            Read the full whitepaper
+          </h2>
+          <p className="doc-body" style={{ marginBottom: '22px' }}>
+            Every section below is the complete text, readable without downloading
+            anything.
+          </p>
+          <ol className="wp-index">
+            {WHITEPAPER_SECTIONS.map((s) => (
+              <li key={s.slug}>
+                <Link href={`/whitepaper/${s.slug}`}>
+                  <span className="wp-index-num">{s.number}</span>
+                  <span className="wp-index-title">{s.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ol>
         </div>
 
         <div className="mt-14 flex justify-center">
