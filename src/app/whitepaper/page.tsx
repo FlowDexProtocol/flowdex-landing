@@ -28,7 +28,7 @@ const SECTIONS = [
   },
   {
     title: '3. Presale Mechanics',
-    body: 'Each tier has a fixed price and hard cap in USD. When a tier’s cap is reached, the next tier opens automatically at a higher price. Every purchase locks in the price at time of payment. Vesting terms are identical for every tier: 10% unlocks at that tier’s TGE, the remaining 90% vests monthly over 12 months, and there is no cliff. Each tier’s clock starts when that tier closes rather than at listing, so earlier tiers finish unlocking earlier.',
+    body: 'Each tier has a fixed price and a fixed token allocation. When a tier sells out, the next tier opens automatically at a higher price. Every purchase locks in the price at time of payment. Vesting terms are identical for every tier: 10% unlocks at that tier’s TGE, the remaining 90% vests monthly over 12 months, and there is no cliff. Each tier’s clock starts when that tier closes rather than at listing, so earlier tiers finish unlocking earlier.',
   },
   {
     title: '4. Token Utility',

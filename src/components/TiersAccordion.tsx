@@ -41,8 +41,8 @@ export default function TiersAccordion({ tiers }: { tiers: Tier[] }) {
               {toNum(tier.tge_percentage)}% unlocks at TGE
               {tier.cliff_months > 0 ? `, then a ${tier.cliff_months}-month cliff` : ''}
               {tier.vest_months > 0 ? `, followed by ${tier.vest_months}-month linear vesting` : ''}
-              {unlockMonths > 0 ? ` — fully unlocked after ${unlockMonths} months.` : ' — fully unlocked instantly.'} Hard cap{' '}
-              {formatCompactUSD(tier.hard_cap_usd)}, {formatCompactUSD(tier.total_raised_usd)} raised so far.
+              {unlockMonths > 0 ? ` — fully unlocked after ${unlockMonths} months.` : ' — fully unlocked instantly.'}{' '}
+              {formatCompactUSD(tier.total_raised_usd)} raised so far.
             </p>
           </AccordionItem>
         );

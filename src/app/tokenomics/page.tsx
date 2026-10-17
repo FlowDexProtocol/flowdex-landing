@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getPublicScenarios, getPublicStaking, getTiers } from '@/lib/api';
-import { formatCompactUSD, formatTokenAmount, formatTokenPrice, toNum } from '@/lib/format';
+import { formatTokenAmount, formatTokenPrice, toNum } from '@/lib/format';
 import { cms, fetchPageContent } from '@/lib/cms';
 import { resolveAllocation } from '@/lib/tokenomics';
 import { Section, SectionHeading } from '@/components/ui';
@@ -71,14 +71,13 @@ export default async function TokenomicsPage() {
       </Section>
 
       <Section>
-        <SectionHeading label="Presale" title="All Presale Tiers" subtitle="Live pricing, hard caps, and vesting terms for every tier." />
+        <SectionHeading label="Presale" title="All Presale Tiers" subtitle="Live pricing and vesting terms for every tier." />
         <Reveal className="overflow-x-auto rounded-xl border border-border">
           <table className="w-full min-w-[720px] text-left font-sans text-sm">
             <thead>
               <tr className="border-b border-border text-xs uppercase tracking-wider text-ink-faint">
                 <th className="px-5 py-3 font-medium sm:px-6">Tier</th>
                 <th className="px-5 py-3 font-medium sm:px-6">Price</th>
-                <th className="px-5 py-3 font-medium sm:px-6">Hard Cap</th>
                 <th className="px-5 py-3 font-medium sm:px-6">TGE %</th>
                 <th className="px-5 py-3 font-medium sm:px-6">Cliff</th>
                 <th className="px-5 py-3 font-medium sm:px-6">Vesting</th>
@@ -91,7 +90,6 @@ export default async function TokenomicsPage() {
                 <tr key={t.id} className={t.is_active ? 'bg-white/[0.03]' : undefined}>
                   <td className="px-5 py-3 font-semibold text-ink sm:px-6">{t.name}</td>
                   <td className="px-5 py-3 font-mono sm:px-6">{formatTokenPrice(t.price)}</td>
-                  <td className="px-5 py-3 font-mono text-ink-faint sm:px-6">{formatCompactUSD(t.hard_cap_usd)}</td>
                   <td className="px-5 py-3 font-mono text-ink-faint sm:px-6">{toNum(t.tge_percentage)}%</td>
                   <td className="px-5 py-3 text-ink-faint sm:px-6">{t.cliff_months > 0 ? `${t.cliff_months}mo` : '0'}</td>
                   <td className="px-5 py-3 text-ink-faint sm:px-6">{t.vest_months > 0 ? `${t.vest_months}mo` : '0'}</td>

@@ -26,7 +26,7 @@ export default async function Hero() {
   const ctaSecondaryLink = isSafeLinkUrl(ctaSecondaryLinkRaw) ? ctaSecondaryLinkRaw : '/whitepaper';
 
   const countdownText = presaleLive
-    ? tier.countdown ?? cms(cmsData, 'presale_card', 'countdown_text', `${tier.name} closes at $${formatCompactUSD(tier.hard_cap_usd)}`)
+    ? tier.countdown ?? cms(cmsData, 'presale_card', 'countdown_text', `${tier.name} closes when its allocation sells out`)
     : null;
 
   // The CMS still holds the pre-redesign copy ("Trade Everything. Know
@@ -115,7 +115,7 @@ export default async function Hero() {
             </div>
             <div className="pc-stats">
               <span>{formatCompactUSD(tier.total_raised_usd)} raised</span>
-              <span>{formatCompactUSD(tier.hard_cap_usd)} goal</span>
+              <span>{Math.round(Math.min(100, Math.max(0, progressPct)))}% of tier sold</span>
             </div>
 
             <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" className="pc-buy">
