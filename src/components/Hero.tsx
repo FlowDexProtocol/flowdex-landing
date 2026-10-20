@@ -17,7 +17,7 @@ export default async function Hero() {
 
   const listingPrice = scenarios?.listing_price ?? 0.50;
   const presaleLive = !!tier && !tier.message;
-  const progressPct = presaleLive ? parseFloat(tier.progress_pct) : 0;
+  const tokensLeft = presaleLive ? Number(tier.tokens_remaining ?? 0) : 0;
   const discountPct = presaleLive && listingPrice > 0 ? ((listingPrice - toNum(tier.price)) / listingPrice) * 100 : 0;
 
   const ctaPrimaryLinkRaw = cms(cmsData, 'hero', 'cta_primary_link', 'https://purchase.flowdexprotocol.com');
@@ -110,12 +110,9 @@ export default async function Hero() {
 
             {countdownText && <div className="pc-countdown" dangerouslySetInnerHTML={{ __html: sanitizeHtml(countdownText) }} />}
 
-            <div className="pbar">
-              <div className="pfill" style={{ width: `${Math.min(100, Math.max(0, progressPct))}%` }} />
-            </div>
             <div className="pc-stats">
               <span>{formatCompactUSD(tier.total_raised_usd)} raised</span>
-              <span>{Math.round(Math.min(100, Math.max(0, progressPct)))}% of tier sold</span>
+              <span>{new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 2 }).format(tokensLeft)} FDP left</span>
             </div>
 
             <a href={ctaPrimaryLink} target="_blank" rel="noopener noreferrer" className="pc-buy">
